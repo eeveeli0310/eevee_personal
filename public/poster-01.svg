@@ -1,0 +1,10 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1500" fill="#09090B"/>
+  <rect x="64" y="64" width="1072" height="1372" stroke="#3F3F46" stroke-width="16"/>
+  <rect x="64" y="1030" width="1072" height="286" fill="#DFE104"/>
+  <text x="88" y="240" fill="#FAFAFA" font-family="Arial, sans-serif" font-size="180" font-weight="700">SIGNAL</text>
+  <text x="88" y="430" fill="#FAFAFA" font-family="Arial, sans-serif" font-size="180" font-weight="700">/ NOISE</text>
+  <text x="88" y="950" fill="#27272A" font-family="Arial, sans-serif" font-size="520" font-weight="700">01</text>
+  <text x="88" y="1170" fill="#000000" font-family="Arial, sans-serif" font-size="72" font-weight="700">KINETIC TYPOGRAPHY CASE STUDY</text>
+  <text x="88" y="1260" fill="#000000" font-family="Arial, sans-serif" font-size="42" font-weight="700">BLACK / ACID YELLOW / POSTER SCALE / ALWAYS MOVING</text>
+</svg>
