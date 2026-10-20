@@ -1,0 +1,11 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#09090B"/>
+  <rect x="48" y="48" width="1504" height="804" stroke="#3F3F46" stroke-width="12"/>
+  <rect x="880" y="48" width="672" height="804" fill="#DFE104"/>
+  <text x="96" y="220" fill="#FAFAFA" font-family="Arial, sans-serif" font-size="150" font-weight="700">POSTER</text>
+  <text x="96" y="380" fill="#FAFAFA" font-family="Arial, sans-serif" font-size="150" font-weight="700">FLOW</text>
+  <text x="96" y="770" fill="#27272A" font-family="Arial, sans-serif" font-size="420" font-weight="700">02</text>
+  <text x="930" y="210" fill="#000000" font-family="Arial, sans-serif" font-size="48" font-weight="700">MEDIA FIRST</text>
+  <text x="930" y="300" fill="#000000" font-family="Arial, sans-serif" font-size="48" font-weight="700">TEXT SECOND</text>
+  <text x="930" y="390" fill="#000000" font-family="Arial, sans-serif" font-size="48" font-weight="700">GRID IN MOTION</text>
+</svg>

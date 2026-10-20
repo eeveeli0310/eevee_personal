@@ -1,0 +1,11 @@
+<svg width="1400" height="1050" viewBox="0 0 1400 1050" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="1050" fill="#09090B"/>
+  <rect x="56" y="56" width="1288" height="938" stroke="#3F3F46" stroke-width="14"/>
+  <rect x="56" y="56" width="1288" height="210" fill="#DFE104"/>
+  <text x="86" y="195" fill="#000000" font-family="Arial, sans-serif" font-size="110" font-weight="700">OUTCOME</text>
+  <text x="78" y="630" fill="#27272A" font-family="Arial, sans-serif" font-size="480" font-weight="700">03</text>
+  <text x="768" y="410" fill="#FAFAFA" font-family="Arial, sans-serif" font-size="58" font-weight="700">CHALLENGE</text>
+  <text x="768" y="505" fill="#FAFAFA" font-family="Arial, sans-serif" font-size="58" font-weight="700">APPROACH</text>
+  <text x="768" y="600" fill="#FAFAFA" font-family="Arial, sans-serif" font-size="58" font-weight="700">OUTCOME</text>
+  <text x="768" y="742" fill="#A1A1AA" font-family="Arial, sans-serif" font-size="30" font-weight="700">HARD EDGES / NO SHADOWS / MASSIVE TYPE</text>
+</svg>
