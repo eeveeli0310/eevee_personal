@@ -274,6 +274,13 @@ function paintPair(lightEl: HTMLElement, darkEl: HTMLElement, lightId: string, d
   applyClip(darkEl, darkBox, grown, darkId);
 }
 
+/** Off-white button fill, only where a dark section sits behind it. Light stays transparent. */
+function paintFill(el: HTMLElement, clipId: string) {
+  const box = el.getBoundingClientRect();
+  if (box.width < 1 || box.height < 1) return;
+  applyClip(el, box, regions(box).dark, clipId);
+}
+
 function Squiggle() {
   return (
     <svg className="squiggle" viewBox="0 0 180 16" preserveAspectRatio="none" aria-hidden="true">
@@ -311,9 +318,8 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     if (!header) return;
     const lightLogo = header.querySelector<HTMLElement>(".logo-split .is-light");
     const darkLogo = header.querySelector<HTMLElement>(".logo-split .is-dark");
-    const lightToggle = header.querySelector<HTMLElement>(".toggle-on-light");
-    const darkToggle = header.querySelector<HTMLElement>(".toggle-on-dark");
-    if (!lightLogo || !darkLogo || !lightToggle || !darkToggle) return;
+    const toggleFill = header.querySelector<HTMLElement>(".toggle-fill");
+    if (!lightLogo || !darkLogo || !toggleFill) return;
 
     let dirty = true;
     const mark = () => {
@@ -335,7 +341,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       });
       try {
         paintPair(lightLogo, darkLogo, "logo-ink-light", "logo-ink-dark");
-        paintPair(lightToggle, darkToggle, "toggle-ink-light", "toggle-ink-dark");
+        paintFill(toggleFill, "toggle-ink-dark");
       } finally {
         blockers.forEach((node, index) => {
           node.style.pointerEvents = previous[index];
@@ -489,17 +495,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           });
         }}
       >
-        <span className="toggle-face toggle-on-dark">
-          <span className="burger" aria-hidden="true">
-            <span />
-            <span />
-          </span>
-        </span>
-        <span className="toggle-face toggle-on-light">
-          <span className="burger" aria-hidden="true">
-            <span />
-            <span />
-          </span>
+        <span className="toggle-fill" />
+        <span className="toggle-liquid" aria-hidden="true" />
+        <span className="burger" aria-hidden="true">
+          <span />
+          <span />
         </span>
       </button>
       <div
