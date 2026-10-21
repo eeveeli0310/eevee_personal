@@ -218,11 +218,17 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         tabIndex={-1}
         inert={open ? undefined : true}
         data-lenis-prevent
+        onPointerMove={(event) => {
+          if ((event.target as HTMLElement).closest(".menu-links a")) return;
+          setHover((current) => (current == null ? current : null));
+        }}
       >
         <ContourField tone="dark" />
-        <div className="menu-photo">
-          {(Object.keys(photos) as MenuPhoto[]).map((key) => (
-            <img key={key} src={photos[key]} alt="" className={shown === key ? "is-on" : undefined} />
+        <div className="menu-photos" aria-hidden="true">
+          {(["home", "work", "life"] as const).map((key) => (
+            <figure key={key} className={hover === key ? "menu-shot is-hot" : "menu-shot"} data-shot={key}>
+              <img src={photos[key]} alt="" />
+            </figure>
           ))}
         </div>
         <div className="menu-col">
