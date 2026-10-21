@@ -193,14 +193,14 @@ html.is-menu-open .logo-split .is-dark { clip-path: none !important; -webkit-cli
 .toggle-liquid {
   position: absolute;
   z-index: 1;
-  left: -35%;
-  width: 170%;
-  height: 72px;
+  left: -6px;
+  width: calc(100% + 12px);
+  height: 68px;
   bottom: 0;
   background: var(--lime);
-  border-radius: 50% 50% 0 0 / 15px 15px 0 0;
+  border-radius: 50% 50% 0 0 / 16px 16px 0 0;
   transform: translate3d(0, 100%, 0);
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.62s cubic-bezier(0.33, 0.02, 0.2, 1);
   pointer-events: none;
 }
 .menu-toggle[aria-expanded="true"] { background: var(--lime); }
@@ -219,12 +219,12 @@ html.is-menu-open .logo-split .is-dark { clip-path: none !important; -webkit-cli
   border-radius: 1px;
   background: var(--mark-on-light);
   transform-origin: center;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), top 0.35s ease, left 0.35s ease, width 0.35s ease;
+  transition: transform 0.62s cubic-bezier(0.33, 0.02, 0.2, 1), top 0.35s ease, left 0.35s ease, width 0.35s ease;
 }
 .burger span:first-child { top: 1px; }
 .burger span:last-child { top: 10px; left: 16px; }
 @media (hover: hover) and (pointer: fine) {
-  .menu-toggle:hover .toggle-liquid { transform: translate3d(0, -16px, 0); }
+  .menu-toggle:hover .toggle-liquid { transform: translate3d(0, 0, 0); }
   .menu-toggle:hover .burger span:first-child { transform: translate3d(16px, 0, 0); }
   .menu-toggle:hover .burger span:last-child { transform: translate3d(-16px, 0, 0); }
 }
