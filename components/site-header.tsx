@@ -32,10 +32,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     const pick = () => {
       const nodes = [...document.querySelectorAll<HTMLElement>("[data-surface]")];
       const y = 28;
-      const hit = nodes.find((node) => {
+      const hits = nodes.filter((node) => {
         const rect = node.getBoundingClientRect();
         return rect.top <= y && rect.bottom > y;
       });
+      const hit = hits.length ? hits[hits.length - 1] : null;
       const wall = hit?.hasAttribute("data-wall") ? hit : null;
       if (wall) {
         const p = Number(wall.style.getPropertyValue("--wall-p") || "0");

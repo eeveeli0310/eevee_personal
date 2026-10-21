@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const FG_START = 0.42;
-const FG_SPAN = 0.16;
+const FG_START = 0.22;
+const FG_SPAN = 0.22;
 
 function foreground(p: number) {
   return Math.min(1, Math.max(0, (p - FG_START) / FG_SPAN));
