@@ -1,88 +1,129 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { LogoEl26 } from "@/components/logo-el26";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { LogoEl26Draw } from "@/components/logo-el26";
 
-const SEEN = "eevee-loader-seen";
-const DURATION = 1300;
-
-function easeInOutCubic(t: number) {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-}
-
-function finishLoader() {
-  sessionStorage.setItem(SEEN, "1");
-  document.documentElement.classList.remove("is-loading");
-  window.__eeveeLenis?.start();
-  window.__eeveeReady = true;
-  window.dispatchEvent(new Event("eevee:ready"));
+function motionTiming() {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobile = window.matchMedia("(max-width: 640px)").matches;
+  return {
+    reduce,
+    loop: reduce ? 480 : mobile ? 1200 : 1600,
+    exit: reduce ? 400 : mobile ? 500 : 700,
+  };
 }
 
 export function IntroLoader({ label }: { label: string }) {
-  const [phase, setPhase] = useState<"off" | "run" | "leave">("run");
-  const [count, setCount] = useState(0);
-  const settled = useRef(false);
+  const pathname = usePathname();
+  const [phase, setPhase] = useState<"run" | "leave" | "off">("run");
+  const [fromRoute, setFromRoute] = useState(false);
+  const pathnameRef = useRef(pathname);
+  const phaseRef = useRef(phase);
+  const started = useRef(0);
+  const timers = useRef<number[]>([]);
+  phaseRef.current = phase;
 
-  useLayoutEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const seen = sessionStorage.getItem(SEEN) === "1";
-    if (reduce || seen) {
-      setPhase("off");
-      if (!window.__eeveeReady) finishLoader();
-    }
+  const clearTimers = () => {
+    timers.current.forEach((id) => window.clearTimeout(id));
+    timers.current = [];
+  };
+
+  const later = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(fn, ms);
+    timers.current.push(id);
+  };
+
+  useEffect(() => {
+    started.current = performance.now();
+    document.documentElement.classList.add("is-loading");
+    const id = window.setTimeout(() => setPhase("leave"), motionTiming().loop);
+    return () => window.clearTimeout(id);
   }, []);
 
   useEffect(() => {
-    if (phase !== "run") return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const seen = sessionStorage.getItem(SEEN) === "1";
-    if (reduce || seen) return;
-    document.documentElement.classList.add("is-loading");
-    const start = performance.now();
-    let frame = 0;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / DURATION);
-      setCount(Math.round(easeInOutCubic(t) * 100));
-      if (t < 1) frame = requestAnimationFrame(tick);
-      else {
-        setCount(100);
-        setPhase("leave");
-      }
+    const cover = () => {
+      clearTimers();
+      started.current = performance.now();
+      phaseRef.current = "run";
+      setFromRoute(true);
+      setPhase("run");
+      document.documentElement.classList.add("is-covering");
+      window.__eeveeLenis?.stop();
+      later(() => {
+        if (phaseRef.current === "run") setPhase("leave");
+      }, 8000);
     };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
+
+    const onClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = (event.target as Element | null)?.closest("a");
+      if (!anchor || anchor.target === "_blank" || anchor.hasAttribute("download")) return;
+      const href = anchor.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
+      const url = new URL(anchor.href, location.href);
+      if (url.origin !== location.origin || url.pathname === location.pathname) return;
+      cover();
+    };
+
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
   }, []);
+
+  useEffect(() => {
+    if (pathnameRef.current === pathname) return;
+    pathnameRef.current = pathname;
+    timers.current.forEach((id) => window.clearTimeout(id));
+    timers.current = [];
+    if (phaseRef.current === "off") {
+      started.current = performance.now();
+      phaseRef.current = "run";
+      setFromRoute(true);
+      setPhase("run");
+      document.documentElement.classList.add("is-covering");
+      window.__eeveeLenis?.stop();
+    }
+    const wait = Math.max(0, motionTiming().loop - (performance.now() - started.current));
+    const id = window.setTimeout(() => setPhase("leave"), wait);
+    return () => window.clearTimeout(id);
+  }, [pathname]);
 
   useEffect(() => {
     if (phase !== "leave") return;
     const node = document.getElementById("intro-loader");
-    if (!node) return;
+    let settled = false;
     const done = () => {
-      if (settled.current) return;
-      settled.current = true;
-      finishLoader();
+      if (settled) return;
+      settled = true;
+      document.documentElement.classList.remove("is-loading", "is-covering");
+      window.__eeveeLenis?.start();
+      if (!window.__eeveeReady) {
+        window.__eeveeReady = true;
+        window.dispatchEvent(new Event("eevee:ready"));
+      }
       setPhase("off");
     };
     const onEnd = (event: TransitionEvent) => {
-      if (event.propertyName === "transform") done();
+      if (event.target !== node) return;
+      if (event.propertyName !== "transform" && event.propertyName !== "opacity") return;
+      done();
     };
-    node.addEventListener("transitionend", onEnd);
-    const backup = window.setTimeout(done, 900);
+    node?.addEventListener("transitionend", onEnd);
+    const backup = window.setTimeout(done, motionTiming().exit + 280);
     return () => {
-      node.removeEventListener("transitionend", onEnd);
+      node?.removeEventListener("transitionend", onEnd);
       window.clearTimeout(backup);
     };
   }, [phase]);
 
   if (phase === "off") return null;
 
+  const className = phase === "leave" ? "loader is-done" : fromRoute ? "loader is-route" : "loader";
+
   return (
-    <div id="intro-loader" className={phase === "leave" ? "loader is-leave" : "loader"} role="status" aria-label={label}>
-      <LogoEl26 className="loader-logo" />
-      <div className="loader-count">{String(count).padStart(3, "0")}</div>
-      <div className="loader-bar" aria-hidden="true">
-        <span style={{ transform: `scaleX(${count / 100})` }} />
-      </div>
+    <div id="intro-loader" className={className} role="status" aria-label={label}>
+      <LogoEl26Draw />
     </div>
   );
 }

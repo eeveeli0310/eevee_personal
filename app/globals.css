@@ -15,6 +15,8 @@
   --sans: "Archivo", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   --marker: "Permanent Marker", "Caveat", cursive;
   --header-h: 4.6rem;
+  --loader-loop: 1.6s;
+  --loader-exit: 0.7s;
 }
 
 @font-face {
@@ -151,8 +153,9 @@ h1, h2, h3, p { margin: 0; }
 }
 .bar a, .bar button, .bar .lang, .menu { pointer-events: auto; }
 .logo { line-height: 0; color: var(--ink); display: block; }
-.logo .logo-mark { height: 36px; width: auto; display: block; }
+.logo .logo-mark { height: 40px; width: auto; display: block; }
 .bar[data-theme="dark"] .logo { color: var(--lime); }
+.logo-mark polygon,
 .logo-mark path { fill: currentColor; }
 .menu {
   position: relative;
@@ -814,55 +817,91 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
 }
 .missing h1 { font-size: clamp(2rem, 6vw, 4rem); }
 
-/* Loader */
+/* Loader — E, then L, then 26, then the olive panel slides away. */
 .loader {
   position: fixed;
   inset: 0;
   z-index: 70;
   background: var(--olive);
-  color: var(--off);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(0);
+  color: var(--lime);
+  display: grid;
+  place-items: center;
 }
-.loader.is-leave { transform: translateY(-100%); transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
-.loader-logo { width: min(78vw, 520px); height: auto; color: var(--lime); }
-html.js:not(.reduce) .loader .logo-mark [data-part] {
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center bottom;
-  animation: logo-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+.loader svg,
+.loader-mark {
+  width: min(46vw, 420px);
+  height: auto;
+  overflow: visible;
 }
-html.js:not(.reduce) .loader .logo-mark [data-part="l"] { animation-delay: 0.16s; }
-html.js:not(.reduce) .loader .logo-mark [data-part="26"] { animation-delay: 0.32s; }
-@keyframes logo-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: none; }
+.loader.is-route { animation: loader-cover 0.4s cubic-bezier(0.76, 0, 0.24, 1); }
+.loader.is-done { transform: translateY(-100%); transition: transform var(--loader-exit) cubic-bezier(0.76, 0, 0.24, 1); }
+.loader.is-done svg { transform: scale(1.08); transition: transform var(--loader-exit) cubic-bezier(0.76, 0, 0.24, 1); }
+.loader.is-done * { animation-play-state: paused; }
+.loader .stroke {
+  fill: var(--lime);
+  fill-opacity: 0;
+  stroke: var(--lime);
+  stroke-width: 2.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
 }
-.loader-count {
-  margin-top: 1.4rem;
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  font-size: max(14px, 0.9rem);
+.loader #E .stroke { animation: drawE var(--loader-loop) linear 1 forwards; }
+.loader #L .stroke { animation: drawL var(--loader-loop) linear 1 forwards; }
+.loader #g26 { fill: var(--lime); animation: slide26 var(--loader-loop) cubic-bezier(0.2, 0.8, 0.2, 1) 1 forwards; }
+.loader .glint { animation: glint var(--loader-loop) linear 1 forwards; }
+@keyframes drawE {
+  0% { stroke-dashoffset: 1; fill-opacity: 0; }
+  25% { stroke-dashoffset: 0; fill-opacity: 0; }
+  45% { fill-opacity: 1; }
+  100% { stroke-dashoffset: 0; fill-opacity: 1; }
 }
-.loader-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: rgba(243, 242, 236, 0.2);
+@keyframes drawL {
+  0%, 15% { stroke-dashoffset: 1; fill-opacity: 0; }
+  40% { stroke-dashoffset: 0; fill-opacity: 0; }
+  55% { fill-opacity: 1; }
+  100% { stroke-dashoffset: 0; fill-opacity: 1; }
 }
-.loader-bar span { display: block; height: 100%; background: var(--lime); transform-origin: left; }
-html.is-loading, html.is-loading body { overflow: hidden; height: 100%; }
-html.loader-skip .loader, html.reduce .loader { display: none; }
+@keyframes slide26 {
+  0%, 45% { transform: translateX(-90px); opacity: 0; }
+  65% { transform: none; opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes glint {
+  0%, 62% { transform: translateX(-140px); }
+  86%, 100% { transform: translateX(420px); }
+}
+@keyframes loader-cover {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}
+.route-wait {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--olive);
+}
+html.is-loading,
+html.is-loading body { overflow: hidden; height: 100%; }
+html.is-covering { overflow: hidden; }
+html.reduce .loader,
+html.reduce .loader svg { transition: opacity 0.4s ease; }
+html.reduce .loader * { animation: none !important; }
+html.reduce .loader .stroke { fill-opacity: 1; stroke-dashoffset: 0; }
+html.reduce .loader .glint { display: none; }
+html.reduce .loader.is-route { animation: loader-fade 0.25s ease; }
+@keyframes loader-fade { from { opacity: 0; } to { opacity: 1; } }
+html.reduce .loader.is-done,
+html.reduce .loader.is-done svg { transform: none; }
+html.reduce .loader.is-done { opacity: 0; }
+
+@media (max-width: 640px) {
+  :root { --loader-loop: 1.2s; --loader-exit: 0.5s; }
+  .loader.is-route { animation-duration: 0.28s; }
+}
 
 @media (max-width: 760px) {
   .bar { padding: 16px; display: flex; }
-  .logo .logo-mark { height: 28px; }
+  .logo .logo-mark { height: 32px; }
   .menu-toggle { padding: 11px 14px; }
   .menu-panel {
     position: absolute;

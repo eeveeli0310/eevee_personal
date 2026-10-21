@@ -19,8 +19,14 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: [{ url: "/favicon.ico" }, { url: "/icon", type: "image/png" }],
-    apple: [{ url: "/apple-icon", type: "image/png" }],
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/logo/el26-favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/logo/el26-favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo/el26-favicon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/logo/el26-favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/logo/el26-favicon-180.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
@@ -35,7 +41,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var r=document.documentElement;r.classList.add("js");var reduce=false;try{reduce=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}if(reduce)r.classList.add("reduce");var seen=false;try{seen=sessionStorage.getItem("eevee-loader-seen")==="1"}catch(e){}if(reduce||seen)r.classList.add("loader-skip");else r.classList.add("is-loading")})();`,
+            __html: `(function(){var r=document.documentElement;r.classList.add("js","is-loading");try{if(matchMedia("(prefers-reduced-motion: reduce)").matches)r.classList.add("reduce")}catch(e){}})();`,
           }}
         />
       </head>
