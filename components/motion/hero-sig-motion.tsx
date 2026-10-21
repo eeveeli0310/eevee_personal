@@ -38,10 +38,24 @@ export function HeroSigMotion() {
     const lengths = paths.map((path) => path.getTotalLength());
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    let vw = window.innerWidth;
+    let vh = window.innerHeight;
+    const viewport = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const coarse = w < 900 || window.matchMedia("(pointer: coarse)").matches;
+      if (!coarse || w !== vw || Math.abs(h - vh) / Math.max(vh, 1) > 0.25) {
+        vw = w;
+        vh = h;
+      }
+      return { w: vw, h: vh };
+    };
+
     const coverScale = () => {
       const w = card.offsetWidth || 1;
       const h = card.offsetHeight || 1;
-      return Math.max(window.innerWidth / w, window.innerHeight / h) * 1.01;
+      const view = viewport();
+      return Math.max(view.w / w, view.h / h) * 1.01;
     };
 
     const paint = (name: number, underline: number) => {
@@ -95,7 +109,7 @@ export function HeroSigMotion() {
       ScrollTrigger.create({
         trigger: track,
         start: "bottom bottom",
-        end: () => `+=${Math.round(window.innerHeight * UNDERLINE_TRAVEL)}`,
+        end: () => `+=${Math.round(viewport().h * UNDERLINE_TRAVEL)}`,
         scrub: true,
         onRefresh: (self) => {
           underlineProgress = self.progress;
@@ -108,7 +122,15 @@ export function HeroSigMotion() {
       });
       sync();
     });
-    const onResize = () => ScrollTrigger.refresh();
+    const onResize = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const coarse = w < 900 || window.matchMedia("(pointer: coarse)").matches;
+      if (coarse && w === vw && Math.abs(h - vh) / Math.max(vh, 1) <= 0.25) return;
+      vw = w;
+      vh = h;
+      ScrollTrigger.refresh();
+    };
     window.addEventListener("resize", onResize);
 
     return () => {

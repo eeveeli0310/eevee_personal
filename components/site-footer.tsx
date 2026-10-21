@@ -49,7 +49,6 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <div className="notch" aria-hidden="true" />
           <div className="panel-face">
             <ContourField tone="dark" />
-            <img className="foot-hero" src="/img/face.jpg" alt={locale === "zh" ? "占位人像" : "Placeholder portrait"} />
           </div>
           <div className="foot-copy">
             <div className="foot-lock">
@@ -86,6 +85,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                 </span>
               ))}
             </div>
+            <img className="foot-hero" src="/img/face.jpg" alt={locale === "zh" ? "占位人像" : "Placeholder portrait"} />
             <div className="fine" id="resume">
               <span id="enquiry">
                 {t.contact.emailLabel} [email]
