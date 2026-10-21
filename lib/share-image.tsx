@@ -2,8 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const shareSize = { width: 1200, height: 630 };
 export const shareContentType = "image/png";
-export const shareAlt = "Eevee Li — Overseas Market Content Operator, Content Creator, and Designer";
-
+export const shareAlt = "Eevee Li — Overseas Social Media & Growth Operator";
 
 export function ShareImage() {
   return new ImageResponse(
@@ -38,16 +37,14 @@ export function ShareImage() {
           >
             EL
           </div>
-          <div style={{ display: "flex", fontSize: "22px", letterSpacing: "0.18em", color: "#DFE104" }}>
-            EEVEE LI
-          </div>
+          <div style={{ display: "flex", fontSize: "22px", letterSpacing: "0.18em", color: "#DFE104" }}>EEVEE LI</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "980px" }}>
-          <div style={{ display: "flex", fontSize: "68px", fontWeight: 700, letterSpacing: "-0.05em", lineHeight: 0.95 }}>
+          <div style={{ display: "flex", fontSize: "64px", fontWeight: 700, letterSpacing: "-0.05em", lineHeight: 0.95 }}>
             Life is a performance art
           </div>
           <div style={{ display: "flex", fontSize: "28px", lineHeight: 1.3, color: "#D4D4D8" }}>
-            Overseas Market Content Operator / Content Creator / Designer
+            Overseas Social Media & Growth Operator
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "22px", letterSpacing: "0.14em" }}>
