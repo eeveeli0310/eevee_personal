@@ -516,7 +516,10 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   color: var(--lime);
   filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
 }
-.sig-fill { fill: currentColor; }
+.sig-stroke { opacity: 0; }
+html.reduce .sig-stroke,
+.sig-stroke.is-inking { opacity: 1; }
+.sig-stroke path { fill: none; stroke: currentColor; }
 
 /* Intro */
 .screen-intro {
@@ -1170,7 +1173,8 @@ html.reduce .loader.is-done { opacity: 0; }
   .screen-foot { padding: 8px; }
 }
 
-html.reduce .sig-mask-stroke { stroke-dashoffset: 0 !important; }
+html.reduce .sig-stroke { opacity: 1; }
+html.reduce .sig-stroke path { stroke-dashoffset: 0 !important; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -1189,7 +1193,8 @@ html.reduce .sig-mask-stroke { stroke-dashoffset: 0 !important; }
   .squiggle,
   .menu-toggle { transition: none; }
   .squiggle { transform: none; }
-  .sig-mask-stroke { stroke-dashoffset: 0 !important; }
+  .sig-stroke { opacity: 1; }
+  .sig-stroke path { stroke-dashoffset: 0 !important; }
   .hero-figure { opacity: 1 !important; }
   html.js [data-reveal] [data-word-inner],
   html.js [data-reveal] [data-line-inner] { transform: none !important; opacity: 1 !important; }

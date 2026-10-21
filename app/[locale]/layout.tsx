@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { IntroLoader } from "@/components/motion/intro-loader";
 import { RevealEngine } from "@/components/motion/reveal-engine";
+import { SignatureMotion } from "@/components/motion/signature-motion";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { SiteHeader } from "@/components/site-header";
 import { homeCopy } from "@/lib/content";
@@ -53,6 +54,7 @@ export default async function LocaleLayout({
       </SmoothScroll>
       <IntroLoader label={homeCopy[locale].loaderLabel} />
       <RevealEngine />
+      <SignatureMotion />
     </>
   );
 }

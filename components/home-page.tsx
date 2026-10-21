@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ContourField } from "@/components/motion/contour-field";
 import { LiquidReveal } from "@/components/motion/liquid-reveal";
-import { SignatureMotion } from "@/components/motion/signature-motion";
 import { StackMotion } from "@/components/motion/stack-motion";
 import { StatsBand } from "@/components/motion/stats-band";
 import { WallScroll } from "@/components/motion/wall-scroll";
@@ -80,7 +79,6 @@ export function HomePage({ locale }: { locale: Locale }) {
   return (
     <main id="main-content">
       <StackMotion />
-      <SignatureMotion />
       <div className="stack-hero" data-stack="hero">
         <div data-inner className="screen screen-hero" data-surface="light">
           <ContourField tone="light" />
@@ -109,7 +107,7 @@ export function HomePage({ locale }: { locale: Locale }) {
               </div>
             </div>
             <div className="sig-card" style={{ backgroundImage: "url(/img/face.jpg)" }} role="img" aria-label={copy.portraitAltClear} />
-            <SignatureSvg draw className="sig-draw" />
+            <SignatureSvg mode="scroll" className="sig-draw" />
           </div>
           <div className="stack-shade" data-shade />
         </div>
