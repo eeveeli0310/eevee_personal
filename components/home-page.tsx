@@ -131,7 +131,7 @@ export function HomePage({ locale }: { locale: Locale }) {
 
       <section className="screen screen-wall" data-surface="dark" data-wall aria-label={locale === "zh" ? "照片" : "Photos"}>
         <WallScroll />
-        <ContourField tone="dark" anchor="page" />
+        <ContourField tone="progress" anchor="page" />
         <div className="wall-viewport" data-wall-viewport>
           <div className="wall-track" data-wall-track>
             {wallScenes.map((scene, index) => (

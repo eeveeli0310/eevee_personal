@@ -153,6 +153,9 @@ h1, h2, h3, p { margin: 0; }
 .logo { line-height: 0; color: var(--ink); display: block; }
 .logo .logo-mark { height: 40px; width: auto; display: block; }
 .bar[data-theme="dark"] .logo { color: var(--lime); }
+.bar[data-wall-mix="1"] .logo {
+  color: color-mix(in srgb, var(--ink) calc(var(--wall-fg) * 100%), var(--lime));
+}
 .logo-mark polygon,
 .logo-mark path { fill: currentColor; }
 .menu {
@@ -435,10 +438,12 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
 .intro.is-shown .word-inner.sf { color: var(--lime); }
 .line { display: block; overflow: hidden; }
 
-/* Photo wall — pinned horizontal track on desktop, swipe otherwise */
+/* Photo wall — olive at the pin, off-white at the end of the track. */
 .screen-wall {
-  background: var(--olive);
-  color: var(--off);
+  --wall-p: 0;
+  --wall-fg: 0;
+  background: color-mix(in srgb, var(--off) calc(var(--wall-p) * 100%), var(--olive));
+  color: color-mix(in srgb, var(--ink) calc(var(--wall-fg) * 100%), var(--off));
   overflow: visible;
   position: relative;
   z-index: 4;
@@ -465,6 +470,7 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   color: var(--ink);
   border-radius: 14px;
   padding: 1.3rem 1.4rem 1.5rem;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) calc(var(--wall-fg) * 24%), transparent);
 }
 .story-card small {
   display: block;
@@ -492,11 +498,11 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   font-weight: 400;
   font-size: 46px;
   line-height: 1.05;
-  color: var(--off);
+  color: color-mix(in srgb, var(--ink) calc(var(--wall-fg, 0) * 100%), var(--off));
   z-index: 3;
 }
 .quote .rest { font-style: normal; font-family: var(--serif); }
-.quote svg, .quote .mini-sig { width: 96px; height: auto; aspect-ratio: 1560 / 1541; margin: 10px auto 0; color: var(--lime); }
+.quote svg, .quote .mini-sig { width: 96px; height: auto; aspect-ratio: 1560 / 1541; margin: 10px auto 0; color: color-mix(in srgb, var(--ink) calc(var(--wall-fg, 0) * 100%), var(--lime)); }
 @media (max-width: 899px), (prefers-reduced-motion: reduce) {
   .wall-viewport {
     overflow-x: auto;
@@ -523,7 +529,7 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(40, 44, 32, 0.78);
 }
 .ph.has-photo::after { content: ""; }
 .cap {
@@ -531,7 +537,7 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   font-weight: 600;
   font-size: 10px;
   letter-spacing: 0.16em;
-  color: var(--off);
+  color: color-mix(in srgb, var(--ink) calc(var(--wall-fg, 0) * 100%), var(--off));
   opacity: 0.85;
   z-index: 3;
   text-transform: uppercase;

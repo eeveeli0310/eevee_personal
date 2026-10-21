@@ -19,7 +19,7 @@ export function ContourField({
   tone = "light",
   anchor = "local",
 }: {
-  tone?: "light" | "dark" | "pale";
+  tone?: "light" | "dark" | "pale" | "progress";
   /** Page coordinates keep lines continuous across adjacent sections. */
   anchor?: "local" | "page";
 }) {
@@ -76,8 +76,17 @@ export function ContourField({
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, w, h);
       ctx.beginPath();
-      ctx.strokeStyle = tone === "dark" ? "#F3F2EC" : tone === "pale" ? "#B7B5AA" : "#282C20";
-      ctx.globalAlpha = tone === "dark" ? 0.2 : tone === "pale" ? 0.9 : 0.2;
+      if (tone === "progress") {
+        const fg = Math.min(1, Math.max(0, Number(getComputedStyle(parent).getPropertyValue("--wall-fg")) || 0));
+        const r = Math.round(243 + (40 - 243) * fg);
+        const g = Math.round(242 + (44 - 242) * fg);
+        const b = Math.round(236 + (32 - 236) * fg);
+        ctx.strokeStyle = `rgb(${r}, ${g}, ${b})`;
+        ctx.globalAlpha = 0.22 + fg * 0.2;
+      } else {
+        ctx.strokeStyle = tone === "dark" ? "#F3F2EC" : tone === "pale" ? "#B7B5AA" : "#282C20";
+        ctx.globalAlpha = tone === "dark" ? 0.2 : tone === "pale" ? 0.9 : 0.2;
+      }
       ctx.lineWidth = 1;
       for (let level = 0.5; level < LINE_COUNT; level += 1) {
         for (let j = 0; j < rows; j += 1) {

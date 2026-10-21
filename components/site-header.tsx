@@ -30,14 +30,26 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     const header = document.querySelector<HTMLElement>("[data-bar]");
     if (!header) return;
     const pick = () => {
-      const nodes = document.querySelectorAll<HTMLElement>("[data-surface]");
-      let theme = "light";
+      const nodes = [...document.querySelectorAll<HTMLElement>("[data-surface]")];
       const y = 28;
-      nodes.forEach((node) => {
+      const hit = nodes.find((node) => {
         const rect = node.getBoundingClientRect();
-        if (rect.top <= y && rect.bottom > y) theme = node.dataset.surface || "light";
+        return rect.top <= y && rect.bottom > y;
       });
-      header.dataset.theme = theme;
+      const wall = hit?.hasAttribute("data-wall") ? hit : null;
+      if (wall) {
+        const p = Number(wall.style.getPropertyValue("--wall-p") || "0");
+        const fg = Number(wall.style.getPropertyValue("--wall-fg") || "0");
+        header.dataset.wallMix = "1";
+        header.style.setProperty("--wall-p", p.toFixed(4));
+        header.style.setProperty("--wall-fg", fg.toFixed(4));
+        header.dataset.theme = p >= 0.5 ? "light" : "dark";
+        return;
+      }
+      header.removeAttribute("data-wall-mix");
+      header.style.removeProperty("--wall-p");
+      header.style.removeProperty("--wall-fg");
+      header.dataset.theme = hit?.dataset.surface || "light";
     };
     pick();
     window.addEventListener("scroll", pick, { passive: true });
