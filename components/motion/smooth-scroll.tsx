@@ -55,5 +55,6 @@ declare global {
   interface Window {
     __eeveeLenis?: { stop: () => void; start: () => void } | null;
     __eeveeReady?: boolean;
+    __eeveeContourEpoch?: number;
   }
 }

@@ -15,7 +15,14 @@ function field(x: number, y: number, t: number) {
   return f * 0.5 + 0.5;
 }
 
-export function ContourField({ tone = "light" }: { tone?: "light" | "dark" }) {
+export function ContourField({
+  tone = "light",
+  anchor = "local",
+}: {
+  tone?: "light" | "dark" | "pale";
+  /** Page coordinates keep lines continuous across adjacent sections. */
+  anchor?: "local" | "page";
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -52,12 +59,15 @@ export function ContourField({ tone = "light" }: { tone?: "light" | "dark" }) {
       const stepY = h / rows;
       const aspect = w / h;
       const speed = mobile ? WAVE_SPEED * 0.55 : WAVE_SPEED;
-      const t = reduce ? 0.8 : ((now - start) / 1000) * speed;
+      const epoch = anchor === "page" ? ((window.__eeveeContourEpoch ??= start)) : start;
+      const t = reduce ? 0.8 : ((now - epoch) / 1000) * speed;
+      const pageTop = anchor === "page" ? rect.top + window.scrollY : 0;
+      const pageLeft = anchor === "page" ? rect.left + window.scrollX : 0;
       const values = new Float32Array((cols + 1) * (rows + 1));
       for (let j = 0; j <= rows; j += 1) {
         for (let i = 0; i <= cols; i += 1) {
-          const nx = ((i / cols) * 2 - 1) * aspect * LINE_SCALE;
-          const ny = ((j / rows) * 2 - 1) * LINE_SCALE;
+          const nx = anchor === "page" ? (pageLeft + (i / cols) * cssW) / 120 : ((i / cols) * 2 - 1) * aspect * LINE_SCALE;
+          const ny = anchor === "page" ? (pageTop + (j / rows) * cssH) / 120 : ((j / rows) * 2 - 1) * LINE_SCALE;
           const qx = nx + Math.sin(ny * 0.8 + t * 0.7) * WAVE_AMOUNT;
           const qy = ny + Math.cos(nx * 0.7 - t * 0.6) * WAVE_AMOUNT;
           values[j * (cols + 1) + i] = field(qx, qy, t) * LINE_COUNT;
@@ -66,8 +76,8 @@ export function ContourField({ tone = "light" }: { tone?: "light" | "dark" }) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, w, h);
       ctx.beginPath();
-      ctx.strokeStyle = tone === "dark" ? "#F3F2EC" : "#282C20";
-      ctx.globalAlpha = tone === "dark" ? 0.16 : 0.2;
+      ctx.strokeStyle = tone === "dark" ? "#F3F2EC" : tone === "pale" ? "#B7B5AA" : "#282C20";
+      ctx.globalAlpha = tone === "dark" ? 0.2 : tone === "pale" ? 0.9 : 0.2;
       ctx.lineWidth = 1;
       for (let level = 0.5; level < LINE_COUNT; level += 1) {
         for (let j = 0; j < rows; j += 1) {
@@ -152,7 +162,7 @@ export function ContourField({ tone = "light" }: { tone?: "light" | "dark" }) {
       cancelAnimationFrame(raf);
       io.disconnect();
     };
-  }, [tone]);
+  }, [tone, anchor]);
 
   return <canvas ref={ref} className="contour" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }} />;
 }

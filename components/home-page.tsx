@@ -116,6 +116,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       </div>
 
       <section id="about" className="screen screen-intro screen-grow stack-intro" data-surface="dark" data-stack="intro">
+        <ContourField tone="dark" anchor="page" />
         <p className="position-kicker">{locale === "zh" ? "内容与品牌运营" : "Content & Brand Operator"}</p>
         <h1 className={locale === "en" ? "intro intro-en" : "intro"} data-reveal="words">
           <Bits text={t.about.body} accents={accents} />
@@ -128,9 +129,9 @@ export function HomePage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      <section className="screen screen-wall" data-surface="light" data-wall aria-label={locale === "zh" ? "照片" : "Photos"}>
+      <section className="screen screen-wall" data-surface="dark" data-wall aria-label={locale === "zh" ? "照片" : "Photos"}>
         <WallScroll />
-        <ContourField tone="light" />
+        <ContourField tone="dark" anchor="page" />
         <div className="wall-viewport" data-wall-viewport>
           <div className="wall-track" data-wall-track>
             {wallScenes.map((scene, index) => (
@@ -150,7 +151,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       </section>
 
       <section className="screen screen-split" data-surface="light">
-        <ContourField tone="light" />
+        <ContourField tone="pale" />
         <img className="side left" src="/img/vr.png" alt="" />
         <img className="side right" src="/img/face.png" alt="" />
         <div className="mark" aria-hidden="true">ON</div>

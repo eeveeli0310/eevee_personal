@@ -5,8 +5,6 @@
 /* Palette — swap these to retheme. */
 :root {
   --olive: #282c20;
-  /* Intro panel only. A step lighter than --olive so the type can sit on it. */
-  --olive-lift: #3a4132;
   --off: #f3f2ec;
   --lime: #d4ff3a;
   --grey: #6e7364;
@@ -364,7 +362,7 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
 
 /* Intro */
 .screen-intro {
-  background: var(--olive-lift);
+  background: var(--olive);
   color: var(--off);
   display: flex;
   flex-direction: column;
@@ -438,7 +436,13 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
 .line { display: block; overflow: hidden; }
 
 /* Photo wall — pinned horizontal track on desktop, swipe otherwise */
-.screen-wall { background: var(--grey); overflow: visible; }
+.screen-wall {
+  background: var(--olive);
+  color: var(--off);
+  overflow: visible;
+  position: relative;
+  z-index: 4;
+}
 .wall-viewport {
   position: absolute;
   inset: 0;
@@ -533,8 +537,13 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   text-transform: uppercase;
 }
 
-/* Work / life */
-.screen-split { background: var(--off); color: var(--ink); }
+/* Work / life. Off-white field, above the pinned wall so nothing greys it out. */
+.screen-split {
+  background: var(--off);
+  color: var(--ink);
+  position: relative;
+  z-index: 5;
+}
 .side {
   position: absolute;
   bottom: 0;
