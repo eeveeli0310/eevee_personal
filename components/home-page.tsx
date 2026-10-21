@@ -142,7 +142,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           <span className="bd">Work</span>
           <p>{copy.workBody}</p>
           <Link className="arrow" href={localePath(locale, "/work")} aria-label={t.nav.work}>
-            →
+            ←
           </Link>
         </div>
         <div className="tt" style={{ right: "25vw" }}>
