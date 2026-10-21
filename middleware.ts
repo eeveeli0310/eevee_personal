@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { isLocale } from "@/lib/i18n";
+import { defaultLocale, isLocale } from "@/lib/i18n";
 
 function localeFromPath(pathname: string) {
   const segment = pathname.split("/")[1] ?? "";
@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
   const locale = localeFromPath(pathname);
   if (!locale) {
     const url = request.nextUrl.clone();
-    url.pathname = pathname === "/" ? "/zh" : `/zh${pathname}`;
+    url.pathname = pathname === "/" ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`;
     return NextResponse.redirect(url);
   }
 

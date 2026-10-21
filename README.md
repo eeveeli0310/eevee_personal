@@ -4,8 +4,8 @@ Personal site for Eevee Li. Next.js App Router, Tailwind, deployed on Vercel.
 
 ## Languages
 
-- Default language is Chinese at `/zh`. `/` redirects there.
-- English is at `/en`.
+- Default language is English at `/en`. `/` redirects there.
+- Chinese stays at `/zh`, from the language toggle.
 - Copy lives in `lib/i18n.ts`. There is no external translation service.
 - Display type is self-hosted: Instrument Serif, Archivo (condensed), Permanent Marker, and a subset of Noto Sans / Noto Serif SC. Do not add Google Fonts or other requests that are blocked in mainland China.
 - Home colours live as CSS variables in `app/globals.css` (`--olive`, `--off`, `--lime`, `--grey`) so the palette can be swapped without hunting through components.
