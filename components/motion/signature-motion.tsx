@@ -4,34 +4,27 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-const SIG_SHARE = 0.85;
-const SIG_MS = 3200;
-const PAUSE_MS = 150;
-const UNDERLINE_MS = 400;
+import { SIGNATURE_TOTAL_S, signatureFractions } from "@/lib/signature-stroke";
 
 function pathsOf(svg: SVGElement) {
   return [...svg.querySelectorAll<SVGPathElement>("[data-signature-path]")];
 }
 
-function park(paths: SVGPathElement[], lengths: number[]) {
-  paths.forEach((path, index) => {
-    const length = lengths[index] || 0;
-    path.style.transition = "none";
-    path.style.strokeDasharray = `${length}`;
-    path.style.strokeDashoffset = `${length}`;
-  });
-}
-
-/** Sig takes the first 85% of progress. The underline takes the rest. */
+/** Dash gap is longer than the stroke so a short length measurement cannot repeat as a second dash. */
 function paint(paths: SVGPathElement[], lengths: number[], progress: number) {
-  const amounts = [Math.min(1, Math.max(0, progress / SIG_SHARE)), Math.min(1, Math.max(0, (progress - SIG_SHARE) / (1 - SIG_SHARE)))];
+  const amounts = signatureFractions(progress);
   paths.forEach((path, index) => {
     const length = lengths[index] || 0;
-    const drawn = amounts[index] ?? (progress >= 1 ? 1 : 0);
+    const drawn = amounts[index] ?? 0;
     path.style.transition = "none";
-    path.style.strokeDasharray = `${length}`;
-    path.style.strokeDashoffset = `${length * (1 - drawn)}`;
+    if (length <= 0) {
+      path.style.visibility = "hidden";
+      return;
+    }
+    path.setAttribute("pathLength", String(length));
+    path.style.strokeDasharray = `${length} ${length + 100}`;
+    path.style.strokeDashoffset = `${length * (1 - Math.min(1, Math.max(0, drawn)))}`;
+    path.style.visibility = drawn <= 0 ? "hidden" : "visible";
   });
 }
 
@@ -45,13 +38,12 @@ export function SignatureMotion() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const desktop = window.matchMedia("(min-width: 900px)");
     const svgs = [...document.querySelectorAll<SVGElement>(".sig-stroke")];
-    const timers: number[] = [];
 
     const finish = (svg: SVGElement) => {
       const paths = pathsOf(svg);
+      paint(paths, paths.map((path) => path.getTotalLength()), 1);
       paths.forEach((path) => {
-        path.style.transition = "none";
-        path.style.strokeDashoffset = "0";
+        path.style.visibility = "visible";
       });
       reveal(svg, true);
     };
@@ -67,7 +59,7 @@ export function SignatureMotion() {
       const paths = pathsOf(svg);
       if (paths.length < 2) continue;
       const lengths = paths.map((path) => path.getTotalLength());
-      park(paths, lengths);
+      paint(paths, lengths, 0);
       reveal(svg, false);
       const scroll = svg.dataset.signatureMode === "scroll" && desktop.matches;
       const trigger = svg.closest<HTMLElement>("[data-signature-scroll]");
@@ -90,29 +82,30 @@ export function SignatureMotion() {
         continue;
       }
 
+      let raf = 0;
       const io = new IntersectionObserver(
         ([entry]) => {
           if (!entry?.isIntersecting) return;
           io.disconnect();
-          reveal(svg, true);
-          const [sig, underline] = paths;
-          sig.style.transition = `stroke-dashoffset ${SIG_MS}ms linear`;
-          sig.style.strokeDashoffset = "0";
-          timers.push(
-            window.setTimeout(() => {
-              underline.style.transition = `stroke-dashoffset ${UNDERLINE_MS}ms linear`;
-              underline.style.strokeDashoffset = "0";
-            }, SIG_MS + PAUSE_MS),
-          );
+          const start = performance.now();
+          const step = (now: number) => {
+            const progress = Math.min(1, (now - start) / (SIGNATURE_TOTAL_S * 1000));
+            paint(paths, lengths, progress);
+            reveal(svg, progress > 0);
+            if (progress < 1) raf = requestAnimationFrame(step);
+          };
+          raf = requestAnimationFrame(step);
         },
         { threshold: 0.4 },
       );
       io.observe(svg);
-      cleanups.push(() => io.disconnect());
+      cleanups.push(() => {
+        io.disconnect();
+        cancelAnimationFrame(raf);
+      });
     }
 
     return () => {
-      timers.forEach((id) => window.clearTimeout(id));
       cleanups.forEach((fn) => fn());
       svgs.forEach((svg) => svg.classList.remove("is-inking"));
     };
