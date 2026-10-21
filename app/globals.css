@@ -599,6 +599,17 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   position: relative;
   z-index: 4;
 }
+/* Phones don't pin, so the wall's last stretch fades to the same off-white as Work/Life. */
+@media (max-width: 899px), (prefers-reduced-motion: reduce) {
+  .screen-wall {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--off) calc(var(--wall-p) * 100%), var(--olive)) 0%,
+      color-mix(in srgb, var(--off) calc(var(--wall-p) * 100%), var(--olive)) 78%,
+      var(--off) 100%
+    );
+  }
+}
 .wall-viewport {
   position: absolute;
   inset: 0;
@@ -694,12 +705,34 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   text-transform: uppercase;
 }
 
-/* Work / life. Off-white field, above the pinned wall so nothing greys it out. */
+/* Work / life. Full viewport, same off-white the wall reaches at the end of its track. */
 .screen-split {
   background: var(--off);
   color: var(--ink);
   position: relative;
   z-index: 5;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  transform: none;
+  filter: none;
+  box-shadow: none;
+}
+.screen-stats {
+  position: relative;
+  z-index: 6;
+  background: var(--olive);
+  color: var(--off);
+}
+.screen-stats .band {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  right: auto;
 }
 .side {
   position: absolute;

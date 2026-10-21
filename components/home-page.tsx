@@ -171,6 +171,9 @@ export function HomePage({ locale }: { locale: Locale }) {
             →
           </Link>
         </div>
+      </section>
+
+      <section className="screen-stats" data-surface="dark" aria-label={locale === "zh" ? "数据" : "Stats"}>
         <StatsBand items={copy.stats.map((item) => ({ text: item.text, label: item.label, value: item.value }))} />
       </section>
 
