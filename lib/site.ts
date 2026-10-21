@@ -19,7 +19,7 @@ export const personJsonLd = {
   url: site.url,
   jobTitle: "Content & Brand Operator",
   description: site.description,
-  knowsLanguage: ["zh-CN", "en"],
+  knowsLanguage: ["en", "zh-CN"],
   homeLocation: {
     "@type": "Place",
     name: site.location,
@@ -53,8 +53,9 @@ export function pageMeta({ title, description, path, locale, absolute = false, s
     alternates: {
       canonical,
       languages: {
-        "zh-CN": `/zh${suffix}`,
+        "x-default": `/en${suffix}`,
         en: `/en${suffix}`,
+        "zh-CN": `/zh${suffix}`,
       },
     },
     openGraph: {

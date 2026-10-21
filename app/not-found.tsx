@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
-import { dictionary, isLocale } from "@/lib/i18n";
+import { defaultLocale, dictionary, isLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "页面不存在 · Page not found",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function NotFound() {
   const headerList = await headers();
   const raw = headerList.get("x-locale");
-  const locale = raw && isLocale(raw) ? raw : "zh";
+  const locale = raw && isLocale(raw) ? raw : defaultLocale;
   const t = dictionary[locale];
 
   return (

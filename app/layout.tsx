@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { dictionary, isLocale } from "@/lib/i18n";
+import { defaultLocale, dictionary, isLocale } from "@/lib/i18n";
 import { personJsonLd, site } from "@/lib/site";
 import "./globals.css";
 
@@ -29,12 +29,16 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png?v=el26", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/site.webmanifest",
+  openGraph: {
+    locale: "en_US",
+    siteName: site.name,
+  },
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const headerList = await headers();
   const raw = headerList.get("x-locale");
-  const locale = raw && isLocale(raw) ? raw : "zh";
+  const locale = raw && isLocale(raw) ? raw : defaultLocale;
   const t = dictionary[locale];
 
   return (
