@@ -6,13 +6,12 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SIGNATURE_TOTAL_S, signatureFractions } from "@/lib/signature-stroke";
 
-function pathsOf(svg: SVGElement) {
+export function pathsOf(svg: SVGElement) {
   return [...svg.querySelectorAll<SVGPathElement>("[data-signature-path]")];
 }
 
 /** Dash gap is longer than the stroke so a short length measurement cannot repeat as a second dash. */
-function paint(paths: SVGPathElement[], lengths: number[], progress: number) {
-  const amounts = signatureFractions(progress);
+export function paintSignatureAmounts(paths: SVGPathElement[], lengths: number[], amounts: number[]) {
   paths.forEach((path, index) => {
     const length = lengths[index] || 0;
     const drawn = amounts[index] ?? 0;
@@ -28,7 +27,11 @@ function paint(paths: SVGPathElement[], lengths: number[], progress: number) {
   });
 }
 
-function reveal(svg: SVGElement, on: boolean) {
+export function paintSignature(paths: SVGPathElement[], lengths: number[], progress: number) {
+  paintSignatureAmounts(paths, lengths, signatureFractions(progress));
+}
+
+export function revealSignature(svg: SVGElement, on: boolean) {
   svg.classList.toggle("is-inking", on);
 }
 
@@ -41,11 +44,11 @@ export function SignatureMotion() {
 
     const finish = (svg: SVGElement) => {
       const paths = pathsOf(svg);
-      paint(paths, paths.map((path) => path.getTotalLength()), 1);
+      paintSignature(paths, paths.map((path) => path.getTotalLength()), 1);
       paths.forEach((path) => {
         path.style.visibility = "visible";
       });
-      reveal(svg, true);
+      revealSignature(svg, true);
     };
 
     if (reduce) {
@@ -57,10 +60,10 @@ export function SignatureMotion() {
 
     for (const svg of svgs) {
       const paths = pathsOf(svg);
-      if (paths.length < 2) continue;
+      if (paths.length < 2 || svg.closest("[data-hero-sig]")) continue;
       const lengths = paths.map((path) => path.getTotalLength());
-      paint(paths, lengths, 0);
-      reveal(svg, false);
+      paintSignature(paths, lengths, 0);
+      revealSignature(svg, false);
       const scroll = svg.dataset.signatureMode === "scroll" && desktop.matches;
       const trigger = svg.closest<HTMLElement>("[data-signature-scroll]");
 
@@ -73,8 +76,8 @@ export function SignatureMotion() {
             end: "bottom bottom",
             scrub: true,
             onUpdate: (self) => {
-              paint(paths, lengths, self.progress);
-              reveal(svg, self.progress > 0);
+              paintSignature(paths, lengths, self.progress);
+              revealSignature(svg, self.progress > 0);
             },
           });
         });
@@ -90,8 +93,8 @@ export function SignatureMotion() {
           const start = performance.now();
           const step = (now: number) => {
             const progress = Math.min(1, (now - start) / (SIGNATURE_TOTAL_S * 1000));
-            paint(paths, lengths, progress);
-            reveal(svg, progress > 0);
+          paintSignature(paths, lengths, progress);
+          revealSignature(svg, progress > 0);
             if (progress < 1) raf = requestAnimationFrame(step);
           };
           raf = requestAnimationFrame(step);

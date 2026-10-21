@@ -13,10 +13,25 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     let lenis: Lenis | null = null;
     let ticker: ((time: number) => void) | null = null;
 
-    const setup = () => {
-      if (lenis || reduce.matches || !desktop.matches) return;
+    const armScroll = () => {
       gsap.registerPlugin(ScrollTrigger);
-      lenis = new Lenis({ autoRaf: false, anchors: true, lerp: 0.1 });
+      // Ignore the mobile URL bar's vertical resize so pinned sections don't jump.
+      ScrollTrigger.config({ ignoreMobileResize: true });
+      if (!desktop.matches && !reduce.matches) {
+        ScrollTrigger.normalizeScroll({
+          allowNestedScroll: true,
+          lockAxis: true,
+          type: "touch,wheel,pointer",
+        });
+      } else if (ScrollTrigger.normalizeScroll()) {
+        ScrollTrigger.normalizeScroll(false);
+      }
+    };
+
+    const setup = () => {
+      armScroll();
+      if (lenis || reduce.matches || !desktop.matches) return;
+      lenis = new Lenis({ autoRaf: false, anchors: true, lerp: 0.09 });
       if (document.documentElement.classList.contains("is-loading")) lenis.stop();
       window.__eeveeLenis = lenis;
       lenis.on("scroll", ScrollTrigger.update);
