@@ -7,11 +7,25 @@ import { LogoEl26Draw } from "@/components/logo-el26";
 function motionTiming() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const mobile = window.matchMedia("(max-width: 640px)").matches;
+  const loop = reduce ? 480 : mobile ? 1200 : 1600;
+  // Dismiss at 84% of a round: E, L, and 26 are in, the glint has crossed,
+  // and the 88–100% loop fade has not started. Matches loader/index.html.
+  const play = reduce ? 480 : Math.round(loop * 0.84);
   return {
     reduce,
-    loop: reduce ? 480 : mobile ? 1200 : 1600,
+    loop,
+    play,
     exit: reduce ? 400 : mobile ? 500 : 700,
   };
+}
+
+function waitForMark(startedAt: number) {
+  const { reduce, loop, play } = motionTiming();
+  const elapsed = performance.now() - startedAt;
+  if (reduce) return Math.max(0, play - elapsed);
+  const into = ((elapsed % loop) + loop) % loop;
+  if (into <= play) return play - into;
+  return loop - into + play;
 }
 
 export function IntroLoader({ label }: { label: string }) {
@@ -37,7 +51,7 @@ export function IntroLoader({ label }: { label: string }) {
   useEffect(() => {
     started.current = performance.now();
     document.documentElement.classList.add("is-loading");
-    const id = window.setTimeout(() => setPhase("leave"), motionTiming().loop);
+    const id = window.setTimeout(() => setPhase("leave"), motionTiming().play);
     return () => window.clearTimeout(id);
   }, []);
 
@@ -84,7 +98,7 @@ export function IntroLoader({ label }: { label: string }) {
       document.documentElement.classList.add("is-covering");
       window.__eeveeLenis?.stop();
     }
-    const wait = Math.max(0, motionTiming().loop - (performance.now() - started.current));
+    const wait = waitForMark(started.current);
     const id = window.setTimeout(() => setPhase("leave"), wait);
     return () => window.clearTimeout(id);
   }, [pathname]);

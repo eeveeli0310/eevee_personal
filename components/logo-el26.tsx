@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { LOGO_SKEW, LOGO_VIEWBOX, logo2, logo6, logoE, logoL } from "@/lib/logo-el26";
+import { LOGO_VIEWBOX, logo2, logo6, logoE, logoL } from "@/lib/logo-el26";
 
 type LogoEl26Props = {
   className?: string;
@@ -18,23 +18,21 @@ export function LogoEl26({ className, width, height }: LogoEl26Props) {
       fill="currentColor"
       aria-hidden="true"
     >
-      <g transform={LOGO_SKEW}>
-        <g data-part="E">
-          <polygon points={logoE} />
-        </g>
-        <g data-part="L">
-          <polygon points={logoL} />
-        </g>
-        <g data-part="26">
-          <polygon points={logo2} />
-          <path fillRule="evenodd" d={logo6} />
-        </g>
+      <g data-part="E">
+        <path d={logoE} />
+      </g>
+      <g data-part="L">
+        <path d={logoL} />
+      </g>
+      <g data-part="26">
+        <path d={logo2} />
+        <path d={logo6} />
       </g>
     </svg>
   );
 }
 
-/** Draw-on mark used by the loader. E and L trace, then 26 slides along L. */
+/** Draw-on mark used by the loader. Matches logo/loader/index.html. */
 export function LogoEl26Draw() {
   const uid = useId().replace(/:/g, "");
   const clipId = `el26clip${uid}`;
@@ -44,33 +42,38 @@ export function LogoEl26Draw() {
     <svg className="loader-mark" viewBox={LOGO_VIEWBOX} fill="none" aria-hidden="true">
       <defs>
         <clipPath id={clipId}>
-          <g transform={LOGO_SKEW}>
-            <polygon points={logoE} />
-            <polygon points={logoL} />
-            <polygon points={logo2} />
-            <path d={logo6} />
-          </g>
+          <path d={logoE} />
+          <path d={logoL} />
+          <path d={logo2} />
+          <path d={logo6} />
         </clipPath>
         <linearGradient id={glintId} x1="0" x2="1">
           <stop offset="0" stopColor="#fff" stopOpacity="0" />
-          <stop offset="0.5" stopColor="#fff" stopOpacity="0.85" />
+          <stop offset="0.5" stopColor="#fff" stopOpacity="1" />
           <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <g transform={LOGO_SKEW}>
-        <g id="E">
-          <polygon className="stroke" pathLength={1} points={logoE} />
-        </g>
-        <g id="L">
-          <polygon className="stroke" pathLength={1} points={logoL} />
-        </g>
-        <g id="g26">
-          <polygon points={logo2} />
-          <path fillRule="evenodd" d={logo6} />
-        </g>
+      <g id="E">
+        <path className="stroke" pathLength={1} d={logoE} />
+      </g>
+      <g id="L">
+        <path className="stroke" pathLength={1} d={logoL} />
+      </g>
+      <g id="g26">
+        <path d={logo2} />
+        <path d={logo6} />
       </g>
       <g clipPath={`url(#${clipId})`}>
-        <rect className="glint" x="0" y="0" width="60" height="160" fill={`url(#${glintId})`} transform="skewX(-14)" />
+        <rect
+          className="glint"
+          x={-60}
+          y={0}
+          width={110}
+          height={200}
+          fill={`url(#${glintId})`}
+          opacity={0.95}
+          transform="skewX(-30)"
+        />
       </g>
     </svg>
   );

@@ -829,7 +829,7 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
 }
 .loader svg,
 .loader-mark {
-  width: min(46vw, 420px);
+  width: min(60vw, 560px);
   height: auto;
   overflow: visible;
 }
@@ -841,34 +841,38 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   fill: var(--lime);
   fill-opacity: 0;
   stroke: var(--lime);
-  stroke-width: 2.5;
+  stroke-width: 3;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
 }
-.loader #E .stroke { animation: drawE var(--loader-loop) linear 1 forwards; }
-.loader #L .stroke { animation: drawL var(--loader-loop) linear 1 forwards; }
-.loader #g26 { fill: var(--lime); animation: slide26 var(--loader-loop) cubic-bezier(0.2, 0.8, 0.2, 1) 1 forwards; }
-.loader .glint { animation: glint var(--loader-loop) linear 1 forwards; }
+.loader #E .stroke { animation: drawE var(--loader-loop) linear infinite; }
+.loader #L .stroke { animation: drawL var(--loader-loop) linear infinite; }
+.loader #g26 { fill: var(--lime); animation: slide26 var(--loader-loop) cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
+.loader .glint { animation: glint var(--loader-loop) linear infinite; }
+/* Same beats as logo/loader/index.html. The 88–100% fade is the loop seam. */
 @keyframes drawE {
-  0% { stroke-dashoffset: 1; fill-opacity: 0; }
+  0% { stroke-dashoffset: 1; fill-opacity: 0; opacity: 1; }
   25% { stroke-dashoffset: 0; fill-opacity: 0; }
   45% { fill-opacity: 1; }
-  100% { stroke-dashoffset: 0; fill-opacity: 1; }
+  88% { opacity: 1; fill-opacity: 1; stroke-dashoffset: 0; }
+  100% { opacity: 0; fill-opacity: 1; stroke-dashoffset: 0; }
 }
 @keyframes drawL {
-  0%, 15% { stroke-dashoffset: 1; fill-opacity: 0; }
+  0%, 15% { stroke-dashoffset: 1; fill-opacity: 0; opacity: 1; }
   40% { stroke-dashoffset: 0; fill-opacity: 0; }
   55% { fill-opacity: 1; }
-  100% { stroke-dashoffset: 0; fill-opacity: 1; }
+  88% { opacity: 1; fill-opacity: 1; stroke-dashoffset: 0; }
+  100% { opacity: 0; fill-opacity: 1; stroke-dashoffset: 0; }
 }
 @keyframes slide26 {
-  0%, 45% { transform: translateX(-90px); opacity: 0; }
+  0%, 45% { transform: translateX(-160px); opacity: 0; }
   65% { transform: none; opacity: 1; }
-  100% { transform: none; opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: none; opacity: 0; }
 }
 @keyframes glint {
-  0%, 62% { transform: translateX(-140px); }
-  86%, 100% { transform: translateX(420px); }
+  0%, 62% { transform: translateX(-200px); }
+  86%, 100% { transform: translateX(760px); }
 }
 @keyframes loader-cover {
   from { transform: translateY(100%); }
