@@ -154,13 +154,14 @@ h1, h2, h3, p { margin: 0; }
 }
 .bar a, .bar button, .bar .lang { pointer-events: auto; }
 .logo { line-height: 0; color: var(--mark-on-light); display: block; position: relative; z-index: 2; }
-.logo .logo-mark { height: 40px; width: auto; display: block; }
-.bar[data-theme="dark"] .logo { color: var(--mark-on-dark); }
-/* Wall progress: stay on the readable end. A blend of these two tracks the field and disappears. */
-.bar[data-wall-mix="1"] .logo { color: var(--mark-on-dark); }
-.bar[data-wall-mix="1"][data-theme="light"] .logo { color: var(--mark-on-light); }
-html.is-menu-open .bar .logo,
-html.is-menu-open .bar[data-wall-mix="1"] .logo { color: var(--mark-on-dark); }
+.logo-split { display: grid; line-height: 0; }
+.logo-split .ink-layer { grid-area: 1 / 1; display: block; line-height: 0; position: relative; }
+.logo-split .logo-mark { height: 40px; width: auto; display: block; }
+.logo-split .is-light { z-index: 1; color: var(--mark-on-light); }
+.logo-split .is-dark { z-index: 0; color: var(--mark-on-dark); clip-path: inset(100%); -webkit-clip-path: inset(100%); }
+html.is-menu-open .logo-split .is-light { clip-path: inset(100%) !important; -webkit-clip-path: inset(100%) !important; }
+html.is-menu-open .logo-split .is-dark { clip-path: none !important; -webkit-clip-path: none !important; }
+.ink-clips { position: absolute; width: 0; height: 0; }
 .logo-mark polygon,
 .logo-mark path { fill: currentColor; }
 .menu-toggle {
@@ -175,19 +176,37 @@ html.is-menu-open .bar[data-wall-mix="1"] .logo { color: var(--mark-on-dark); }
   flex: none;
   cursor: pointer;
   border-radius: 6px;
-  border: 1px solid currentColor;
+  border: 0;
   background: transparent;
   color: var(--ink);
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  overflow: hidden;
+  transition: background 0.2s ease;
 }
-.bar[data-theme="dark"] .menu-toggle { color: var(--off); }
+.toggle-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: inherit;
+  border: 1px solid currentColor;
+  pointer-events: none;
+}
+.toggle-on-light { z-index: 1; color: var(--ink); }
+.toggle-on-dark { z-index: 0; color: var(--off); clip-path: inset(100%); -webkit-clip-path: inset(100%); }
 .menu-toggle[aria-expanded="true"],
-.bar[data-theme="dark"] .menu-toggle[aria-expanded="true"],
-.menu-toggle:hover,
-.bar[data-theme="dark"] .menu-toggle:hover {
+.menu-toggle:hover {
   background: var(--lime);
+}
+.menu-toggle:hover .toggle-on-light,
+.menu-toggle[aria-expanded="true"] .toggle-on-light {
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
   color: var(--ink);
-  border-color: var(--ink);
+}
+.menu-toggle:hover .toggle-on-dark,
+.menu-toggle[aria-expanded="true"] .toggle-on-dark {
+  clip-path: inset(100%) !important;
+  -webkit-clip-path: inset(100%) !important;
 }
 .menu-toggle:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
 .menu-toggle[aria-expanded="true"]:focus-visible { outline-color: var(--ink); }
