@@ -274,11 +274,13 @@ function paintPair(lightEl: HTMLElement, darkEl: HTMLElement, lightId: string, d
   applyClip(darkEl, darkBox, grown, darkId);
 }
 
-/** Off-white button fill, only where a dark section sits behind it. Light stays transparent. */
-function paintFill(el: HTMLElement, clipId: string) {
-  const box = el.getBoundingClientRect();
+/** Off-white covers dark sections out to the squircle edge. The black stroke exists only over light. */
+function paintButton(fill: HTMLElement, border: HTMLElement) {
+  const box = fill.getBoundingClientRect();
   if (box.width < 1 || box.height < 1) return;
-  applyClip(el, box, regions(box).dark, clipId);
+  const parts = regions(box);
+  applyClip(fill, box, parts.dark, "toggle-ink-dark");
+  applyClip(border, border.getBoundingClientRect(), parts.light, "toggle-ink-light");
 }
 
 function Squiggle() {
@@ -319,7 +321,8 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     const lightLogo = header.querySelector<HTMLElement>(".logo-split .is-light");
     const darkLogo = header.querySelector<HTMLElement>(".logo-split .is-dark");
     const toggleFill = header.querySelector<HTMLElement>(".toggle-fill");
-    if (!lightLogo || !darkLogo || !toggleFill) return;
+    const toggleBorder = header.querySelector<HTMLElement>(".toggle-border");
+    if (!lightLogo || !darkLogo || !toggleFill || !toggleBorder) return;
 
     let dirty = true;
     const mark = () => {
@@ -332,6 +335,8 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       if (open) {
         setClip(lightLogo, "inset(100%)");
         setClip(darkLogo, "none");
+        setClip(toggleFill, "inset(100%)");
+        setClip(toggleBorder, "inset(100%)");
         return;
       }
       const blockers = [...header.querySelectorAll<HTMLElement>("a, button")];
@@ -341,7 +346,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       });
       try {
         paintPair(lightLogo, darkLogo, "logo-ink-light", "logo-ink-dark");
-        paintFill(toggleFill, "toggle-ink-dark");
+        paintButton(toggleFill, toggleBorder);
       } finally {
         blockers.forEach((node, index) => {
           node.style.pointerEvents = previous[index];
@@ -496,6 +501,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         }}
       >
         <span className="toggle-fill" />
+        <span className="toggle-border" aria-hidden="true" />
         <span className="toggle-liquid" aria-hidden="true" />
         <span className="burger" aria-hidden="true">
           <span />
