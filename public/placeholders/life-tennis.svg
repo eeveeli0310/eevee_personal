@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+      <rect width="1200" height="800" fill="#1e2618"/>
+      <g fill="none" stroke="#f4f1e8" stroke-opacity="0.18" stroke-width="2">
+        <path d="M-40 180 C 300 80, 700 260, 1240 120"/>
+        <path d="M-40 520 C 360 420, 760 640, 1240 480"/>
+      </g>
+      <text x="72" y="360" fill="#f4f1e8" font-family="Outfit, Arial, sans-serif" font-size="92" font-weight="700">TENNIS</text>
+      <text x="72" y="450" fill="#D4FF3A" font-family="Fraunces, Georgia, serif" font-size="48">网球</text>
+      <text x="72" y="700" fill="#f4f1e8" font-family="Outfit, Arial, sans-serif" font-size="28" opacity="0.8">PLACEHOLDER</text>
+    </svg>

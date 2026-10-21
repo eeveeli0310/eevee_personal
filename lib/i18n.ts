@@ -87,9 +87,9 @@ export type Dictionary = {
 export const dictionary: Record<Locale, Dictionary> = {
   zh: {
     meta: {
-      title: "Eevee Li｜出海社媒运营 Overseas Social Media & Growth",
-      description: "Eevee Li，出海社媒运营与增长。用内容与数据，为科技品牌做海外增长。",
-      shareAlt: "Eevee Li｜出海社媒运营 Overseas Social Media & Growth",
+      title: "Eevee Li｜内容与品牌运营 Content & Brand Operator",
+      description: "Eevee Li，内容与品牌运营。用内容与数据，为科技品牌做海外增长。",
+      shareAlt: "Eevee Li｜内容与品牌运营 Content & Brand Operator",
     },
     skip: "跳到主要内容",
     nav: { label: "页面导航", work: "作品", about: "关于", resume: "简历", contact: "联系" },
@@ -210,10 +210,10 @@ export const dictionary: Record<Locale, Dictionary> = {
   },
   en: {
     meta: {
-      title: "Eevee Li｜Overseas Social Media & Growth",
+      title: "Eevee Li｜内容与品牌运营 Content & Brand Operator",
       description:
-        "Eevee Li, overseas social media and growth operator. I grow global communities for tech brands — through content, data, and AIGC.",
-      shareAlt: "Eevee Li — Overseas Social Media & Growth Operator",
+        "Eevee Li, content and brand operator. I grow global communities for tech brands — through content, data, and AIGC.",
+      shareAlt: "Eevee Li｜Content & Brand Operator",
     },
     skip: "Skip to main content",
     nav: { label: "Primary", work: "Work", about: "About", resume: "Resume", contact: "Contact" },

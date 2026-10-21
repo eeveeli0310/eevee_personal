@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="140 180 620 860" fill="none">
+      <path d="M70 860 C180 690 280 640 450 628 C620 640 720 690 830 860 L900 1200 H0 Z" fill="#1e2618"/>
+      <path d="M250 860 C310 760 390 730 450 726 C510 730 590 760 650 860 L620 1200 H280 Z" fill="#2a3324"/>
+      <path d="M390 700 H510 V780 C510 820 480 840 450 840 C420 840 390 820 390 780 Z" fill="#e4cbb8"/>
+      <ellipse cx="450" cy="470" rx="168" ry="196" fill="#efd8c6"/>
+      <path d="M290 470 C286 300 350 210 450 200 C560 188 630 280 618 450 C600 340 540 286 450 300 C360 314 320 390 308 470 Z" fill="#171b14"/>
+      
+        <path d="M360 470 H430" stroke="#1e2618" stroke-width="8" stroke-linecap="round"/>
+        <path d="M470 470 H540" stroke="#1e2618" stroke-width="8" stroke-linecap="round"/>
+        <path d="M420 540 Q450 562 480 540" fill="none" stroke="#1e2618" stroke-width="6" stroke-linecap="round"/>
+        
+      <rect x="250" y="1040" width="400" height="54" rx="27" fill="#D4FF3A"/>
+      <text x="450" y="1075" text-anchor="middle" font-family="Outfit, Arial, sans-serif" font-size="26" font-weight="700" fill="#172015">PLACEHOLDER</text>
+    </svg>

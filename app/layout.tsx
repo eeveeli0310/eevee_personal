@@ -32,14 +32,17 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang={locale === "zh" ? "zh-CN" : "en"}>
-      <body className="bg-background font-sans text-foreground antialiased">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-4 focus:py-3 focus:text-accent-foreground"
-        >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var r=document.documentElement;r.classList.add("js");var reduce=false;try{reduce=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}if(reduce)r.classList.add("reduce");var seen=false;try{seen=sessionStorage.getItem("eevee-loader-seen")==="1"}catch(e){}if(reduce||seen)r.classList.add("loader-skip");else r.classList.add("is-loading")})();`,
+          }}
+        />
+      </head>
+      <body>
+        <a href="#main-content" className="skip">
           {t.skip}
         </a>
-        <div className="noise-overlay" aria-hidden="true" />
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       </body>

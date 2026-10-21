@@ -7,7 +7,10 @@ Personal site for Eevee Li. Next.js App Router, Tailwind, deployed on Vercel.
 - Default language is Chinese at `/zh`. `/` redirects there.
 - English is at `/en`.
 - Copy lives in `lib/i18n.ts`. There is no external translation service.
-- Fonts are system fonts only. Do not add Google Fonts or other requests that are blocked in mainland China.
+- Display type is self-hosted: Instrument Serif, Archivo (condensed), Permanent Marker, and a subset of Noto Sans / Noto Serif SC. Do not add Google Fonts or other requests that are blocked in mainland China.
+- Home colours live as CSS variables in `app/globals.css` (`--olive`, `--off`, `--lime`, `--grey`) so the palette can be swapped without hunting through components.
+- Portrait and photo-wall images under `public/img` are designer placeholders. Photo captions live in `lib/gallery.ts`. Stats in `lib/content.ts` stay as `[X]` until a real number is set.
+- The Micro-OLED film plays only from `public/media/pimax-micro-oled.mp4`. There is no YouTube embed. Until that file exists, the case shows a poster.
 
 ## Resume PDFs
 

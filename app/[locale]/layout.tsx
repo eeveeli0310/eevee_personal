@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { IntroLoader } from "@/components/motion/intro-loader";
+import { RevealEngine } from "@/components/motion/reveal-engine";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { SiteHeader } from "@/components/site-header";
+import { homeCopy } from "@/lib/content";
 import { dictionary, isLocale, staticLocaleParams } from "@/lib/i18n";
 import { site } from "@/lib/site";
 
@@ -39,5 +44,15 @@ export default async function LocaleLayout({
 }: Readonly<{ children: React.ReactNode; params: Promise<{ locale: string }> }>) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return children;
+
+  return (
+    <>
+      <SmoothScroll>
+        <SiteHeader locale={locale} />
+        {children}
+      </SmoothScroll>
+      <IntroLoader label={homeCopy[locale].loaderLabel} />
+      <RevealEngine />
+    </>
+  );
 }

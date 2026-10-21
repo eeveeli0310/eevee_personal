@@ -5,13 +5,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#09090b",
-        foreground: "#fafafa",
-        accent: "#dfe104",
-        "accent-foreground": "#000000",
-        muted: "#27272a",
-        "muted-foreground": "#a1a1aa",
-        border: "#3f3f46",
+        background: "#282C20",
+        foreground: "#F3F2EC",
+        accent: "#D4FF3A",
+        "accent-foreground": "#282C20",
+        muted: "#6E7364",
+        "muted-foreground": "#6E7364",
+        border: "#282C20",
       },
       fontFamily: {
         sans: [

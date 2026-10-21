@@ -36,7 +36,8 @@ export type Project = {
 
 export const projectSlugs = ["pimax-micro-oled-launch-event-video"] as const;
 
-const youtubeEmbed = "https://www.youtube.com/embed/HoxcrOl8T9Y";
+/** Local film, when Eve adds the file. Never an external embed. */
+export const launchVideoPath = "/media/pimax-micro-oled.mp4";
 
 export function getProjects(locale: Locale): Project[] {
   const copy = dictionary[locale].project;
@@ -59,8 +60,8 @@ export function getProjects(locale: Locale): Project[] {
       description: copy.description,
       media: [
         {
-          type: "embed",
-          src: youtubeEmbed,
+          type: "image",
+          src: "/placeholders/pimax-poster.svg",
           alt: copy.alts.hero,
           caption: copy.captions.hero,
           ratio: "wide",

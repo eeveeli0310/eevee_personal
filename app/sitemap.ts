@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
+import { caseSlugs } from "@/lib/cases";
 import { locales } from "@/lib/i18n";
-import { projectSlugs } from "@/lib/projects";
 import { site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["", "/learning-experience", "/project-experience", "/portfolio", ...projectSlugs.map((slug) => `/projects/${slug}`)];
+  const paths = ["", "/work", "/life", ...caseSlugs.map((slug) => `/work/${slug}`)];
 
   return locales.flatMap((locale) =>
     paths.map((path) => ({

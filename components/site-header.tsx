@@ -1,50 +1,59 @@
+"use client";
+
 import Link from "next/link";
-import { LocaleSwitch } from "@/components/locale-switch";
-import { cn } from "@/lib/cn";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { dictionary, localePath, type Locale } from "@/lib/i18n";
-import { site } from "@/lib/site";
+import { LocaleSwitch } from "@/components/locale-switch";
 
-type SiteHeaderProps = {
-  locale: Locale;
-  className?: string;
-};
-
-const linkClass =
-  "text-xs font-bold uppercase tracking-[0.12em] text-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:text-sm sm:tracking-[0.16em]";
-
-export function SiteHeader({ locale, className }: SiteHeaderProps) {
+export function SiteHeader({ locale }: { locale: Locale }) {
   const t = dictionary[locale];
+  const pathname = usePathname() || `/${locale}`;
   const home = localePath(locale);
+  const work = localePath(locale, "/work");
   const items = [
-    { href: `${home}#work`, label: t.nav.work },
-    { href: `${home}#about`, label: t.nav.about },
-    { href: `${home}#resume`, label: t.nav.resume },
-    { href: `${home}#contact`, label: t.nav.contact },
+    { href: work, label: t.nav.work, pill: true },
+    { href: `${home}#about`, label: t.nav.about, pill: false },
+    { href: `${home}#resume`, label: t.nav.resume, pill: false },
+    { href: `${home}#contact`, label: t.nav.contact, pill: false },
   ];
 
+  useEffect(() => {
+    const header = document.querySelector<HTMLElement>("[data-bar]");
+    if (!header) return;
+    const pick = () => {
+      const nodes = document.querySelectorAll<HTMLElement>("[data-surface]");
+      let theme = "light";
+      const y = 28;
+      nodes.forEach((node) => {
+        const rect = node.getBoundingClientRect();
+        if (rect.top <= y && rect.bottom > y) theme = node.dataset.surface || "light";
+      });
+      header.dataset.theme = theme;
+    };
+    pick();
+    window.addEventListener("scroll", pick, { passive: true });
+    window.addEventListener("resize", pick);
+    return () => {
+      window.removeEventListener("scroll", pick);
+      window.removeEventListener("resize", pick);
+    };
+  }, [pathname]);
+
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-4 border-b border-border pb-6 md:flex-row md:items-start md:justify-between md:pb-8",
-        className,
-      )}
-    >
-      <div className="min-w-0 space-y-3">
-        <Link href={home} className="inline-block text-xs uppercase tracking-[0.25em] text-accent md:text-sm">
-          {site.name}
-        </Link>
-        <p className="max-w-4xl text-xs uppercase leading-snug tracking-[0.08em] text-muted-foreground sm:text-sm md:tracking-[0.14em]">
-          {t.roleLine}
-        </p>
-      </div>
-      <nav aria-label={t.nav.label} className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2 md:max-w-md md:justify-end">
+    <header className="bar" data-bar data-theme="light">
+      <Link href={home} className="logo" aria-label="Eevee Li">
+        <span className="sf">EEVEE</span>
+        <span className="bd">LI</span>
+      </Link>
+      <nav className="nav" aria-label={t.nav.label}>
         {items.map((item) => (
-          <Link key={item.href} href={item.href} className={linkClass}>
+          <Link key={item.label} href={item.href} className={item.pill ? "pill" : undefined} aria-current={pathname.startsWith(work) && item.pill ? "page" : undefined}>
             {item.label}
           </Link>
         ))}
-        <LocaleSwitch locale={locale} label={t.localeSwitch.label} zhLabel={t.localeSwitch.zh} enLabel={t.localeSwitch.en} />
+        <LocaleSwitch locale={locale} label={t.localeSwitch.label} zhLabel="中" enLabel="EN" />
       </nav>
-    </div>
+    </header>
   );
 }

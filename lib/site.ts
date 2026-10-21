@@ -4,9 +4,9 @@ import type { Locale } from "@/lib/i18n";
 export const site = {
   name: "Eevee Li",
   url: "https://eeveeli.me",
-  title: "Eevee Li｜出海社媒运营 Overseas Social Media & Growth",
-  description: "Eevee Li，出海社媒运营与增长。用内容与数据，为科技品牌做海外增长。",
-  role: "出海社媒运营 / 增长 · Overseas Social Media & Growth Operator",
+  title: "Eevee Li｜内容与品牌运营 Content & Brand Operator",
+  description: "Eevee Li，内容与品牌运营。用内容与数据，为科技品牌做海外增长。",
+  role: "内容与品牌运营 · Content & Brand Operator",
   email: "2927703817lsy@gmail.com",
   wechat: "Eeveeli0310",
   location: "Shanghai",
@@ -17,9 +17,8 @@ export const personJsonLd = {
   "@type": "Person",
   name: site.name,
   url: site.url,
-  jobTitle: "Overseas Social Media & Growth Operator",
+  jobTitle: "Content & Brand Operator",
   description: site.description,
-  email: `mailto:${site.email}`,
   knowsLanguage: ["zh-CN", "en"],
   homeLocation: {
     "@type": "Place",
