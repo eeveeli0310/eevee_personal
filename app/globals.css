@@ -9,6 +9,9 @@
   --lime: #d4ff3a;
   --grey: #6e7364;
   --ink: #282c20;
+  /* Header mark: near-black on light fields, warm off-white on dark. Never lime. */
+  --mark-on-light: #1e201a;
+  --mark-on-dark: #e8e6dc;
   --serif: "Instrument Serif", "Noto Serif SC", "Songti SC", serif;
   --sans: "Archivo", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   --marker: "Permanent Marker", "Caveat", cursive;
@@ -150,13 +153,13 @@ h1, h2, h3, p { margin: 0; }
   pointer-events: none;
 }
 .bar a, .bar button, .bar .lang { pointer-events: auto; }
-.logo { line-height: 0; color: var(--ink); display: block; position: relative; z-index: 2; }
+.logo { line-height: 0; color: var(--mark-on-light); display: block; position: relative; z-index: 2; }
 .logo .logo-mark { height: 40px; width: auto; display: block; }
-.bar[data-theme="dark"] .logo { color: var(--lime); }
+.bar[data-theme="dark"] .logo { color: var(--mark-on-dark); }
 .bar[data-wall-mix="1"] .logo {
-  color: color-mix(in srgb, var(--ink) calc(var(--wall-fg) * 100%), var(--lime));
+  color: color-mix(in srgb, var(--mark-on-light) calc(var(--wall-fg) * 100%), var(--mark-on-dark));
 }
-html.is-menu-open .bar .logo { color: var(--off); }
+html.is-menu-open .bar .logo { color: var(--mark-on-dark); }
 .logo-mark polygon,
 .logo-mark path { fill: currentColor; }
 .menu-toggle {

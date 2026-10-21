@@ -19,7 +19,7 @@ function setProgress(section: HTMLElement, p: number) {
   const header = document.querySelector<HTMLElement>("[data-bar]");
   if (!header) return;
   const rect = section.getBoundingClientRect();
-  const onWall = rect.top <= 36 && rect.bottom > 36;
+  const onWall = rect.top <= 40 && rect.bottom > 40;
   if (!onWall) return;
   header.dataset.wallMix = "1";
   header.style.setProperty("--wall-p", clamped.toFixed(4));

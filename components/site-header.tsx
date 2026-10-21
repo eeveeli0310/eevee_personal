@@ -79,18 +79,33 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   useEffect(() => {
     const header = document.querySelector<HTMLElement>("[data-bar]");
     if (!header) return;
+    const probeY = 40;
     const pick = () => {
-      const nodes = [...document.querySelectorAll<HTMLElement>("[data-surface]")];
-      const y = 28;
-      const hits = nodes.filter((node) => {
-        const rect = node.getBoundingClientRect();
-        return rect.top <= y && rect.bottom > y;
-      });
-      const hit = hits.length ? hits[hits.length - 1] : null;
+      const x = Math.min(window.innerWidth * 0.5, Math.max(0, window.innerWidth - 1));
+      const stack = document.elementsFromPoint(x, probeY);
+      let hit: HTMLElement | null = null;
+      for (const node of stack) {
+        if (!(node instanceof Element)) continue;
+        if (node.closest("[data-bar]")) continue;
+        const surface = node.closest("[data-surface]");
+        if (surface instanceof HTMLElement) {
+          hit = surface;
+          break;
+        }
+      }
+      if (!hit) {
+        const nodes = [...document.querySelectorAll<HTMLElement>("[data-surface]")];
+        const hits = nodes.filter((node) => {
+          const rect = node.getBoundingClientRect();
+          return rect.top <= probeY && rect.bottom > probeY;
+        });
+        hit = hits.length ? hits[hits.length - 1] : null;
+      }
       const wall = hit?.hasAttribute("data-wall") ? hit : null;
       if (wall) {
-        const p = Number(wall.style.getPropertyValue("--wall-p") || "0");
-        const fg = Number(wall.style.getPropertyValue("--wall-fg") || "0");
+        const cs = getComputedStyle(wall);
+        const p = Number(cs.getPropertyValue("--wall-p")) || 0;
+        const fg = Number(cs.getPropertyValue("--wall-fg")) || 0;
         header.dataset.wallMix = "1";
         header.style.setProperty("--wall-p", p.toFixed(4));
         header.style.setProperty("--wall-fg", fg.toFixed(4));
@@ -100,14 +115,34 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       header.removeAttribute("data-wall-mix");
       header.style.removeProperty("--wall-p");
       header.style.removeProperty("--wall-fg");
-      header.dataset.theme = hit?.dataset.surface || "light";
+      header.dataset.theme = hit?.dataset.surface === "dark" ? "dark" : hit ? "light" : "dark";
     };
     pick();
     window.addEventListener("scroll", pick, { passive: true });
     window.addEventListener("resize", pick);
+    window.addEventListener("load", pick);
+    window.addEventListener("eevee:ready", pick);
+    type LenisScroll = { on?: (event: string, cb: () => void) => void; off?: (event: string, cb: () => void) => void };
+    let bound: LenisScroll | null = null;
+    const bindLenis = () => {
+      const current = window.__eeveeLenis as unknown as LenisScroll | null;
+      if (!current?.on || current === bound) return;
+      bound?.off?.("scroll", pick);
+      bound = current;
+      current.on("scroll", pick);
+    };
+    bindLenis();
+    const wait = window.setInterval(() => {
+      bindLenis();
+      if (bound) window.clearInterval(wait);
+    }, 150);
     return () => {
+      window.clearInterval(wait);
       window.removeEventListener("scroll", pick);
       window.removeEventListener("resize", pick);
+      window.removeEventListener("load", pick);
+      window.removeEventListener("eevee:ready", pick);
+      bound?.off?.("scroll", pick);
     };
   }, [pathname]);
 
