@@ -22,7 +22,7 @@ const mottoSub = "人生是一场表演艺术";
 export type Dictionary = {
   meta: { title: string; description: string; shareAlt: string };
   skip: string;
-  nav: { label: string; work: string; about: string; resume: string; contact: string };
+  nav: { label: string; menu: string; work: string; about: string; resume: string; contact: string };
   localeSwitch: { label: string; zh: string; en: string };
   roleLine: string;
   mottoLead: string;
@@ -92,7 +92,7 @@ export const dictionary: Record<Locale, Dictionary> = {
       shareAlt: "Eevee Li｜内容与品牌运营 Content & Brand Operator",
     },
     skip: "跳到主要内容",
-    nav: { label: "页面导航", work: "作品", about: "关于", resume: "简历", contact: "联系" },
+    nav: { label: "页面导航", menu: "菜单", work: "作品", about: "关于", resume: "简历", contact: "联系" },
     localeSwitch: { label: "语言", zh: "中文", en: "EN" },
     roleLine,
     mottoLead,
@@ -216,7 +216,7 @@ export const dictionary: Record<Locale, Dictionary> = {
       shareAlt: "Eevee Li｜Content & Brand Operator",
     },
     skip: "Skip to main content",
-    nav: { label: "Primary", work: "Work", about: "About", resume: "Resume", contact: "Contact" },
+    nav: { label: "Primary", menu: "Menu", work: "Work", about: "About", resume: "Resume", contact: "Contact" },
     localeSwitch: { label: "Language", zh: "中文", en: "EN" },
     roleLine,
     mottoLead,
