@@ -156,10 +156,11 @@ h1, h2, h3, p { margin: 0; }
 .logo { line-height: 0; color: var(--mark-on-light); display: block; position: relative; z-index: 2; }
 .logo .logo-mark { height: 40px; width: auto; display: block; }
 .bar[data-theme="dark"] .logo { color: var(--mark-on-dark); }
-.bar[data-wall-mix="1"] .logo {
-  color: color-mix(in srgb, var(--mark-on-light) calc(var(--wall-fg) * 100%), var(--mark-on-dark));
-}
-html.is-menu-open .bar .logo { color: var(--mark-on-dark); }
+/* Wall progress: stay on the readable end. A blend of these two tracks the field and disappears. */
+.bar[data-wall-mix="1"] .logo { color: var(--mark-on-dark); }
+.bar[data-wall-mix="1"][data-theme="light"] .logo { color: var(--mark-on-light); }
+html.is-menu-open .bar .logo,
+html.is-menu-open .bar[data-wall-mix="1"] .logo { color: var(--mark-on-dark); }
 .logo-mark polygon,
 .logo-mark path { fill: currentColor; }
 .menu-toggle {

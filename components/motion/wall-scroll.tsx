@@ -24,7 +24,7 @@ function setProgress(section: HTMLElement, p: number) {
   header.dataset.wallMix = "1";
   header.style.setProperty("--wall-p", clamped.toFixed(4));
   header.style.setProperty("--wall-fg", foreground(clamped).toFixed(4));
-  header.dataset.theme = clamped >= 0.5 ? "light" : "dark";
+  header.dataset.theme = clamped >= 0.4 ? "light" : "dark";
 }
 
 /** Pins the photo wall and scrubs the track sideways. Mobile and reduced motion swipe instead. */

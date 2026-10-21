@@ -109,7 +109,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         header.dataset.wallMix = "1";
         header.style.setProperty("--wall-p", p.toFixed(4));
         header.style.setProperty("--wall-fg", fg.toFixed(4));
-        header.dataset.theme = p >= 0.5 ? "light" : "dark";
+        header.dataset.theme = p >= 0.4 ? "light" : "dark";
         return;
       }
       header.removeAttribute("data-wall-mix");
