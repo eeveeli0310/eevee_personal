@@ -48,7 +48,7 @@ function Squiggle() {
   return (
     <svg className="squiggle" viewBox="0 0 180 16" preserveAspectRatio="none" aria-hidden="true">
       <path
-        d="M2 10.2C16 4.6 24 13.4 40 8.4 54 4.2 60 12.6 78 8.8 98 4.4 104 13.2 124 8.2 140 4.4 148 12.2 164 8.4 172 6.2 176 9.4 178 8.6"
+        d="M2 9 C14 2, 24 15, 40 8 S62 1, 80 10 S104 16, 124 7 S148 2, 166 11 S176 13, 178 8"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
