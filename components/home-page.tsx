@@ -1,15 +1,16 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ContourField } from "@/components/motion/contour-field";
-import { LiquidReveal } from "@/components/motion/liquid-reveal";
-import { StackMotion } from "@/components/motion/stack-motion";
+import { HeroSigMotion } from "@/components/motion/hero-sig-motion";
 import { StatsBand } from "@/components/motion/stats-band";
 import { WallScroll } from "@/components/motion/wall-scroll";
+import { LogoEl26 } from "@/components/logo-el26";
 import { SignatureSvg } from "@/components/signature-svg";
 import { SiteFooter } from "@/components/site-footer";
 import { homeCopy } from "@/lib/content";
 import { wallScenes, type WallCard } from "@/lib/gallery";
 import { dictionary, localePath, type Locale } from "@/lib/i18n";
+import { SIGNATURE_STROKE_HOME } from "@/lib/signature-stroke";
 
 function Bits({ text, accents }: { text: string; accents: string[] }) {
   const pattern = new RegExp(`(${accents.map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "g");
@@ -78,22 +79,11 @@ export function HomePage({ locale }: { locale: Locale }) {
 
   return (
     <main id="main-content">
-      <StackMotion />
-      <div className="stack-hero" data-stack="hero">
-        <div data-inner className="screen screen-hero" data-surface="light">
-          <ContourField tone="light" />
-          <LiquidReveal baseSrc="/img/vr.png" revealSrc="/img/face.png" alt={copy.portraitAltVr} />
-          <div className="hero-meta left">{locale === "zh" ? "占位人像 · AI 生成" : "AI placeholder portrait"}</div>
-          <div className="hero-meta right">Scroll ↓</div>
-          <div className="scroll-line" aria-hidden="true" />
-        </div>
-        <div className="stack-shade" data-shade />
-      </div>
-
-      <div className="sig-wrap" data-signature-scroll>
-        <div className="stack-sig" data-stack="sig">
-          <div data-inner className="screen screen-sig" data-surface="dark">
-            <div className="sig-label">MESSAGE FROM EEVEE</div>
+      <HeroSigMotion />
+      <div className="hero-sig" data-hero-sig data-signature-scroll>
+        <div className="hero-sig-pin">
+          <div className="screen screen-hero-sig" data-surface="dark">
+            <ContourField tone="dark" />
             <div className="mq mq1 sf" aria-hidden="true">
               <div className="mq-track">
                 <span>{motto.repeat(8)}</span>
@@ -106,10 +96,21 @@ export function HomePage({ locale }: { locale: Locale }) {
                 <span>{mottoZh.repeat(8)}</span>
               </div>
             </div>
-            <div className="sig-card" style={{ backgroundImage: "url(/img/face.jpg)" }} role="img" aria-label={copy.portraitAltClear} />
-            <SignatureSvg mode="scroll" className="sig-draw" />
+            <div className="hero-card" data-hero-card data-surface="light">
+              <img className="hero-card-gray" src="/img/face.jpg" alt="" />
+              <img className="hero-card-color" data-hero-color src="/img/face.jpg" alt={copy.portraitAltClear} />
+            </div>
+            <div className="sig-kicker" data-sig-kicker>
+              <LogoEl26 className="sig-kicker-mark" />
+              <div className="sig-label">MESSAGE FROM EEVEE</div>
+            </div>
+            <SignatureSvg mode="scroll" className="sig-draw" strokeWidth={SIGNATURE_STROKE_HOME} />
+            <div className="hero-chrome" data-hero-meta>
+              <div className="hero-meta left">{locale === "zh" ? "占位人像 · AI 生成" : "AI placeholder portrait"}</div>
+              <div className="hero-meta right">Scroll ↓</div>
+              <div className="scroll-line" aria-hidden="true" />
+            </div>
           </div>
-          <div className="stack-shade" data-shade />
         </div>
       </div>
 

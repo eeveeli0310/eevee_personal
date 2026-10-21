@@ -393,25 +393,13 @@ html.is-menu-open body { overflow: hidden; }
 }
 .screen-grow { height: auto; min-height: 100svh; overflow: visible; }
 
-/* Stack: hero, signature, intro */
-@media (min-width: 900px) {
-  .stack-hero { position: sticky; top: 0; z-index: 1; height: 100svh; }
-  .sig-wrap { position: relative; z-index: 2; height: 190vh; }
-  .sig-wrap .stack-sig { position: sticky; top: 0; height: 100svh; }
-  .stack-intro { position: relative; z-index: 3; }
-  .stack-shade {
-    position: absolute;
-    inset: 0;
-    background: #000;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 6;
-  }
-}
-@media (max-width: 899px) {
-  .sig-wrap { height: auto; }
-  .stack-shade { display: none; }
-}
+/* Hero and signature share one sticky scroll. */
+.hero-sig { position: relative; z-index: 2; height: 320vh; }
+.hero-sig-pin { position: sticky; top: 0; height: 100svh; overflow: clip; }
+html.reduce .hero-sig { height: auto; }
+html.reduce .hero-sig-pin { position: relative; }
+.screen-hero-sig { background: var(--olive); color: var(--off); }
+.stack-intro { position: relative; z-index: 3; }
 
 /* Hero */
 .screen-hero { background: var(--off); color: var(--ink); }
@@ -463,18 +451,56 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
 
 /* Signature */
 .screen-sig { background: var(--olive); }
-.sig-label {
+.sig-kicker {
   position: absolute;
-  top: 13%;
+  top: 10%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  color: var(--lime);
+}
+.sig-kicker .logo-mark { height: 22px; width: auto; }
+.sig-label {
   font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.3em;
   color: var(--lime);
   white-space: nowrap;
 }
+.hero-chrome { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
+.hero-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 42vw;
+  aspect-ratio: 3 / 2;
+  transform: translate3d(-50%, -50%, 0) scale(2.8);
+  transform-origin: center center;
+  overflow: hidden;
+  z-index: 3;
+  background: #d5d5d5;
+  will-change: transform;
+}
+.hero-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.hero-card-gray { filter: grayscale(1) brightness(0.72) contrast(1.08); }
+html.reduce .hero-card { transform: translate3d(-50%, -50%, 0) scale(1); }
+html.reduce .hero-card-color { opacity: 0; }
+html.reduce .sig-kicker { opacity: 1; }
+html.reduce .hero-chrome { opacity: 0; }
 .mq {
   position: absolute;
   left: 0;
@@ -491,30 +517,19 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
 .mq2 .mq-track { animation-duration: 52s; animation-direction: reverse; }
 .mq-track span { padding-right: 0.4em; }
 @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.sig-card {
-  position: absolute;
-  left: 50%;
-  top: 52%;
-  width: min(24vw, 280px); /* sits inside the 42vw signature */
-  aspect-ratio: 3 / 4;
-  transform: translate(-50%, -50%) rotate(-2deg);
-  background: #ddd center/cover no-repeat;
-  filter: grayscale(1) contrast(1.15);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
-  z-index: 3;
-}
 .sig-draw {
   position: absolute;
   left: 50%;
-  top: 54%;
-  width: 42vw; /* ink ≈ 40vw; stroke 32 paints ~9px at a 1024px viewport */
+  top: 52%;
+  width: min(58vw, 76vh);
   height: auto;
   aspect-ratio: 1560 / 1541;
-  transform: translate(-50%, -50%) rotate(-4deg);
+  transform: translate3d(-50%, -50%, 0) rotate(-4deg);
   z-index: 4;
   overflow: visible;
   color: var(--lime);
   filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
 }
 .sig-stroke { opacity: 0; }
 html.reduce .sig-stroke,
@@ -1136,10 +1151,13 @@ html.reduce .loader.is-done { opacity: 0; }
   .hero-figure { height: 78vh; }
   .hero-meta.left { left: 16px; bottom: 18px; }
   .hero-meta.right { right: 16px; bottom: 18px; }
+  .hero-sig { height: 260vh; }
+  .hero-card { width: 74vw; aspect-ratio: 1 / 1; }
+  .sig-kicker { top: 8%; }
+  .sig-kicker .logo-mark { height: 18px; }
   .mq1 { font-size: 11vh; }
   .mq2 { font-size: 10vh; top: 58%; }
-  .sig-card { width: 62vw; }
-  .sig-draw { width: 88vw; }
+  .sig-draw { width: min(96vw, 62vh); top: 54%; }
   .intro { font-size: 8.6vw; }
   .intro-en { font-size: clamp(1.15rem, 5.4vw, 1.7rem); }
   .tags span { font-size: 12px; padding: 8px 14px; }

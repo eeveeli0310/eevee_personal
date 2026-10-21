@@ -16,7 +16,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     const setup = () => {
       if (lenis || reduce.matches || !desktop.matches) return;
       gsap.registerPlugin(ScrollTrigger);
-      lenis = new Lenis({ autoRaf: false, anchors: true, lerp: 0.1 });
+      lenis = new Lenis({ autoRaf: false, anchors: true, lerp: 0.09 });
       if (document.documentElement.classList.contains("is-loading")) lenis.stop();
       window.__eeveeLenis = lenis;
       lenis.on("scroll", ScrollTrigger.update);
