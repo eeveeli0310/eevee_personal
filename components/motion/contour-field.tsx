@@ -181,5 +181,5 @@ export function ContourField({
     };
   }, [tone, anchor, seamWith]);
 
-  return <canvas ref={ref} className="contour" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }} />;
+  return <canvas ref={ref} className="contour" aria-hidden="true" />;
 }
