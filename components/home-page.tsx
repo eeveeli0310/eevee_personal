@@ -108,7 +108,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         </div>
       </div>
 
-      <section id="about" className="screen screen-intro screen-grow" data-surface="dark" data-stack="intro">
+      <section id="about" className="screen screen-intro screen-grow stack-intro" data-surface="dark" data-stack="intro">
         <p className="position-kicker">{locale === "zh" ? "内容与品牌运营" : "Content & Brand Operator"}</p>
         <h1 className={locale === "en" ? "intro intro-en" : "intro"} data-reveal="words">
           <Bits text={t.about.body} accents={accents} />

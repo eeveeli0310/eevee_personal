@@ -32,6 +32,12 @@ export function RevealEngine() {
           ease: easeOutCubic,
           stagger: desktop ? (lines ? 0.11 : 0.05) : 0.02,
           scrollTrigger: { trigger: root, start: "top 86%", once: true },
+          onComplete() {
+            targets.forEach((node) => {
+              if (node instanceof HTMLElement) node.style.opacity = "1";
+            });
+            root.classList.add("is-shown");
+          },
         });
       });
     });

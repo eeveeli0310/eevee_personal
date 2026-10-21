@@ -5,6 +5,8 @@
 /* Palette — swap these to retheme. */
 :root {
   --olive: #282c20;
+  /* Intro panel only. A step lighter than --olive so the type can sit on it. */
+  --olive-lift: #3a4132;
   --off: #f3f2ec;
   --lime: #d4ff3a;
   --grey: #6e7364;
@@ -319,7 +321,8 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
 
 /* Intro */
 .screen-intro {
-  background: var(--olive);
+  background: var(--olive-lift);
+  color: var(--off);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -337,6 +340,7 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   margin-bottom: 2.4vh;
 }
 .intro {
+  color: var(--off);
   font-weight: 800;
   font-stretch: 75%;
   font-size: 6vw;
@@ -344,27 +348,41 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   max-width: 1150px;
   text-transform: uppercase;
   letter-spacing: -0.01em;
+  opacity: 1;
 }
-.intro .sf { color: var(--lime); font-weight: 400; font-style: italic; font-size: 1.08em; text-transform: none; }
+.intro .word-inner { color: var(--off); }
+.intro .word-inner.sf,
+.intro .sf {
+  color: var(--lime);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.08em;
+  text-transform: none;
+}
 .intro-en { font-size: clamp(1.35rem, 3.05vw, 3.4rem); }
 .one-liner {
   margin-top: 3vh;
   max-width: 44rem;
+  color: var(--off);
   font-size: max(14px, 1.05rem);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.4;
   text-transform: none;
   letter-spacing: 0;
   font-stretch: 100%;
+  opacity: 1;
 }
 .tags { display: flex; gap: 12px; margin-top: 5vh; flex-wrap: wrap; justify-content: center; }
 .tags span {
-  border: 1px solid rgba(243, 242, 236, 0.5);
+  color: var(--off);
+  border: 1px solid rgba(243, 242, 236, 0.88);
+  background: rgba(243, 242, 236, 0.08);
   border-radius: 99px;
   padding: 10px 20px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: max(14px, 0.875rem);
   letter-spacing: 0.06em;
+  opacity: 1;
 }
 
 .word { display: inline; }
@@ -372,6 +390,8 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
 html.js:not(.reduce) [data-reveal] .word { display: inline-block; overflow: hidden; vertical-align: bottom; }
 html.js:not(.reduce) [data-reveal] [data-word-inner],
 html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; transform: translateY(110%); opacity: 0; }
+.intro.is-shown .word-inner { color: var(--off); }
+.intro.is-shown .word-inner.sf { color: var(--lime); }
 .line { display: block; overflow: hidden; }
 
 /* Photo wall */
