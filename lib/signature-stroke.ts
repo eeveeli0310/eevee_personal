@@ -31,13 +31,6 @@ export function signatureNameAmount(unit: number) {
   return penAt(u);
 }
 
-/** Ease-out for #underline. 0 is hidden, 1 is the finished stroke. */
-export function signatureUnderlineAmount(unit: number) {
-  const u = Math.min(1, Math.max(0, unit));
-  if (u <= 0) return 0;
-  return 1 - (1 - u) ** 3;
-}
-
 /** Scroll and timed playback share this clock. 0 is blank, 1 is the held finished stroke. */
 export function signatureFractions(progress: number): [number, number] {
   const t = Math.min(1, Math.max(0, progress)) * SIGNATURE_TOTAL_S;

@@ -5,10 +5,12 @@ import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { paintSignatureAmounts, pathsOf, revealSignature } from "@/components/motion/signature-motion";
-import { signatureNameAmount, signatureUnderlineAmount } from "@/lib/signature-stroke";
+import { signatureNameAmount } from "@/lib/signature-stroke";
 
 const SHRINK_END = 0.68;
 const DRAW_START = 0.58;
+/** Viewport-heights of upward travel spent drawing #underline, after the pin lets go. Linear, so the slash is still mid-stroke when the intro copy reaches the bottom edge. */
+const UNDERLINE_TRAVEL = 0.5;
 
 function ease(t: number) {
   const x = Math.min(1, Math.max(0, t));
@@ -56,7 +58,7 @@ export function HeroSigMotion() {
       kicker.style.opacity = String(span(pinProgress, 0.52, 0.7));
       if (chrome) chrome.style.opacity = String(1 - span(pinProgress, 0, 0.12));
       const name = signatureNameAmount((pinProgress - DRAW_START) / (1 - DRAW_START));
-      const underline = pinProgress >= 1 ? signatureUnderlineAmount(underlineProgress) : 0;
+      const underline = pinProgress >= 1 ? Math.min(1, Math.max(0, underlineProgress)) : 0;
       paint(name, underline);
     };
 
@@ -93,7 +95,7 @@ export function HeroSigMotion() {
       ScrollTrigger.create({
         trigger: track,
         start: "bottom bottom",
-        end: () => `+=${Math.round(window.innerHeight * 0.7)}`,
+        end: () => `+=${Math.round(window.innerHeight * UNDERLINE_TRAVEL)}`,
         scrub: true,
         onRefresh: (self) => {
           underlineProgress = self.progress;
