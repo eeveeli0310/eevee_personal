@@ -5,10 +5,11 @@ import { LiquidReveal } from "@/components/motion/liquid-reveal";
 import { SignatureMotion } from "@/components/motion/signature-motion";
 import { StackMotion } from "@/components/motion/stack-motion";
 import { StatsBand } from "@/components/motion/stats-band";
+import { WallScroll } from "@/components/motion/wall-scroll";
 import { SignatureSvg } from "@/components/signature-svg";
 import { SiteFooter } from "@/components/site-footer";
 import { homeCopy } from "@/lib/content";
-import { wallDesktop, wallMobile, type WallPhoto } from "@/lib/gallery";
+import { wallScenes, type WallCard } from "@/lib/gallery";
 import { dictionary, localePath, type Locale } from "@/lib/i18n";
 
 function Bits({ text, accents }: { text: string; accents: string[] }) {
@@ -38,29 +39,35 @@ function Bits({ text, accents }: { text: string; accents: string[] }) {
   return nodes;
 }
 
-function Photos({ photos, label, locale, group }: { photos: WallPhoto[]; label: string; locale: Locale; group: string }) {
-  return (
-    <>
-      {photos.map((photo, index) => (
-        <div key={`${group}-${index}`} className={group}>
-          <div className="cap" style={{ left: photo.x, top: `calc(${photo.y} - 18px)` }}>
-            {photo.caption[locale]}
-          </div>
-          <div
-            className={photo.src ? "ph has-photo" : "ph"}
-            data-label={label}
-            style={{
-              left: photo.x,
-              top: photo.y,
-              width: photo.w,
-              height: photo.h,
-              backgroundImage: photo.src ? `url(${photo.src})` : undefined,
-            }}
-          />
+function WallCards({ cards, label, locale }: { cards: WallCard[]; label: string; locale: Locale }) {
+  return cards.map((card, index) => {
+    if (card.type === "story") {
+      return (
+        <article className="story-card" key={`story-${index}`} style={{ left: card.x, top: card.y, width: card.w }}>
+          <small>{card.title[locale]}</small>
+          <p>{card.body[locale]}</p>
+        </article>
+      );
+    }
+    return (
+      <div key={`photo-${index}`}>
+        <div className="cap" style={{ left: card.x, top: `calc(${card.y} - 18px)` }}>
+          {card.caption[locale]}
         </div>
-      ))}
-    </>
-  );
+        <div
+          className={card.src ? "ph has-photo" : "ph"}
+          data-label={label}
+          style={{
+            left: card.x,
+            top: card.y,
+            width: card.w,
+            height: card.h,
+            backgroundImage: card.src ? `url(${card.src})` : undefined,
+          }}
+        />
+      </div>
+    );
+  });
 }
 
 export function HomePage({ locale }: { locale: Locale }) {
@@ -121,15 +128,25 @@ export function HomePage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      <section className="screen screen-wall" data-surface="light" aria-label={locale === "zh" ? "照片" : "Photos"}>
+      <section className="screen screen-wall" data-surface="light" data-wall aria-label={locale === "zh" ? "照片" : "Photos"}>
+        <WallScroll />
         <ContourField tone="light" />
-        <div className="quote">
-          <span className="sf">Life is a </span>
-          <span className="rest">performance art</span>
-          <SignatureSvg className="mini-sig" />
+        <div className="wall-viewport" data-wall-viewport>
+          <div className="wall-track" data-wall-track>
+            {wallScenes.map((scene, index) => (
+              <div className="wall-scene" key={index}>
+                {scene.quote ? (
+                  <div className="quote">
+                    <span className="sf">Life is a </span>
+                    <span className="rest">performance art</span>
+                    <SignatureSvg className="mini-sig" />
+                  </div>
+                ) : null}
+                <WallCards cards={scene.cards} label={locale === "zh" ? "占位" : "Placeholder"} locale={locale} />
+              </div>
+            ))}
+          </div>
         </div>
-        <Photos photos={wallDesktop} label={locale === "zh" ? "占位" : "Placeholder"} locale={locale} group="wall-d" />
-        <Photos photos={wallMobile} label={locale === "zh" ? "占位" : "Placeholder"} locale={locale} group="wall-m" />
       </section>
 
       <section className="screen screen-split" data-surface="light">

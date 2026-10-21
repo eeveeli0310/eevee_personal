@@ -394,8 +394,46 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
 .intro.is-shown .word-inner.sf { color: var(--lime); }
 .line { display: block; overflow: hidden; }
 
-/* Photo wall */
-.screen-wall { background: var(--grey); }
+/* Photo wall — pinned horizontal track on desktop, swipe otherwise */
+.screen-wall { background: var(--grey); overflow: visible; }
+.wall-viewport {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  container-type: size;
+}
+.wall-track { display: flex; height: 100%; width: max-content; will-change: transform; }
+.wall-scene {
+  position: relative;
+  flex: 0 0 100cqi;
+  width: 100cqi;
+  height: 100%;
+  overflow: hidden;
+}
+.story-card {
+  position: absolute;
+  z-index: 3;
+  background: var(--off);
+  color: var(--ink);
+  border-radius: 14px;
+  padding: 1.3rem 1.4rem 1.5rem;
+}
+.story-card small {
+  display: block;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.story-card p {
+  margin-top: 0.7rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+  line-height: 1;
+}
 .quote {
   position: absolute;
   left: 50%;
@@ -412,10 +450,16 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
 }
 .quote .rest { font-style: normal; font-family: var(--serif); }
 .quote svg, .quote .mini-sig { width: 120px; height: auto; aspect-ratio: 1080 / 580; margin: 10px auto 0; }
-.wall-m { display: none; }
-@media (max-width: 760px) {
-  .wall-d { display: none; }
-  .wall-m { display: block; }
+@media (max-width: 899px), (prefers-reduced-motion: reduce) {
+  .wall-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  .wall-scene { scroll-snap-align: start; scroll-snap-stop: always; }
+  .wall-track { transform: none !important; }
 }
 .ph {
   position: absolute;
