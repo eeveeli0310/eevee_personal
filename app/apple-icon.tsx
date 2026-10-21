@@ -1,7 +1,11 @@
 import { ImageResponse } from "next/og";
+import { LogoEl26 } from "@/components/logo-el26";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
+
+const markWidth = 156;
+const markHeight = Math.round(markWidth * (160 / 470));
 
 export default function AppleIcon() {
   return new ImageResponse(
@@ -11,17 +15,12 @@ export default function AppleIcon() {
           width: "100%",
           height: "100%",
           background: "#282C20",
-          color: "#D4FF3A",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontSize: 72,
-          fontWeight: 700,
-          letterSpacing: "-0.06em",
-          fontFamily: "sans-serif",
         }}
       >
-        EL
+        <LogoEl26 fill="#D4FF3A" width={markWidth} height={markHeight} />
       </div>
     ),
     { ...size },

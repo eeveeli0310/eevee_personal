@@ -1,7 +1,11 @@
 import { ImageResponse } from "next/og";
+import { LogoEl26 } from "@/components/logo-el26";
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
+
+const markWidth = 28;
+const markHeight = Math.round(markWidth * (160 / 470));
 
 export default function Icon() {
   return new ImageResponse(
@@ -11,17 +15,12 @@ export default function Icon() {
           width: "100%",
           height: "100%",
           background: "#282C20",
-          color: "#D4FF3A",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontSize: 13,
-          fontWeight: 700,
-          letterSpacing: "-0.06em",
-          fontFamily: "sans-serif",
         }}
       >
-        EL
+        <LogoEl26 fill="#D4FF3A" width={markWidth} height={markHeight} />
       </div>
     ),
     { ...size },

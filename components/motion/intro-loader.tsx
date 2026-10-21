@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { SignatureSvg } from "@/components/signature-svg";
+import { LogoEl26 } from "@/components/logo-el26";
 
 const SEEN = "eevee-loader-seen";
 const DURATION = 1300;
@@ -78,7 +78,7 @@ export function IntroLoader({ label }: { label: string }) {
 
   return (
     <div id="intro-loader" className={phase === "leave" ? "loader is-leave" : "loader"} role="status" aria-label={label}>
-      <SignatureSvg className="loader-sig" />
+      <LogoEl26 className="loader-logo" />
       <div className="loader-count">{String(count).padStart(3, "0")}</div>
       <div className="loader-bar" aria-hidden="true">
         <span style={{ transform: `scaleX(${count / 100})` }} />

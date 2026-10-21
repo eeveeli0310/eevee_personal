@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { dictionary, localePath, type Locale } from "@/lib/i18n";
 import { LocaleSwitch } from "@/components/locale-switch";
+import { LogoEl26 } from "@/components/logo-el26";
 
 const fineQuery = "(hover: hover) and (pointer: fine)";
 
@@ -88,8 +89,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   return (
     <header className="bar" data-bar data-theme="light">
       <Link href={home} className="logo" aria-label="Eevee Li">
-        <span className="sf">EEVEE</span>
-        <span className="bd">LI</span>
+        <LogoEl26 />
       </Link>
       <nav
         ref={root}

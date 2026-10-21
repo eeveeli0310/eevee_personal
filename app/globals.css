@@ -150,10 +150,10 @@ h1, h2, h3, p { margin: 0; }
   pointer-events: none;
 }
 .bar a, .bar button, .bar .lang, .menu { pointer-events: auto; }
-.logo { line-height: 0.86; color: var(--ink); }
-.logo .sf { font-style: normal; font-size: 25px; display: block; letter-spacing: 0.02em; }
-.logo .bd { font-size: 24px; display: block; }
-.bar[data-theme="dark"] .logo { color: var(--off); }
+.logo { line-height: 0; color: var(--ink); display: block; }
+.logo .logo-mark { height: 36px; width: auto; display: block; }
+.bar[data-theme="dark"] .logo { color: var(--lime); }
+.logo-mark path { fill: currentColor; }
 .menu {
   position: relative;
   display: flex;
@@ -347,17 +347,17 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
 .sig-draw {
   position: absolute;
   left: 50%;
-  top: 55%;
-  width: min(52vw, 620px);
+  top: 54%;
+  width: min(42vw, 420px);
   height: auto;
-  aspect-ratio: 1080 / 580;
-  transform: translate(-50%, -50%) rotate(-6deg);
+  aspect-ratio: 1560 / 1541;
+  transform: translate(-50%, -50%) rotate(-4deg);
   z-index: 4;
   overflow: visible;
+  color: var(--lime);
   filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
 }
-.sig-path { fill: none; stroke: var(--lime); stroke-width: 22; stroke-linecap: round; stroke-linejoin: round; }
-.sig-draw .sig-path { stroke-dasharray: 5336; stroke-dashoffset: 5336; }
+.sig-fill { fill: currentColor; }
 
 /* Intro */
 .screen-intro {
@@ -489,7 +489,7 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   z-index: 3;
 }
 .quote .rest { font-style: normal; font-family: var(--serif); }
-.quote svg, .quote .mini-sig { width: 120px; height: auto; aspect-ratio: 1080 / 580; margin: 10px auto 0; }
+.quote svg, .quote .mini-sig { width: 96px; height: auto; aspect-ratio: 1560 / 1541; margin: 10px auto 0; color: var(--lime); }
 @media (max-width: 899px), (prefers-reduced-motion: reduce) {
   .wall-viewport {
     overflow-x: auto;
@@ -630,7 +630,7 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   border-radius: 99px;
 }
 .end { position: absolute; top: 13%; left: 0; right: 0; text-align: center; z-index: 2; }
-.end .lock { width: 200px; height: auto; aspect-ratio: 1080 / 580; margin: 0 auto -10px; }
+.end .lock { width: 128px; height: auto; aspect-ratio: 1560 / 1541; margin: 0 auto 6px; color: var(--lime); }
 .end .row { display: block; line-height: 0.85; }
 .end .sf { font-size: 12.5vh; color: var(--lime); }
 .end .bd { font-size: 17vh; }
@@ -828,7 +828,19 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   transform: translateY(0);
 }
 .loader.is-leave { transform: translateY(-100%); transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
-.loader-sig { width: min(64vw, 420px); height: auto; aspect-ratio: 1080 / 580; }
+.loader-logo { width: min(78vw, 520px); height: auto; color: var(--lime); }
+html.js:not(.reduce) .loader .logo-mark [data-part] {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: logo-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+html.js:not(.reduce) .loader .logo-mark [data-part="l"] { animation-delay: 0.16s; }
+html.js:not(.reduce) .loader .logo-mark [data-part="26"] { animation-delay: 0.32s; }
+@keyframes logo-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
 .loader-count {
   margin-top: 1.4rem;
   font-variant-numeric: tabular-nums;
@@ -850,8 +862,7 @@ html.loader-skip .loader, html.reduce .loader { display: none; }
 
 @media (max-width: 760px) {
   .bar { padding: 16px; display: flex; }
-  .logo .sf { font-size: 19px; }
-  .logo .bd { font-size: 18px; }
+  .logo .logo-mark { height: 28px; }
   .menu-toggle { padding: 11px 14px; }
   .menu-panel {
     position: absolute;
@@ -909,11 +920,13 @@ html.loader-skip .loader, html.reduce .loader { display: none; }
   .screen-foot { padding: 8px; }
 }
 
+html.reduce .sig-mask-stroke { stroke-dashoffset: 0 !important; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .mq-track, .logos-track { animation: none !important; }
   .menu-panel { transition: none; }
-  .sig-draw .sig-path { stroke-dashoffset: 0 !important; }
+  .sig-mask-stroke { stroke-dashoffset: 0 !important; }
   .hero-figure { opacity: 1 !important; }
   html.js [data-reveal] [data-word-inner],
   html.js [data-reveal] [data-line-inner] { transform: none !important; opacity: 1 !important; }
