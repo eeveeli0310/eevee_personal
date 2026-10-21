@@ -11,8 +11,7 @@ export function pathsOf(svg: SVGElement) {
 }
 
 /** Dash gap is longer than the stroke so a short length measurement cannot repeat as a second dash. */
-export function paintSignature(paths: SVGPathElement[], lengths: number[], progress: number) {
-  const amounts = signatureFractions(progress);
+export function paintSignatureAmounts(paths: SVGPathElement[], lengths: number[], amounts: number[]) {
   paths.forEach((path, index) => {
     const length = lengths[index] || 0;
     const drawn = amounts[index] ?? 0;
@@ -26,6 +25,10 @@ export function paintSignature(paths: SVGPathElement[], lengths: number[], progr
     path.style.strokeDashoffset = `${length * (1 - Math.min(1, Math.max(0, drawn)))}`;
     path.style.visibility = drawn <= 0 ? "hidden" : "visible";
   });
+}
+
+export function paintSignature(paths: SVGPathElement[], lengths: number[], progress: number) {
+  paintSignatureAmounts(paths, lengths, signatureFractions(progress));
 }
 
 export function revealSignature(svg: SVGElement, on: boolean) {

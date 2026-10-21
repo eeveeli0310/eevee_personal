@@ -18,10 +18,13 @@ function field(x: number, y: number, t: number) {
 export function ContourField({
   tone = "light",
   anchor = "local",
+  seamWith,
 }: {
   tone?: "light" | "dark" | "pale" | "progress";
   /** Page coordinates keep lines continuous across adjacent sections. */
   anchor?: "local" | "page";
+  /** Lock this field so its bottom edge meets the top of `seamWith` in page space. */
+  seamWith?: string;
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -61,8 +64,13 @@ export function ContourField({
       const speed = mobile ? WAVE_SPEED * 0.55 : WAVE_SPEED;
       const epoch = anchor === "page" ? ((window.__eeveeContourEpoch ??= start)) : start;
       const t = reduce ? 0.8 : ((now - epoch) / 1000) * speed;
-      const pageTop = anchor === "page" ? rect.top + window.scrollY : 0;
-      const pageLeft = anchor === "page" ? rect.left + window.scrollX : 0;
+      const next = seamWith ? document.querySelector(seamWith) : null;
+      const pageTop = next
+        ? next.getBoundingClientRect().top + window.scrollY - cssH
+        : anchor === "page"
+          ? rect.top + window.scrollY
+          : 0;
+      const pageLeft = anchor === "page" || next ? rect.left + window.scrollX : 0;
       const values = new Float32Array((cols + 1) * (rows + 1));
       for (let j = 0; j <= rows; j += 1) {
         for (let i = 0; i <= cols; i += 1) {
@@ -171,7 +179,7 @@ export function ContourField({
       cancelAnimationFrame(raf);
       io.disconnect();
     };
-  }, [tone, anchor]);
+  }, [tone, anchor, seamWith]);
 
   return <canvas ref={ref} className="contour" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }} />;
 }

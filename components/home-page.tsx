@@ -80,10 +80,11 @@ export function HomePage({ locale }: { locale: Locale }) {
   return (
     <main id="main-content">
       <HeroSigMotion />
-      <div className="hero-sig" data-hero-sig data-signature-scroll>
+      <div className="olive-flow">
+      <div className="hero-pin-track" data-pin-track data-hero-sig data-signature-scroll>
         <div className="hero-sig-pin">
           <div className="screen screen-hero-sig" data-surface="dark">
-            <ContourField tone="dark" />
+            <ContourField tone="dark" anchor="page" seamWith="#about" />
             <div className="mq mq1 sf" aria-hidden="true">
               <div className="mq-track">
                 <span>{motto.repeat(8)}</span>
@@ -114,7 +115,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         </div>
       </div>
 
-      <section id="about" className="screen screen-intro screen-grow stack-intro" data-surface="dark" data-stack="intro">
+      <section id="about" className="screen screen-intro screen-grow" data-surface="dark">
         <ContourField tone="dark" anchor="page" />
         <p className="position-kicker">{locale === "zh" ? "内容与品牌运营" : "Content & Brand Operator"}</p>
         <h1 className={locale === "en" ? "intro intro-en" : "intro"} data-reveal="words">
@@ -127,6 +128,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           ))}
         </div>
       </section>
+      </div>
 
       <section className="screen screen-wall" data-surface="dark" data-wall aria-label={locale === "zh" ? "照片" : "Photos"}>
         <WallScroll />

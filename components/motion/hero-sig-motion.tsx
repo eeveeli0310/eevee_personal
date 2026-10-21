@@ -4,10 +4,11 @@ import { useLayoutEffect } from "react";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { paintSignature, pathsOf, revealSignature } from "@/components/motion/signature-motion";
+import { paintSignatureAmounts, pathsOf, revealSignature } from "@/components/motion/signature-motion";
+import { signatureNameAmount, signatureUnderlineAmount } from "@/lib/signature-stroke";
 
-const SHRINK_END = 0.62;
-const DRAW_START = 0.56;
+const SHRINK_END = 0.68;
+const DRAW_START = 0.58;
 
 function ease(t: number) {
   const x = Math.min(1, Math.max(0, t));
@@ -22,13 +23,13 @@ export function HeroSigMotion() {
   const pathname = usePathname();
 
   useLayoutEffect(() => {
-    const wrap = document.querySelector<HTMLElement>("[data-hero-sig]");
-    const card = wrap?.querySelector<HTMLElement>("[data-hero-card]");
-    const color = wrap?.querySelector<HTMLElement>("[data-hero-color]");
-    const kicker = wrap?.querySelector<HTMLElement>("[data-sig-kicker]");
-    const chrome = wrap?.querySelector<HTMLElement>("[data-hero-meta]");
-    const svg = wrap?.querySelector<SVGElement>(".sig-draw");
-    if (!wrap || !card || !color || !kicker || !svg) return;
+    const track = document.querySelector<HTMLElement>("[data-pin-track]");
+    const card = track?.querySelector<HTMLElement>("[data-hero-card]");
+    const color = track?.querySelector<HTMLElement>("[data-hero-color]");
+    const kicker = track?.querySelector<HTMLElement>("[data-sig-kicker]");
+    const chrome = track?.querySelector<HTMLElement>("[data-hero-meta]");
+    const svg = track?.querySelector<SVGElement>(".sig-draw");
+    if (!track || !card || !color || !kicker || !svg) return;
 
     const paths = pathsOf(svg);
     if (paths.length < 2) return;
@@ -41,17 +42,22 @@ export function HeroSigMotion() {
       return Math.max(window.innerWidth / w, window.innerHeight / h) * 1.01;
     };
 
-    const apply = (progress: number) => {
-      const shrink = span(progress, 0, SHRINK_END);
+    const paint = (name: number, underline: number) => {
+      paintSignatureAmounts(paths, lengths, [name, underline]);
+      revealSignature(svg, name > 0 || underline > 0);
+    };
+
+    const applyFrom = (pinProgress: number, underlineProgress: number) => {
+      const shrink = span(pinProgress, 0, SHRINK_END);
       const cover = coverScale();
       const scale = cover + (1 - cover) * shrink;
       card.style.transform = `translate3d(-50%, -50%, 0) scale(${scale})`;
-      color.style.opacity = String(1 - span(progress, 0.16, 0.7));
-      kicker.style.opacity = String(span(progress, 0.5, 0.66));
-      if (chrome) chrome.style.opacity = String(1 - span(progress, 0, 0.12));
-      const drawn = Math.min(1, Math.max(0, (progress - DRAW_START) / (1 - DRAW_START)));
-      paintSignature(paths, lengths, drawn);
-      revealSignature(svg, drawn > 0);
+      color.style.opacity = String(1 - span(pinProgress, 0.16, 0.74));
+      kicker.style.opacity = String(span(pinProgress, 0.52, 0.7));
+      if (chrome) chrome.style.opacity = String(1 - span(pinProgress, 0, 0.12));
+      const name = signatureNameAmount((pinProgress - DRAW_START) / (1 - DRAW_START));
+      const underline = pinProgress >= 1 ? signatureUnderlineAmount(underlineProgress) : 0;
+      paint(name, underline);
     };
 
     if (reduce) {
@@ -59,24 +65,46 @@ export function HeroSigMotion() {
       color.style.opacity = "0";
       kicker.style.opacity = "1";
       if (chrome) chrome.style.opacity = "0";
-      paintSignature(paths, lengths, 1);
-      revealSignature(svg, true);
+      paint(1, 1);
       return () => {
         revealSignature(svg, false);
       };
     }
 
-    apply(0);
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
+      let pinProgress = 0;
+      let underlineProgress = 0;
+      const sync = () => applyFrom(pinProgress, underlineProgress);
       ScrollTrigger.create({
-        trigger: wrap,
+        trigger: track,
         start: "top top",
         end: "bottom bottom",
         scrub: true,
-        onRefresh: (self) => apply(self.progress),
-        onUpdate: (self) => apply(self.progress),
+        onRefresh: (self) => {
+          pinProgress = self.progress;
+          sync();
+        },
+        onUpdate: (self) => {
+          pinProgress = self.progress;
+          sync();
+        },
       });
+      ScrollTrigger.create({
+        trigger: track,
+        start: "bottom bottom",
+        end: () => `+=${Math.round(window.innerHeight * 0.7)}`,
+        scrub: true,
+        onRefresh: (self) => {
+          underlineProgress = self.progress;
+          sync();
+        },
+        onUpdate: (self) => {
+          underlineProgress = self.progress;
+          sync();
+        },
+      });
+      sync();
     });
     const onResize = () => ScrollTrigger.refresh();
     window.addEventListener("resize", onResize);
