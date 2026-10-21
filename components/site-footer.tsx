@@ -93,9 +93,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                 </a>
               );
             })}
+            <span style={{ marginLeft: 16 }}>© 2026 Eevee Li</span>
           </span>
         </div>
-        <div className="copy">© 2026 Eevee Li</div>
         <div className="logos" aria-label={locale === "zh" ? "合作品牌" : "Partner brands"}>
           <div className="logos-track">
             {loop.map((brand, index) => (

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { ContourField } from "@/components/motion/contour-field";
 import { LiquidReveal } from "@/components/motion/liquid-reveal";
@@ -12,13 +13,29 @@ import { dictionary, localePath, type Locale } from "@/lib/i18n";
 
 function Bits({ text, accents }: { text: string; accents: string[] }) {
   const pattern = new RegExp(`(${accents.map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "g");
-  return text.split(pattern).filter(Boolean).map((part, index) => (
-    <span className="word" data-word key={`${part}-${index}`}>
-      <span className={accents.includes(part) ? "word-inner sf" : "word-inner"} data-word-inner>
-        {part}
-      </span>
-    </span>
-  ));
+  const nodes: ReactNode[] = [];
+  text.split(pattern).forEach((part, index) => {
+    part.split(/(\s+)/).forEach((bit, bitIndex) => {
+      if (!bit) return;
+      const key = `${index}-${bitIndex}`;
+      if (/^\s+$/.test(bit)) {
+        nodes.push(
+          <span className="word-gap" key={key}>
+            {" "}
+          </span>,
+        );
+        return;
+      }
+      nodes.push(
+        <span className="word" data-word key={key}>
+          <span className={accents.includes(bit) ? "word-inner sf" : "word-inner"} data-word-inner>
+            {bit}
+          </span>
+        </span>,
+      );
+    });
+  });
+  return nodes;
 }
 
 function Photos({ photos, label, locale, group }: { photos: WallPhoto[]; label: string; locale: Locale; group: string }) {
