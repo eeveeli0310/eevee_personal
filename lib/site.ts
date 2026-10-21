@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-
-const shareAlt = "Eevee Li — Overseas Market Content Operator, Content Creator, and Designer";
+import type { Locale } from "@/lib/i18n";
 
 export const site = {
   name: "Eevee Li",
   url: "https://eeveeli.me",
-  title: "Eevee Li — Overseas Market Content Operator / Content Creator / Designer",
-  description:
-    "Portfolio of Eevee Li, an overseas market content operator, content creator, and designer based in Shanghai. Selected work includes the Pimax Micro-OLED launch event video.",
-  role: "Overseas Market Content Operator / Content Creator / Designer",
+  title: "Eevee Li｜内容与品牌运营 Content & Brand Operator",
+  description: "Eevee Li，内容与品牌运营。用内容与数据，为科技品牌做海外增长。",
+  role: "内容与品牌运营 · Content & Brand Operator",
   email: "2927703817lsy@gmail.com",
   wechat: "Eeveeli0310",
-  phone: "19810620310",
   location: "Shanghai",
 } as const;
 
@@ -20,9 +17,9 @@ export const personJsonLd = {
   "@type": "Person",
   name: site.name,
   url: site.url,
-  jobTitle: site.role,
-  email: `mailto:${site.email}`,
-  telephone: site.phone,
+  jobTitle: "Content & Brand Operator",
+  description: site.description,
+  knowsLanguage: ["zh-CN", "en"],
   homeLocation: {
     "@type": "Place",
     name: site.location,
@@ -41,21 +38,33 @@ type PageMetaInput = {
   title: string;
   description: string;
   path: string;
+  locale: Locale;
   absolute?: boolean;
+  shareAlt: string;
 };
 
-export function pageMeta({ title, description, path, absolute = false }: PageMetaInput): Metadata {
+export function pageMeta({ title, description, path, locale, absolute = false, shareAlt }: PageMetaInput): Metadata {
+  const suffix = path === "/" ? "" : path;
+  const canonical = `/${locale}${suffix}`;
+
   return {
     title: absolute ? { absolute: title } : title,
     description,
-    alternates: { canonical: path },
+    alternates: {
+      canonical,
+      languages: {
+        "zh-CN": `/zh${suffix}`,
+        en: `/en${suffix}`,
+      },
+    },
     openGraph: {
       title,
       description,
-      url: path,
+      url: canonical,
       type: "website",
       siteName: site.name,
-      locale: "en_US",
+      locale: locale === "zh" ? "zh_CN" : "en_US",
+      alternateLocale: locale === "zh" ? ["en_US"] : ["zh_CN"],
       images: [
         {
           url: "/opengraph-image",
@@ -80,19 +89,3 @@ export function pageMeta({ title, description, path, absolute = false }: PageMet
     },
   };
 }
-
-export const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/learning-experience", label: "Learning Experience" },
-  { href: "/project-experience", label: "Project Experience" },
-  { href: "/portfolio", label: "Portfolio" },
-] as const;
-
-export const marqueeItems = [
-  "Overseas Content",
-  "Content Creation",
-  "Visual Design",
-  "Launch Storytelling",
-  "Global Audience",
-  "Performance Art",
-] as const;

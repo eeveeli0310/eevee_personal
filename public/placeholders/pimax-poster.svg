@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#1e2618"/>
+  <g fill="none" stroke="#f4f1e8" stroke-opacity="0.16" stroke-width="2">
+    <path d="M-40 160 C 400 60, 900 280, 1640 120"/>
+    <path d="M-40 640 C 420 520, 980 760, 1640 600"/>
+  </g>
+  <text x="80" y="220" fill="#D4FF3A" font-family="Outfit, Arial, sans-serif" font-size="28" letter-spacing="6">POSTER · PLACEHOLDER</text>
+  <text x="80" y="420" fill="#f4f1e8" font-family="Fraunces, Georgia, serif" font-size="92">Pimax</text>
+  <text x="80" y="530" fill="#f4f1e8" font-family="Outfit, Arial, sans-serif" font-size="64" font-weight="700">Micro-OLED</text>
+  <text x="80" y="760" fill="#f4f1e8" font-family="Outfit, Arial, sans-serif" font-size="28" opacity="0.75">Self-hosted film slot. No external embed.</text>
+</svg>

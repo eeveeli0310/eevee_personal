@@ -2,8 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const shareSize = { width: 1200, height: 630 };
 export const shareContentType = "image/png";
-export const shareAlt = "Eevee Li — Overseas Market Content Operator, Content Creator, and Designer";
-
+export const shareAlt = "Eevee Li｜内容与品牌运营 Content & Brand Operator";
 
 export function ShareImage() {
   return new ImageResponse(
@@ -15,8 +14,8 @@ export function ShareImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#09090B",
-          color: "#FAFAFA",
+          background: "#282C20",
+          color: "#F3F2EC",
           padding: "64px",
           fontFamily: "sans-serif",
         }}
@@ -26,8 +25,8 @@ export function ShareImage() {
             style={{
               width: "72px",
               height: "72px",
-              background: "#DFE104",
-              color: "#000000",
+              background: "#D4FF3A",
+              color: "#282C20",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -38,21 +37,19 @@ export function ShareImage() {
           >
             EL
           </div>
-          <div style={{ display: "flex", fontSize: "22px", letterSpacing: "0.18em", color: "#DFE104" }}>
-            EEVEE LI
-          </div>
+          <div style={{ display: "flex", fontSize: "22px", letterSpacing: "0.18em", color: "#D4FF3A" }}>EEVEE LI</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "980px" }}>
-          <div style={{ display: "flex", fontSize: "68px", fontWeight: 700, letterSpacing: "-0.05em", lineHeight: 0.95 }}>
+          <div style={{ display: "flex", fontSize: "64px", fontWeight: 700, letterSpacing: "-0.05em", lineHeight: 0.95 }}>
             Life is a performance art
           </div>
-          <div style={{ display: "flex", fontSize: "28px", lineHeight: 1.3, color: "#D4D4D8" }}>
-            Overseas Market Content Operator / Content Creator / Designer
+          <div style={{ display: "flex", fontSize: "28px", lineHeight: 1.3, color: "#D4FF3A" }}>
+            内容与品牌运营 · Content & Brand Operator
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: "22px", letterSpacing: "0.14em" }}>
           <div style={{ display: "flex" }}>SHANGHAI</div>
-          <div style={{ display: "flex", color: "#DFE104" }}>EEVEELI.ME</div>
+          <div style={{ display: "flex", color: "#D4FF3A" }}>EEVEELI.ME</div>
         </div>
       </div>
     ),

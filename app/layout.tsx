@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { headers } from "next/headers";
+import { dictionary, isLocale } from "@/lib/i18n";
 import { personJsonLd, site } from "@/lib/site";
 import "./globals.css";
-
-const sans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const display = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -25,36 +14,42 @@ export const metadata: Metadata = {
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: site.url,
-    siteName: site.name,
-    title: site.title,
-    description: site.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: site.title,
-    description: site.description,
-  },
   robots: {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: [
+      { url: "/favicon.svg?v=el26", type: "image/svg+xml" },
+      { url: "/favicon.ico?v=el26", sizes: "16x16 32x32 48x48" },
+      { url: "/favicon-32.png?v=el26", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png?v=el26", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png?v=el26", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png?v=el26", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/site.webmanifest",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const headerList = await headers();
+  const raw = headerList.get("x-locale");
+  const locale = raw && isLocale(raw) ? raw : "zh";
+  const t = dictionary[locale];
+
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable}`}>
-      <body className="bg-background font-sans text-foreground antialiased">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-4 focus:py-3 focus:text-accent-foreground"
-        >
-          Skip to main content
+    <html lang={locale === "zh" ? "zh-CN" : "en"}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var r=document.documentElement;r.classList.add("js","is-loading");try{if(matchMedia("(prefers-reduced-motion: reduce)").matches)r.classList.add("reduce")}catch(e){}})();`,
+          }}
+        />
+      </head>
+      <body>
+        <a href="#main-content" className="skip">
+          {t.skip}
         </a>
-        <div className="noise-overlay" aria-hidden="true" />
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       </body>

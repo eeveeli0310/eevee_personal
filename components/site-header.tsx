@@ -3,108 +3,306 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { ButtonLink } from "@/components/button-link";
-import { cn } from "@/lib/cn";
-import { navItems, site } from "@/lib/site";
+import { dictionary, localePath, type Locale } from "@/lib/i18n";
+import { LocaleSwitch } from "@/components/locale-switch";
+import { LogoEl26 } from "@/components/logo-el26";
+import { ContourField } from "@/components/motion/contour-field";
 
-type SiteHeaderProps = {
-  className?: string;
+type MenuPhoto = "home" | "work" | "life";
+
+const photos: Record<MenuPhoto, string> = {
+  home: "/img/face.jpg",
+  work: "/img/vr.png",
+  life: "/img/face.png",
 };
 
-export function SiteHeader({ className }: SiteHeaderProps) {
-  const pathname = usePathname();
+const menuCopy = {
+  zh: {
+    close: "关闭菜单",
+    home: "首页",
+    work: "工作",
+    life: "生活",
+    pending: "链接尚未写入",
+    emailPending: "邮箱尚未写入",
+    socials: ["小红书", "抖音", "Instagram", "LinkedIn"],
+  },
+  en: {
+    close: "Close menu",
+    home: "Home",
+    work: "Work",
+    life: "Life",
+    pending: "Link not added yet",
+    emailPending: "Email not added yet",
+    socials: ["Xiaohongshu", "Douyin", "Instagram", "LinkedIn"],
+  },
+} as const;
+
+function pagePhoto(pathname: string, locale: Locale): MenuPhoto {
+  const base = `/${locale}`;
+  if (pathname === `${base}/work` || pathname.startsWith(`${base}/work/`)) return "work";
+  if (pathname === `${base}/life` || pathname.startsWith(`${base}/life/`)) return "life";
+  return "home";
+}
+
+function Squiggle() {
+  return (
+    <svg className="squiggle" viewBox="0 0 180 16" preserveAspectRatio="none" aria-hidden="true">
+      <path
+        d="M2 9 C14 2, 24 15, 40 8 S62 1, 80 10 S104 16, 124 7 S148 2, 166 11 S176 13, 178 8"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function SiteHeader({ locale }: { locale: Locale }) {
+  const t = dictionary[locale];
+  const copy = menuCopy[locale];
+  const pathname = usePathname() || `/${locale}`;
+  const home = localePath(locale);
+  const headerRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const linksRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [hover, setHover] = useState<MenuPhoto | null>(null);
+  const pageKey = pagePhoto(pathname, locale);
+  const shown = hover ?? pageKey;
+  const links: { key: MenuPhoto; href: string; label: string }[] = [
+    { key: "home", href: home, label: copy.home },
+    { key: "work", href: localePath(locale, "/work"), label: copy.work },
+    { key: "life", href: localePath(locale, "/life"), label: copy.life },
+  ];
 
   useEffect(() => {
-    function onPointerDown(event: MouseEvent) {
-      if (!menuRef.current?.contains(event.target as Node)) {
-        setOpen(false);
+    const header = document.querySelector<HTMLElement>("[data-bar]");
+    if (!header) return;
+    const probeY = 40;
+    const pick = () => {
+      const x = Math.min(window.innerWidth * 0.5, Math.max(0, window.innerWidth - 1));
+      const stack = document.elementsFromPoint(x, probeY);
+      let hit: HTMLElement | null = null;
+      for (const node of stack) {
+        if (!(node instanceof Element)) continue;
+        if (node.closest("[data-bar]")) continue;
+        const surface = node.closest("[data-surface]");
+        if (surface instanceof HTMLElement) {
+          hit = surface;
+          break;
+        }
       }
-    }
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setOpen(false);
+      if (!hit) {
+        const nodes = [...document.querySelectorAll<HTMLElement>("[data-surface]")];
+        const hits = nodes.filter((node) => {
+          const rect = node.getBoundingClientRect();
+          return rect.top <= probeY && rect.bottom > probeY;
+        });
+        hit = hits.length ? hits[hits.length - 1] : null;
       }
-    }
-
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
+      const wall = hit?.hasAttribute("data-wall") ? hit : null;
+      if (wall) {
+        const cs = getComputedStyle(wall);
+        const p = Number(cs.getPropertyValue("--wall-p")) || 0;
+        const fg = Number(cs.getPropertyValue("--wall-fg")) || 0;
+        header.dataset.wallMix = "1";
+        header.style.setProperty("--wall-p", p.toFixed(4));
+        header.style.setProperty("--wall-fg", fg.toFixed(4));
+        header.dataset.theme = p >= 0.4 ? "light" : "dark";
+        return;
+      }
+      header.removeAttribute("data-wall-mix");
+      header.style.removeProperty("--wall-p");
+      header.style.removeProperty("--wall-fg");
+      header.dataset.theme = hit?.dataset.surface === "dark" ? "dark" : hit ? "light" : "dark";
     };
-  }, []);
+    pick();
+    window.addEventListener("scroll", pick, { passive: true });
+    window.addEventListener("resize", pick);
+    window.addEventListener("load", pick);
+    window.addEventListener("eevee:ready", pick);
+    type LenisScroll = { on?: (event: string, cb: () => void) => void; off?: (event: string, cb: () => void) => void };
+    let bound: LenisScroll | null = null;
+    const bindLenis = () => {
+      const current = window.__eeveeLenis as unknown as LenisScroll | null;
+      if (!current?.on || current === bound) return;
+      bound?.off?.("scroll", pick);
+      bound = current;
+      current.on("scroll", pick);
+    };
+    bindLenis();
+    const wait = window.setInterval(() => {
+      bindLenis();
+      if (bound) window.clearInterval(wait);
+    }, 150);
+    return () => {
+      window.clearInterval(wait);
+      window.removeEventListener("scroll", pick);
+      window.removeEventListener("resize", pick);
+      window.removeEventListener("load", pick);
+      window.removeEventListener("eevee:ready", pick);
+      bound?.off?.("scroll", pick);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     setOpen(false);
+    setHover(null);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!open) return;
+    const root = document.documentElement;
+    root.classList.add("is-menu-open");
+    window.__eeveeLenis?.stop();
+    dialogRef.current?.focus({ preventScroll: true });
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        setHover(null);
+        buttonRef.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const header = headerRef.current;
+      if (!header) return;
+      const items = [...document.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")].filter((el) => {
+        if (el.closest("[inert]")) return false;
+        if (header.contains(el)) return true;
+        return el.classList.contains("skip");
+      });
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      if (!(active instanceof HTMLElement) || !items.includes(active)) {
+        event.preventDefault();
+        if (event.shiftKey) buttonRef.current?.focus();
+        else linksRef.current?.querySelector("a")?.focus();
+        return;
+      }
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKey);
+    return () => {
+      root.classList.remove("is-menu-open");
+      document.removeEventListener("keydown", onKey);
+      if (!root.classList.contains("is-loading") && !root.classList.contains("is-covering")) {
+        window.__eeveeLenis?.start();
+      }
+    };
+  }, [open]);
+
+  const clearHover = (current: HTMLElement, next: EventTarget | null) => {
+    if (next instanceof Node && current.contains(next)) return;
+    const active = document.activeElement;
+    if (active instanceof Node && current.contains(active) && linksRef.current?.contains(active)) return;
+    setHover(null);
+  };
+
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-6 border-b border-border pb-8 md:flex-row md:items-start md:justify-between",
-        className,
-      )}
+    <header
+      ref={headerRef}
+      className="bar"
+      data-bar
+      data-theme="light"
+      onClick={(event) => {
+        if ((event.target as HTMLElement).closest("a")) setOpen(false);
+      }}
     >
-      <div className="space-y-3">
-        <div className="text-xs uppercase tracking-[0.25em] text-accent md:text-sm">{site.name}</div>
-        <div className="max-w-4xl text-sm uppercase tracking-[0.2em] text-muted-foreground md:text-base">
-          {site.role}
+      <Link href={home} className="logo" aria-label="Eevee Li">
+        <LogoEl26 />
+      </Link>
+      <button
+        ref={buttonRef}
+        type="button"
+        className="menu-toggle"
+        aria-expanded={open}
+        aria-controls="site-menu"
+        aria-label={open ? copy.close : t.nav.menu}
+        onClick={() => {
+          setOpen((value) => {
+            if (value) setHover(null);
+            return !value;
+          });
+        }}
+      >
+        <span className="burger" aria-hidden="true">
+          <span />
+          <span />
+        </span>
+      </button>
+      <div
+        ref={dialogRef}
+        id="site-menu"
+        className={open ? "menu-screen is-open" : "menu-screen"}
+        role="dialog"
+        aria-modal="true"
+        aria-hidden={!open}
+        aria-label={t.nav.menu}
+        tabIndex={-1}
+        inert={open ? undefined : true}
+        data-lenis-prevent
+        onPointerMove={(event) => {
+          if ((event.target as HTMLElement).closest(".menu-links a")) return;
+          setHover((current) => (current == null ? current : null));
+        }}
+      >
+        <ContourField tone="dark" />
+        <div className="menu-photos" aria-hidden="true">
+          {(["home", "work", "life"] as const).map((key) => (
+            <figure key={key} className={hover === key ? "menu-shot is-hot" : "menu-shot"} data-shot={key}>
+              <img src={photos[key]} alt="" />
+            </figure>
+          ))}
         </div>
-      </div>
-      <div className="relative flex w-full flex-wrap items-start justify-end gap-3 md:w-auto" ref={menuRef}>
-        <ButtonLink href={`mailto:${site.email}`} className="min-h-[3.5rem] px-6 py-3">
-          Cooperation
-        </ButtonLink>
-        <div className="relative">
-          <button
-            type="button"
-            aria-expanded={open}
-            aria-haspopup="menu"
-            aria-controls="site-menu"
-            onClick={() => setOpen((value) => !value)}
-            className="inline-flex h-14 w-14 items-center justify-center border-2 border-border bg-transparent text-foreground transition-colors duration-300 hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        <div className="menu-col">
+          <nav
+            ref={linksRef}
+            className="menu-links"
+            aria-label={t.nav.label}
+            onPointerLeave={(event) => clearHover(event.currentTarget, event.relatedTarget)}
+            onBlur={(event) => clearHover(event.currentTarget, event.relatedTarget)}
           >
-            <span className="sr-only">{open ? "Close site menu" : "Open site menu"}</span>
-            <span className="flex flex-col gap-1.5" aria-hidden="true">
-              <span className="block h-0.5 w-5 bg-current" />
-              <span className="block h-0.5 w-5 bg-current" />
-            </span>
-          </button>
-          {open ? (
-            <div
-              id="site-menu"
-              role="menu"
-              className="absolute right-0 top-[calc(100%+0.75rem)] z-50 min-w-[18rem] max-w-[calc(100vw-2rem)] border-2 border-border bg-background"
-            >
-              {navItems.map((item) =>
-                pathname === item.href ? (
-                  <span
-                    key={item.href}
-                    role="menuitem"
-                    aria-current="page"
-                    aria-disabled="true"
-                    className="block border-b border-border px-5 py-4 text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground last:border-b-0"
-                  >
-                    {item.label}
-                  </span>
-                ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    role="menuitem"
-                    className="block border-b border-border px-5 py-4 text-sm font-bold uppercase tracking-[0.2em] text-foreground transition-colors duration-200 hover:text-accent focus-visible:bg-muted focus-visible:text-accent focus-visible:outline-none last:border-b-0"
-                  >
-                    {item.label}
-                  </Link>
-                ),
-              )}
+            {links.map((link) => (
+              <Link
+                key={link.key}
+                href={link.href}
+                className={shown === link.key ? "is-lit" : undefined}
+                aria-current={pageKey === link.key ? "page" : undefined}
+                onPointerEnter={() => setHover(link.key)}
+                onFocus={() => setHover(link.key)}
+              >
+                {link.label}
+                <Squiggle />
+              </Link>
+            ))}
+          </nav>
+          <div className="menu-meta">
+            <a className="menu-enquiry" href="mailto:[email]" title={copy.emailPending}>
+              {t.actions.enquiry}
+            </a>
+            <div className="menu-socials">
+              {copy.socials.map((name) => (
+                <span key={name} title={copy.pending}>
+                  {name}
+                </span>
+              ))}
             </div>
-          ) : null}
+            <LocaleSwitch locale={locale} label={t.localeSwitch.label} zhLabel="中" enLabel="EN" />
+          </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

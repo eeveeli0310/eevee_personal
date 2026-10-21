@@ -1,6 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      { source: "/:locale/portfolio", destination: "/:locale/work", permanent: false },
+      { source: "/:locale/project-experience", destination: "/:locale/work", permanent: false },
+      { source: "/:locale/learning-experience", destination: "/:locale/life", permanent: false },
+      { source: "/:locale/projects/:slug", destination: "/:locale/work/launch-content", permanent: false },
+    ];
+  },
   // Image optimization stays on. Do not set images.unoptimized or output: "export",
   // or the portrait is served as the original file instead of a sized AVIF/WebP.
   images: {

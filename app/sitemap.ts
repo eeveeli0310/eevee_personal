@@ -1,20 +1,17 @@
 import type { MetadataRoute } from "next";
-import { projects } from "@/lib/projects";
+import { caseSlugs } from "@/lib/cases";
+import { locales } from "@/lib/i18n";
 import { site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = [
-    "/",
-    "/learning-experience",
-    "/project-experience",
-    "/portfolio",
-    ...projects.map((project) => `/projects/${project.slug}`),
-  ];
+  const paths = ["", "/work", "/life", ...caseSlugs.map((slug) => `/work/${slug}`)];
 
-  return paths.map((path) => ({
-    url: `${site.url}${path === "/" ? "" : path}`,
-    lastModified: new Date("2026-10-20"),
-    changeFrequency: path === "/" ? "monthly" : "yearly",
-    priority: path === "/" ? 1 : 0.7,
-  }));
+  return locales.flatMap((locale) =>
+    paths.map((path) => ({
+      url: `${site.url}/${locale}${path}`,
+      lastModified: new Date("2026-10-21"),
+      changeFrequency: path === "" ? "monthly" : "yearly",
+      priority: path === "" ? 1 : 0.7,
+    })),
+  );
 }

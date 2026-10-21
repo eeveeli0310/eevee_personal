@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800">
+      <rect width="640" height="800" fill="#6f746c"/>
+      <g fill="none" stroke="#dfe3d4" stroke-opacity="0.35" stroke-width="2">
+        <path d="M-20 160 C 192 40, 384 280, 660 120"/>
+        <path d="M-20 560 C 160 440, 448 720, 660 496"/>
+      </g>
+      <text x="32" y="64" fill="#f4f1e8" font-family="Fraunces, Georgia, serif" font-size="42" font-weight="600">01</text>
+      <text x="32" y="764" fill="#D4FF3A" font-family="Outfit, Arial, sans-serif" font-size="22" font-weight="700">PHOTO PLACEHOLDER</text>
+    </svg>
