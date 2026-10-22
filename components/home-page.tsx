@@ -73,7 +73,7 @@ function WallCards({ cards, label, locale }: { cards: WallCard[]; label: string;
 export function HomePage({ locale }: { locale: Locale }) {
   const t = dictionary[locale];
   const copy = homeCopy[locale];
-  const accents = locale === "zh" ? ["创作者", "内容", "品牌"] : ["creator", "content", "brand"];
+  const accents = locale === "zh" ? ["创作者", "内容", "品牌", "运营"] : ["creator", "content", "brand", "operator"];
   const motto = `${t.mottoLead.toUpperCase()} · `;
   const mottoZh = `${t.mottoSub} · `;
 
