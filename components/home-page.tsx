@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ContourField } from "@/components/motion/contour-field";
 import { HeroSigMotion } from "@/components/motion/hero-sig-motion";
+import { LiquidReveal } from "@/components/motion/liquid-reveal";
 import { StatsBand } from "@/components/motion/stats-band";
 import { WallScroll } from "@/components/motion/wall-scroll";
 import { LogoEl26 } from "@/components/logo-el26";
@@ -99,7 +100,9 @@ export function HomePage({ locale }: { locale: Locale }) {
             </div>
             <div className="hero-card" data-hero-card data-surface="light">
               <img className="hero-card-gray" src="/img/face.jpg" alt="" />
-              <img className="hero-card-color" data-hero-color src="/img/face.jpg" alt={copy.portraitAltClear} />
+              <div className="hero-card-color" data-hero-color>
+                <LiquidReveal baseSrc="/img/face.png" revealSrc="/img/vr.png" alt={copy.portraitAltClear} />
+              </div>
             </div>
             <div className="sig-kicker" data-sig-kicker>
               <LogoEl26 className="sig-kicker-mark" />

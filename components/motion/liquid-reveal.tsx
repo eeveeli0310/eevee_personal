@@ -52,10 +52,27 @@ export function LiquidReveal({ baseSrc, revealSrc, alt }: { baseSrc: string; rev
       return "wipe" as const;
     };
 
-    const fit = () => {
+    const localScale = () => {
       const rect = wrap.getBoundingClientRect();
-      cssW = Math.max(1, rect.width);
-      cssH = Math.max(1, rect.height);
+      return {
+        sx: cssW / Math.max(rect.width, 1),
+        sy: cssH / Math.max(rect.height, 1),
+      };
+    };
+
+    const brushRadius = () => RADIUS * localScale().sx;
+
+    const axis = (token: string | undefined, fallback: number) => {
+      if (!token || token === "center") return 0.5;
+      if (token === "left" || token === "top") return 0;
+      if (token === "right" || token === "bottom") return 1;
+      if (token.endsWith("%")) return Number.parseFloat(token) / 100;
+      return fallback;
+    };
+
+    const fit = () => {
+      cssW = Math.max(1, wrap.offsetWidth);
+      cssH = Math.max(1, wrap.offsetHeight);
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(cssW * dpr);
       canvas.height = Math.round(cssH * dpr);
@@ -66,36 +83,33 @@ export function LiquidReveal({ baseSrc, revealSrc, alt }: { baseSrc: string; rev
 
     const paintCover = () => {
       if (!reveal.complete || !reveal.naturalWidth) return;
+      const img = wrap.querySelector("img");
+      const style = img ? getComputedStyle(img) : null;
+      const fitMode = style?.objectFit === "contain" ? "contain" : "cover";
+      const [posXToken, posYToken] = (style?.objectPosition || "50% 50%").split(/\s+/);
+      const posX = axis(posXToken, 0.5);
+      const posY = axis(posYToken ?? posXToken, 0.5);
+      const scale = fitMode === "contain"
+        ? Math.min(cssW / reveal.naturalWidth, cssH / reveal.naturalHeight)
+        : Math.max(cssW / reveal.naturalWidth, cssH / reveal.naturalHeight);
+      const dw = reveal.naturalWidth * scale;
+      const dh = reveal.naturalHeight * scale;
+      const dx = (cssW - dw) * posX;
+      const dy = (cssH - dh) * posY;
       offCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
       offCtx.clearRect(0, 0, cssW, cssH);
-      const ir = reveal.naturalWidth / reveal.naturalHeight;
-      const cr = cssW / cssH;
-      let dw: number;
-      let dh: number;
-      let dx: number;
-      let dy: number;
-      if (ir > cr) {
-        dh = cssH;
-        dw = cssH * ir;
-        dx = (cssW - dw) / 2;
-        dy = 0;
-      } else {
-        dw = cssW;
-        dh = cssW / ir;
-        dx = 0;
-        dy = (cssH - dh) / 2;
-      }
       offCtx.drawImage(reveal, dx, dy, dw, dh);
     };
 
     const stamp = (x: number, y: number) => {
-      const g = ctx.createRadialGradient(x, y, 0, x, y, RADIUS);
+      const radius = brushRadius();
+      const g = ctx.createRadialGradient(x, y, 0, x, y, radius);
       g.addColorStop(0, "rgba(255,255,255,1)");
       g.addColorStop(0.55, "rgba(255,255,255,0.82)");
       g.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = g;
       ctx.beginPath();
-      ctx.arc(x, y, RADIUS, 0, Math.PI * 2);
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
     };
 
@@ -123,7 +137,7 @@ export function LiquidReveal({ baseSrc, revealSrc, alt }: { baseSrc: string; rev
         return;
       }
       const dist = Math.hypot(x - last.x, y - last.y);
-      const step = RADIUS * 0.3;
+      const step = brushRadius() * 0.3;
       const n = Math.min(60, Math.max(1, Math.ceil(dist / Math.max(step, 0.001))));
       for (let i = 1; i <= n; i += 1) {
         const t = i / n;
@@ -149,9 +163,11 @@ export function LiquidReveal({ baseSrc, revealSrc, alt }: { baseSrc: string; rev
     const onMove = (event: PointerEvent) => {
       if (mode !== "pointer") return;
       const rect = wrap.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      if (x < -RADIUS || y < -RADIUS || x > cssW + RADIUS || y > cssH + RADIUS) {
+      const { sx, sy } = localScale();
+      const x = (event.clientX - rect.left) * sx;
+      const y = (event.clientY - rect.top) * sy;
+      const radius = brushRadius();
+      if (x < -radius || y < -radius || x > cssW + radius || y > cssH + radius) {
         last = null;
         return;
       }
@@ -185,7 +201,7 @@ export function LiquidReveal({ baseSrc, revealSrc, alt }: { baseSrc: string; rev
         if (!prevWipe) queue.push({ x, y });
         else {
           const dist = Math.hypot(x - prevWipe.x, y - prevWipe.y);
-          const step = RADIUS * 0.3;
+          const step = brushRadius() * 0.3;
           const n = Math.min(60, Math.max(1, Math.ceil(dist / Math.max(step, 0.001))));
           for (let i = 1; i <= n; i += 1) {
             const k = i / n;

@@ -542,6 +542,23 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   object-fit: cover;
   object-position: center 30%;
 }
+.hero-card-color {
+  position: absolute;
+  inset: 0;
+  background: #fdfdfd;
+}
+.hero-card .hero-figure {
+  inset: 0;
+  width: auto;
+  height: auto;
+  aspect-ratio: auto;
+  transform: none;
+}
+.hero-card .hero-figure img,
+.hero-card .hero-figure canvas {
+  object-fit: cover;
+  object-position: center 30%;
+}
 .hero-card-gray { filter: grayscale(1) brightness(0.72) contrast(1.08); }
 html.reduce .hero-card { transform: translate3d(-50%, -50%, 0) scale(1); }
 html.reduce .hero-card-color { opacity: 0; }
