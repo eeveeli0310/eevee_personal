@@ -8,8 +8,6 @@ import { paintSignatureAmounts, pathsOf, revealSignature } from "@/components/mo
 import { signatureNameAmount } from "@/lib/signature-stroke";
 
 const SHRINK_END = 0.68;
-/** Resting size is a bit under a full-bleed cover. One scale still eases down to 1. */
-const EXPANDED = 0.82;
 const DRAW_START = 0.58;
 /** Viewport-heights of upward travel spent drawing #underline, after the pin lets go. Linear, so the slash is still mid-stroke when the intro copy reaches the bottom edge. */
 const UNDERLINE_TRAVEL = 0.5;
@@ -68,8 +66,7 @@ export function HeroSigMotion() {
     const applyFrom = (pinProgress: number, underlineProgress: number) => {
       const shrink = span(pinProgress, 0, SHRINK_END);
       const cover = coverScale();
-      const expanded = Math.max(1, cover * EXPANDED);
-      const scale = expanded + (1 - expanded) * shrink;
+      const scale = cover + (1 - cover) * shrink;
       card.style.transform = `translate3d(-50%, -50%, 0) scale(${scale})`;
       color.style.opacity = String(1 - span(pinProgress, 0.16, 0.74));
       kicker.style.opacity = String(span(pinProgress, 0.52, 0.7));
