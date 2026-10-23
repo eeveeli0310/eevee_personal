@@ -446,7 +446,7 @@ html.reduce .hero-sig-pin { position: relative; height: auto; min-height: 100svh
   height: 100%;
   min-height: 100%;
 }
-html.reduce .screen.screen-hero-sig { background: var(--olive); }
+html.reduce .screen.screen-hero-sig { background: #464b3e; }
 
 /* Hero */
 .screen-hero { background: var(--off); color: var(--ink); }
@@ -530,7 +530,7 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   transform-origin: center center;
   will-change: transform;
 }
-html.reduce .hero-plate { transform: scale(0.42); background: var(--olive); }
+html.reduce .hero-plate { transform: scale(0.42); background: #464b3e; }
 .hero-plate[data-hero-settled] .contour { visibility: hidden; }
 .hero-card {
   position: absolute;

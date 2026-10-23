@@ -14,7 +14,8 @@ const SETTLED = 0.42;
 /** Viewport-heights of upward travel spent drawing #underline, after the pin lets go. Linear, so the slash is still mid-stroke when the intro copy reaches the bottom edge. */
 const UNDERLINE_TRAVEL = 0.5;
 const CREAM = [243, 242, 236];
-const OLIVE = [40, 44, 32];
+/** Settled plate and field. Eve's swatch #464B3E. */
+const OLIVE = [70, 75, 62];
 /** Logo ink. The field color itself never snaps — only which mark reads on it. */
 const MARK_ON_LIGHT = [30, 32, 26];
 const MARK_ON_DARK = [232, 230, 220];
