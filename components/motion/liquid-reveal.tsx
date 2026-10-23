@@ -160,8 +160,10 @@ export function LiquidReveal({ baseSrc, revealSrc, alt }: { baseSrc: string; rev
     if (window.__eeveeReady) arm();
     else window.addEventListener("eevee:ready", arm, { once: true });
 
+    const settled = () => Boolean(wrap.closest("[data-hero-settled]"));
+
     const onMove = (event: PointerEvent) => {
-      if (mode !== "pointer") return;
+      if (mode !== "pointer" || settled()) return;
       const rect = wrap.getBoundingClientRect();
       const { sx, sy } = localScale();
       const x = (event.clientX - rect.left) * sx;
@@ -176,6 +178,18 @@ export function LiquidReveal({ baseSrc, revealSrc, alt }: { baseSrc: string; rev
 
     const frame = (now: number) => {
       if (!alive) return;
+      if (settled()) {
+        queue.length = 0;
+        last = null;
+        if (!cleared) {
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.globalCompositeOperation = "source-over";
+          ctx.clearRect(0, 0, cssW, cssH);
+          cleared = true;
+        }
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       if (mode === "pointer") {
         const hasNew = queue.length > 0;
         if (hasNew) {

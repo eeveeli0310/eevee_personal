@@ -96,9 +96,24 @@ export function HeroSigMotion() {
 
     const paintPlate = (shrink: number) => {
       const scale = 1 + (SETTLED - 1) * shrink;
+      const color = fieldColor(shrink);
+      const surface = fieldSurface(shrink);
       plate.style.transform = `scale(${scale})`;
-      field.style.backgroundColor = fieldColor(shrink);
-      field.dataset.surface = fieldSurface(shrink);
+      plate.style.backgroundColor = color;
+      plate.dataset.surface = surface;
+      field.style.backgroundColor = color;
+      field.dataset.surface = surface;
+      if (shrink >= 1) track.setAttribute("data-hero-settled", "");
+      else track.removeAttribute("data-hero-settled");
+    };
+
+    const resetPlate = () => {
+      plate.style.transform = "";
+      plate.style.backgroundColor = "";
+      plate.dataset.surface = "light";
+      field.style.backgroundColor = "";
+      field.dataset.surface = "light";
+      track.removeAttribute("data-hero-settled");
     };
 
     const paint = (name: number, underline: number) => {
@@ -124,9 +139,7 @@ export function HeroSigMotion() {
       if (chrome) chrome.style.opacity = "0";
       paint(1, 1);
       return () => {
-        plate.style.transform = "";
-        field.style.backgroundColor = "";
-        field.dataset.surface = "light";
+        resetPlate();
         revealSignature(svg, false);
       };
     }
@@ -180,9 +193,7 @@ export function HeroSigMotion() {
     return () => {
       window.removeEventListener("resize", onResize);
       ctx.revert();
-      plate.style.transform = "";
-      field.style.backgroundColor = "";
-      field.dataset.surface = "light";
+      resetPlate();
       color.style.opacity = "";
       kicker.style.opacity = "";
       if (chrome) chrome.style.opacity = "";
