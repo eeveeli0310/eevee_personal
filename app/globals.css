@@ -531,8 +531,7 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   will-change: transform;
 }
 html.reduce .hero-plate { transform: scale(0.42); background: var(--olive); }
-[data-hero-settled] .contour { visibility: hidden; }
-[data-hero-settled] .mq-track { animation-play-state: paused; }
+.hero-plate[data-hero-settled] .contour { visibility: hidden; }
 .hero-card {
   position: absolute;
   left: 50%;

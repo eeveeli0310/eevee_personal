@@ -103,17 +103,17 @@ export function HeroSigMotion() {
       plate.dataset.surface = surface;
       field.style.backgroundColor = color;
       field.dataset.surface = surface;
-      if (shrink >= 1) track.setAttribute("data-hero-settled", "");
-      else track.removeAttribute("data-hero-settled");
+      if (shrink >= 1) plate.setAttribute("data-hero-settled", "");
+      else plate.removeAttribute("data-hero-settled");
     };
 
     const resetPlate = () => {
       plate.style.transform = "";
       plate.style.backgroundColor = "";
       plate.dataset.surface = "light";
+      plate.removeAttribute("data-hero-settled");
       field.style.backgroundColor = "";
       field.dataset.surface = "light";
-      track.removeAttribute("data-hero-settled");
     };
 
     const paint = (name: number, underline: number) => {
