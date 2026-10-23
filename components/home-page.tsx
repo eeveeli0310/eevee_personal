@@ -99,7 +99,7 @@ export function HomePage({ locale }: { locale: Locale }) {
               </div>
             </div>
             <div className="hero-card" data-hero-card data-surface="light">
-              <img className="hero-card-gray" src="/img/face.jpg" alt="" />
+              <img className="hero-card-gray" src="/img/face.png" alt="" />
               <div className="hero-card-color" data-hero-color>
                 <LiquidReveal baseSrc="/img/face.png" revealSrc="/img/vr.png" alt={copy.portraitAltClear} />
               </div>

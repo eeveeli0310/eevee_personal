@@ -85,7 +85,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                 </span>
               ))}
             </div>
-            <img className="foot-hero" src="/img/face.jpg" alt={locale === "zh" ? "占位人像" : "Placeholder portrait"} />
+            <img className="foot-hero" src="/img/face.png" alt={locale === "zh" ? "占位人像" : "Placeholder portrait"} />
             <div className="fine" id="resume">
               <span id="enquiry">
                 {t.contact.emailLabel} [email]

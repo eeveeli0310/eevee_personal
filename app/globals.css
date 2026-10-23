@@ -530,7 +530,7 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   transform-origin: center center;
   overflow: hidden;
   z-index: 3;
-  background: #d5d5d5;
+  background: transparent;
   will-change: transform;
 }
 .hero-card img {
@@ -545,7 +545,7 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
 .hero-card-color {
   position: absolute;
   inset: 0;
-  background: #fdfdfd;
+  background: transparent;
 }
 .hero-card .hero-figure {
   inset: 0;
@@ -995,6 +995,7 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   object-position: center 16%;
   transform: translateX(-50%);
   pointer-events: none;
+  background: transparent;
 }
 .list {
   position: absolute;
