@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
+import { RollText } from "@/components/roll-text";
 import { defaultLocale, dictionary, isLocale } from "@/lib/i18n";
 import { personJsonLd, site } from "@/lib/site";
 import "./globals.css";
@@ -59,7 +60,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       </head>
       <body>
         <a href="#main-content" className="skip">
-          {t.skip}
+          <RollText>{t.skip}</RollText>
         </a>
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />

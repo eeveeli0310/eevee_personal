@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { RollText } from "@/components/roll-text";
 import { ContourField } from "@/components/motion/contour-field";
 import { HeroSigMotion } from "@/components/motion/hero-sig-motion";
 import { LiquidReveal } from "@/components/motion/liquid-reveal";
@@ -166,7 +167,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           <span className="bd">Work</span>
           <p>{copy.workBody}</p>
           <Link className="arrow" href={localePath(locale, "/work")} aria-label={t.nav.work}>
-            ←
+            <RollText>←</RollText>
           </Link>
         </div>
         <div className="tt" style={{ right: "25vw" }}>
@@ -174,7 +175,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           <span className="bd">Life</span>
           <p>{copy.lifeBody}</p>
           <Link className="arrow" href={localePath(locale, "/life")} aria-label={copy.life}>
-            →
+            <RollText>→</RollText>
           </Link>
         </div>
       </section>

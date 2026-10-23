@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RollText } from "@/components/roll-text";
 import { SignatureSvg } from "@/components/signature-svg";
 import { ContourField } from "@/components/motion/contour-field";
 import { dictionary, localePath, type Locale } from "@/lib/i18n";
@@ -38,8 +39,8 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         <h2 className="follow-title">{locale === "zh" ? "在社交平台关注 Eve" : "Follow Eve on social media"}</h2>
         <div className="follow-row">
           {socials[locale].map((name) => (
-            <span key={name} title={pending}>
-              {name}
+            <span key={name} className="roll-hit" title={pending}>
+              <RollText>{name}</RollText>
             </span>
           ))}
         </div>
@@ -68,11 +69,11 @@ export function SiteFooter({ locale }: { locale: Locale }) {
               {pages.map((item) =>
                 item.lime ? (
                   <a key={item.href} href={item.href} className="lime">
-                    {item.label}
+                    <RollText>{item.label}</RollText>
                   </a>
                 ) : (
                   <Link key={item.href} href={item.href}>
-                    {item.label}
+                    <RollText>{item.label}</RollText>
                   </Link>
                 ),
               )}
@@ -80,8 +81,8 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <div className="list right" aria-label={locale === "zh" ? "关注" : "Follow on"}>
               <small>{locale === "zh" ? "关注" : "Follow on"}</small>
               {socials[locale].map((name) => (
-                <span key={name} title={pending}>
-                  {name}
+                <span key={name} className="roll-hit" title={pending}>
+                  <RollText>{name}</RollText>
                 </span>
               ))}
             </div>
@@ -104,7 +105,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                   }
                   return (
                     <a key={id} href={resumePublicPath(file)} download={file} style={{ marginLeft: 12 }}>
-                      {label}
+                      <RollText>{label}</RollText>
                     </a>
                   );
                 })}

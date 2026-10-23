@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { dictionary, localePath, type Locale } from "@/lib/i18n";
 import { LocaleSwitch } from "@/components/locale-switch";
+import { RollText } from "@/components/roll-text";
 import { LogoEl26 } from "@/components/logo-el26";
 import { ContourField } from "@/components/motion/contour-field";
 
@@ -549,19 +550,19 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                 onPointerEnter={() => setHover(link.key)}
                 onFocus={() => setHover(link.key)}
               >
-                {link.label}
+                <RollText>{link.label}</RollText>
                 <Squiggle />
               </Link>
             ))}
           </nav>
           <div className="menu-meta">
             <a className="menu-enquiry" href="mailto:[email]" title={copy.emailPending}>
-              {t.actions.enquiry}
+              <RollText>{t.actions.enquiry}</RollText>
             </a>
             <div className="menu-socials">
               {copy.socials.map((name) => (
-                <span key={name} title={copy.pending}>
-                  {name}
+                <span key={name} className="roll-hit" title={copy.pending}>
+                  <RollText>{name}</RollText>
                 </span>
               ))}
             </div>

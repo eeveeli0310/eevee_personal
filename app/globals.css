@@ -113,6 +113,31 @@ body {
 }
 img, video, canvas, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
+a, button, .roll-hit { cursor: pointer; }
+
+/* Lando-style text roll: two stacked copies, clipped to one line. */
+.roll {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: inherit;
+}
+.roll-face {
+  grid-area: 1 / 1;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.roll-face[aria-hidden="true"] {
+  transform: translateY(100%);
+  user-select: none;
+  pointer-events: none;
+}
+:is(a, button, .roll-hit):is(:hover, :focus-visible) .roll > .roll-face:not([aria-hidden]) {
+  transform: translateY(-100%);
+}
+:is(a, button, .roll-hit):is(:hover, :focus-visible) .roll > .roll-face[aria-hidden="true"] {
+  transform: translateY(0);
+}
+.roll-hit { color: inherit; }
 button, input { font: inherit; }
 h1, h2, h3, p { margin: 0; }
 ::selection { background: var(--lime); color: var(--ink); }
@@ -356,6 +381,7 @@ html.is-menu-open .logo-split .is-dark { clip-path: none !important; -webkit-cli
 .menu-screen.is-open .menu-links a:nth-child(2) { animation-delay: 0.22s; }
 .menu-screen.is-open .menu-links a:nth-child(3) { animation-delay: 0.3s; }
 .menu-links a:focus-visible { outline: none; }
+.menu-links .roll { line-height: 1; }
 .squiggle {
   position: absolute;
   left: 0;
@@ -1018,8 +1044,8 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
 }
 .list.left { left: 10vw; }
 .list.right { right: 10vw; }
-.list a, .list span { display: block; color: var(--off); }
-.list a.lime, .list span.lime { color: var(--lime); }
+.list > a, .list > span { display: block; color: var(--off); }
+.list > a.lime, .list > span.lime { color: var(--lime); }
 .list small {
   display: block;
   color: var(--off);
@@ -1393,7 +1419,7 @@ html.reduce .loader.is-done { opacity: 0; }
   }
   .list.left { order: 2; left: auto; }
   .list.right { order: 3; left: auto; right: auto; }
-  .list a, .list span {
+  .list > a, .list > span {
     min-height: 44px;
     display: flex;
     align-items: center;
@@ -1447,4 +1473,8 @@ html.reduce .sig-stroke path { stroke-dashoffset: 0 !important; }
   .hero-figure { opacity: 1 !important; }
   html.js [data-reveal] [data-word-inner],
   html.js [data-reveal] [data-line-inner] { transform: none !important; opacity: 1 !important; }
+  .roll-face { transition: none !important; transform: none !important; }
+  .roll-face[aria-hidden="true"] { display: none !important; }
 }
+html.reduce .roll-face { transition: none !important; transform: none !important; }
+html.reduce .roll-face[aria-hidden="true"] { display: none !important; }
