@@ -14,8 +14,10 @@ const SETTLED = 0.42;
 /** Viewport-heights of upward travel spent drawing #underline, after the pin lets go. Linear, so the slash is still mid-stroke when the intro copy reaches the bottom edge. */
 const UNDERLINE_TRAVEL = 0.5;
 const CREAM = [243, 242, 236];
-/** Settled plate and field. Eve's swatch #464B3E. */
-const OLIVE = [70, 75, 62];
+/** Settled center plate. Eve's swatch #464B3E. */
+const PLATE_END = [70, 75, 62];
+/** Settled field behind the plate. The previous page olive #282C20. */
+const FIELD_END = [40, 44, 32];
 /** Logo ink. The field color itself never snaps — only which mark reads on it. */
 const MARK_ON_LIGHT = [30, 32, 26];
 const MARK_ON_DARK = [232, 230, 220];
@@ -35,23 +37,21 @@ function contrast(a: number[], b: number[]) {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-/** Same eased `t` that scales the plate. 0 = cream, 1 = olive, linear in between. */
-function fieldRgb(t: number): [number, number, number] {
+/** Same eased `t` that scales the plate. 0 = cream, 1 = `end`, linear in between. */
+function mixRgb(t: number, end: number[]): [number, number, number] {
   const x = Math.min(1, Math.max(0, t));
   return [
-    Math.round(CREAM[0] + (OLIVE[0] - CREAM[0]) * x),
-    Math.round(CREAM[1] + (OLIVE[1] - CREAM[1]) * x),
-    Math.round(CREAM[2] + (OLIVE[2] - CREAM[2]) * x),
+    Math.round(CREAM[0] + (end[0] - CREAM[0]) * x),
+    Math.round(CREAM[1] + (end[1] - CREAM[1]) * x),
+    Math.round(CREAM[2] + (end[2] - CREAM[2]) * x),
   ];
 }
 
-function fieldColor(t: number) {
-  const [r, g, b] = fieldRgb(t);
-  return `rgb(${r}, ${g}, ${b})`;
+function rgbCss(rgb: number[]) {
+  return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
 }
 
-function fieldSurface(t: number): "light" | "dark" {
-  const rgb = fieldRgb(t);
+function surfaceFor(rgb: number[]): "light" | "dark" {
   return contrast(rgb, MARK_ON_DARK) > contrast(rgb, MARK_ON_LIGHT) ? "dark" : "light";
 }
 
@@ -97,13 +97,13 @@ export function HeroSigMotion() {
 
     const paintPlate = (shrink: number) => {
       const scale = 1 + (SETTLED - 1) * shrink;
-      const color = fieldColor(shrink);
-      const surface = fieldSurface(shrink);
+      const plateRgb = mixRgb(shrink, PLATE_END);
+      const fieldRgb = mixRgb(shrink, FIELD_END);
       plate.style.transform = `scale(${scale})`;
-      plate.style.backgroundColor = color;
-      plate.dataset.surface = surface;
-      field.style.backgroundColor = color;
-      field.dataset.surface = surface;
+      plate.style.backgroundColor = rgbCss(plateRgb);
+      plate.dataset.surface = surfaceFor(plateRgb);
+      field.style.backgroundColor = rgbCss(fieldRgb);
+      field.dataset.surface = surfaceFor(fieldRgb);
       if (shrink >= 1) plate.setAttribute("data-hero-settled", "");
       else plate.removeAttribute("data-hero-settled");
     };

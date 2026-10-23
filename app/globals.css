@@ -446,7 +446,7 @@ html.reduce .hero-sig-pin { position: relative; height: auto; min-height: 100svh
   height: 100%;
   min-height: 100%;
 }
-html.reduce .screen.screen-hero-sig { background: #464b3e; }
+html.reduce .screen.screen-hero-sig { background: var(--olive); }
 
 /* Hero */
 .screen-hero { background: var(--off); color: var(--ink); }
