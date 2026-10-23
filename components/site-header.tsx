@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { RouteLink } from "@/components/route-link";
 import { gsap } from "gsap";
 import { dictionary, localePath, type Locale } from "@/lib/i18n";
 import { LocaleSwitch } from "@/components/locale-switch";
@@ -477,7 +477,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <clipPath id="toggle-ink-dark" clipPathUnits="objectBoundingBox" />
         </defs>
       </svg>
-      <Link href={home} className="logo" aria-label="Eevee Li">
+      <RouteLink href={home} className="logo" aria-label="Eevee Li">
         <span className="logo-split">
           <span className="ink-layer is-dark">
             <LogoEl26 />
@@ -486,7 +486,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             <LogoEl26 />
           </span>
         </span>
-      </Link>
+      </RouteLink>
       <button
         ref={buttonRef}
         type="button"
@@ -542,7 +542,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             onBlur={(event) => clearHover(event.currentTarget, event.relatedTarget)}
           >
             {links.map((link) => (
-              <Link
+              <RouteLink
                 key={link.key}
                 href={link.href}
                 className={shown === link.key ? "is-lit" : undefined}
@@ -552,7 +552,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               >
                 <RollText>{link.label}</RollText>
                 <Squiggle />
-              </Link>
+              </RouteLink>
             ))}
           </nav>
           <div className="menu-meta">

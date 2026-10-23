@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { RollText } from "@/components/roll-text";
+import { RouteLink } from "@/components/route-link";
 import { SignatureSvg } from "@/components/signature-svg";
 import { ContourField } from "@/components/motion/contour-field";
 import { dictionary, localePath, type Locale } from "@/lib/i18n";
@@ -72,9 +72,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                     <RollText>{item.label}</RollText>
                   </a>
                 ) : (
-                  <Link key={item.href} href={item.href}>
+                  <RouteLink key={item.href} href={item.href}>
                     <RollText>{item.label}</RollText>
-                  </Link>
+                  </RouteLink>
                 ),
               )}
             </nav>
