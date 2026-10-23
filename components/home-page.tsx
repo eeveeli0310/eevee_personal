@@ -161,7 +161,6 @@ export function HomePage({ locale }: { locale: Locale }) {
         <ContourField tone="pale" />
         <img className="side left" src="/img/vr.png" alt="" />
         <img className="side right" src="/img/face.png" alt="" />
-        <div className="mark" aria-hidden="true">ON</div>
         <div className="tt" style={{ left: "25vw" }}>
           <span className="sf">my</span>
           <span className="bd">Work</span>
