@@ -1014,9 +1014,10 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   line-height: 1.18;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  text-align: center;
 }
-.list.left { left: 4.5vw; text-align: left; }
-.list.right { right: 4.5vw; text-align: right; }
+.list.left { left: 10vw; }
+.list.right { right: 10vw; }
 .list a, .list span { display: block; color: var(--off); }
 .list a.lime, .list span.lime { color: var(--lime); }
 .list small {
@@ -1388,14 +1389,15 @@ html.reduce .loader.is-done { opacity: 0; }
     right: auto;
     width: 100%;
     font-size: clamp(14px, 4.6vw, 1.35rem);
-    text-align: left;
+    text-align: center;
   }
   .list.left { order: 2; left: auto; }
-  .list.right { order: 3; left: auto; right: auto; text-align: left; }
+  .list.right { order: 3; left: auto; right: auto; }
   .list a, .list span {
     min-height: 44px;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   .list small { min-height: 0; display: block; }
   .fine {
