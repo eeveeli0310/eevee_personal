@@ -84,7 +84,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       <div className="olive-flow">
       <div className="hero-pin-track" data-pin-track data-hero-sig data-signature-scroll>
         <div className="hero-sig-pin">
-          <div className="screen screen-hero-sig" data-surface="dark">
+          <div className="screen screen-hero-sig" data-hero-field data-surface="light">
             <ContourField tone="dark" anchor="page" seamWith="#about" />
             <div className="mq mq1 sf" aria-hidden="true">
               <div className="mq-track">
@@ -98,10 +98,13 @@ export function HomePage({ locale }: { locale: Locale }) {
                 <span>{mottoZh.repeat(8)}</span>
               </div>
             </div>
-            <div className="hero-card" data-hero-card data-surface="light">
-              <img className="hero-card-gray" src="/img/face.png" alt="" />
-              <div className="hero-card-color" data-hero-color>
-                <LiquidReveal baseSrc="/img/face.png" revealSrc="/img/vr.png" alt={copy.portraitAltClear} />
+            <div className="hero-plate" data-hero-plate data-surface="light">
+              <ContourField tone="light" />
+              <div className="hero-card" data-hero-card>
+                <img className="hero-card-gray" src="/img/face.png" alt="" />
+                <div className="hero-card-color" data-hero-color>
+                  <LiquidReveal baseSrc="/img/face.png" revealSrc="/img/vr.png" alt={copy.portraitAltClear} />
+                </div>
               </div>
             </div>
             <div className="sig-kicker" data-sig-kicker>

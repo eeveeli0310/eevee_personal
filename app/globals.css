@@ -440,12 +440,13 @@ html.is-menu-open body { overflow: hidden; }
 html.reduce .hero-pin-track { height: auto; }
 html.reduce .hero-sig-pin { position: relative; height: auto; min-height: 100svh; }
 .screen.screen-hero-sig {
-  background: transparent;
+  background: var(--off);
   color: var(--off);
   overflow: visible;
   height: 100%;
   min-height: 100%;
 }
+html.reduce .screen.screen-hero-sig { background: var(--olive); }
 
 /* Hero */
 .screen-hero { background: var(--off); color: var(--ink); }
@@ -520,18 +521,28 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   white-space: nowrap;
 }
 .hero-chrome { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
+.hero-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--off);
+  overflow: hidden;
+  transform-origin: center center;
+  will-change: transform;
+}
+html.reduce .hero-plate { transform: scale(0.42); }
 .hero-card {
   position: absolute;
   left: 50%;
-  top: 50%;
-  width: 42vw;
-  aspect-ratio: 3 / 2;
-  transform: translate3d(-50%, -50%, 0) scale(2.8);
-  transform-origin: center center;
+  bottom: 0;
+  width: auto;
+  height: min(94%, 130vw);
+  aspect-ratio: 864 / 1152;
+  transform: translateX(-50%);
+  transform-origin: center bottom;
   overflow: hidden;
-  z-index: 3;
+  z-index: 1;
   background: transparent;
-  will-change: transform;
 }
 .hero-card img {
   position: absolute;
@@ -539,8 +550,8 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: cover;
-  object-position: center 30%;
+  object-fit: contain;
+  object-position: center bottom;
 }
 .hero-card-color {
   position: absolute;
@@ -556,11 +567,11 @@ html.js:not(.reduce) .hero-figure.is-waiting:not(.is-shown) { opacity: 0; }
 }
 .hero-card .hero-figure img,
 .hero-card .hero-figure canvas {
-  object-fit: cover;
-  object-position: center 30%;
+  object-fit: contain;
+  object-position: center bottom;
 }
 .hero-card-gray { filter: grayscale(1) brightness(0.72) contrast(1.08); }
-html.reduce .hero-card { transform: translate3d(-50%, -50%, 0) scale(1); }
+html.reduce .hero-card { transform: translateX(-50%); }
 html.reduce .hero-card-color { opacity: 0; }
 html.reduce .sig-kicker { opacity: 1; }
 html.reduce .hero-chrome { opacity: 0; }
@@ -1289,7 +1300,7 @@ html.reduce .loader.is-done { opacity: 0; }
   .hero-meta.left { left: 16px; bottom: 18px; }
   .hero-meta.right { right: 16px; bottom: 18px; }
   .hero-pin-track { height: 240svh; }
-  .hero-card { width: 74vw; aspect-ratio: 1 / 1; }
+  .hero-card { width: auto; height: min(88%, 124vw); aspect-ratio: 864 / 1152; }
   .sig-kicker { top: 8%; max-width: calc(100% - 32px); }
   .sig-kicker .logo-mark { height: 18px; }
   .sig-label { letter-spacing: 0.18em; }
