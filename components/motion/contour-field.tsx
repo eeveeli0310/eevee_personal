@@ -160,6 +160,10 @@ export function ContourField({
 
     const loop = (now: number) => {
       if (!running) return;
+      if (parent.closest("[data-hero-settled]")) {
+        raf = requestAnimationFrame(loop);
+        return;
+      }
       const interval = mobileQuery.matches ? 48 : 24;
       if (visible && (reduce || now - last >= interval)) {
         last = now;

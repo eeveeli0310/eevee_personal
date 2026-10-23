@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { RollText } from "@/components/roll-text";
 import { ContourField } from "@/components/motion/contour-field";
 import { HeroSigMotion } from "@/components/motion/hero-sig-motion";
+import { LiquidReveal } from "@/components/motion/liquid-reveal";
 import { StatsBand } from "@/components/motion/stats-band";
 import { WallScroll } from "@/components/motion/wall-scroll";
 import { LogoEl26 } from "@/components/logo-el26";
@@ -73,7 +75,7 @@ function WallCards({ cards, label, locale }: { cards: WallCard[]; label: string;
 export function HomePage({ locale }: { locale: Locale }) {
   const t = dictionary[locale];
   const copy = homeCopy[locale];
-  const accents = locale === "zh" ? ["创作者", "内容", "品牌"] : ["creator", "content", "brand"];
+  const accents = locale === "zh" ? ["创作者", "内容", "品牌", "运营"] : ["creator", "content", "brand", "operator"];
   const motto = `${t.mottoLead.toUpperCase()} · `;
   const mottoZh = `${t.mottoSub} · `;
 
@@ -83,7 +85,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       <div className="olive-flow">
       <div className="hero-pin-track" data-pin-track data-hero-sig data-signature-scroll>
         <div className="hero-sig-pin">
-          <div className="screen screen-hero-sig" data-surface="dark">
+          <div className="screen screen-hero-sig" data-hero-field data-surface="light">
             <ContourField tone="dark" anchor="page" seamWith="#about" />
             <div className="mq mq1 sf" aria-hidden="true">
               <div className="mq-track">
@@ -97,9 +99,14 @@ export function HomePage({ locale }: { locale: Locale }) {
                 <span>{mottoZh.repeat(8)}</span>
               </div>
             </div>
-            <div className="hero-card" data-hero-card data-surface="light">
-              <img className="hero-card-gray" src="/img/face.jpg" alt="" />
-              <img className="hero-card-color" data-hero-color src="/img/face.jpg" alt={copy.portraitAltClear} />
+            <div className="hero-plate" data-hero-plate data-surface="light">
+              <ContourField tone="light" />
+              <div className="hero-card" data-hero-card>
+                <img className="hero-card-gray" src="/img/face.png" alt="" />
+                <div className="hero-card-color" data-hero-color>
+                  <LiquidReveal baseSrc="/img/face.png" revealSrc="/img/vr.png" alt={copy.portraitAltClear} />
+                </div>
+              </div>
             </div>
             <div className="sig-kicker" data-sig-kicker>
               <LogoEl26 className="sig-kicker-mark" />
@@ -155,13 +162,12 @@ export function HomePage({ locale }: { locale: Locale }) {
         <ContourField tone="pale" />
         <img className="side left" src="/img/vr.png" alt="" />
         <img className="side right" src="/img/face.png" alt="" />
-        <div className="mark" aria-hidden="true">ON</div>
         <div className="tt" style={{ left: "25vw" }}>
           <span className="sf">my</span>
           <span className="bd">Work</span>
           <p>{copy.workBody}</p>
           <Link className="arrow" href={localePath(locale, "/work")} aria-label={t.nav.work}>
-            ←
+            <RollText>←</RollText>
           </Link>
         </div>
         <div className="tt" style={{ right: "25vw" }}>
@@ -169,7 +175,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           <span className="bd">Life</span>
           <p>{copy.lifeBody}</p>
           <Link className="arrow" href={localePath(locale, "/life")} aria-label={copy.life}>
-            →
+            <RollText>→</RollText>
           </Link>
         </div>
       </section>

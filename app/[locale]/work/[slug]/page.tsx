@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { RollText } from "@/components/roll-text";
 import { SiteFooter } from "@/components/site-footer";
 import { caseSlugs, getCase } from "@/lib/cases";
 import { caseUi } from "@/lib/content";
@@ -48,7 +49,7 @@ export default async function CasePage({ params }: { params: Promise<{ locale: s
         <h1 className="bd">{item.title}</h1>
         <p className="lede">{item.summary}</p>
         <Link className="back" href={localePath(locale, "/work")}>
-          ← {ui.back}
+          <RollText>← {ui.back}</RollText>
         </Link>
         {item.video ? (
           <figure className="poster">
