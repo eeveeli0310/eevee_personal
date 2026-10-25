@@ -439,14 +439,13 @@ html.is-menu-open .logo-split .is-dark { clip-path: none !important; -webkit-cli
   display: inline-flex;
   gap: 0.4rem;
   align-items: center;
-  color: rgba(243, 242, 236, 0.55);
+  color: var(--off);
   font-size: 14px;
   font-weight: 650;
   letter-spacing: 0.12em;
 }
 .lang a { background: none; padding: 0; letter-spacing: inherit; border-radius: 0; text-transform: none; font-size: inherit; color: inherit; }
-.lang a[aria-current="true"] { color: var(--off); font-weight: 800; }
-.lang span { opacity: 0.45; }
+.lang a[aria-current="true"] { font-weight: 800; }
 html.is-menu-open,
 html.is-menu-open body { overflow: hidden; }
 
