@@ -109,11 +109,13 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                     </a>
                   );
                 })}
-                <span style={{ marginLeft: 16 }}>© 2026 Eevee Li</span>
               </span>
             </div>
           </div>
         </div>
+      </div>
+      <div className="foot-bar">
+        <span>© 2026 EEVEE LI</span>
       </div>
     </section>
   );

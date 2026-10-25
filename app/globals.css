@@ -973,7 +973,20 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
 .foot-sheet {
   position: relative;
   z-index: 1;
-  padding: 16px 12px 12px;
+  padding: 16px 12px 0;
+}
+.foot-bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 4.5rem;
+  padding: 0 1.15rem;
+  background: var(--lime);
+  color: var(--olive);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.06em;
 }
 .panel {
   position: relative;
@@ -1381,7 +1394,13 @@ html.reduce .loader.is-done { opacity: 0; }
   .band { gap: 8px 20px; padding: 14px 16px; font-size: 12px; }
   .band b { font-size: 20px; }
   .foot-glow { height: auto; min-height: 52svh; padding-bottom: 8svh; }
-  .foot-sheet { margin-top: -18svh; padding: 14px 8px calc(8px + env(safe-area-inset-bottom)); }
+  .foot-sheet { margin-top: -18svh; padding: 14px 8px 0; }
+  .foot-bar {
+    height: auto;
+    min-height: 3.4rem;
+    padding: 0.9rem 16px calc(0.9rem + env(safe-area-inset-bottom));
+    font-size: 11px;
+  }
   .panel { min-height: calc(100svh - 22px); }
   .panel-face { border-radius: 26px; }
   .notch { width: 118px; height: 26px; top: -14px; }
