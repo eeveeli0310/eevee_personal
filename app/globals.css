@@ -613,8 +613,8 @@ html.reduce .hero-chrome { opacity: 0; }
 }
 .mq1 { top: 18%; font-size: 21svh; color: var(--lime); }
 .mq2 { top: 52%; font-size: 20svh; color: var(--off); }
-.mq-track { display: flex; width: max-content; animation: mq 46s linear infinite; }
-.mq2 .mq-track { animation-duration: 52s; animation-direction: reverse; }
+.mq-track { display: flex; width: max-content; animation: mq 92s linear infinite; }
+.mq2 .mq-track { animation-duration: 104s; animation-direction: reverse; }
 .mq-track span { padding-right: 0.4em; }
 @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .sig-draw {
