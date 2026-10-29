@@ -614,7 +614,7 @@ html.reduce .hero-chrome { opacity: 0; }
 .mq1 { top: 18%; font-size: 21svh; color: var(--lime); }
 .mq2 { top: 52%; font-size: 20svh; color: var(--off); }
 .mq-row { position: relative; }
-.mq-strut { display: block; white-space: nowrap; }
+.mq-strut { display: block; width: max-content; white-space: nowrap; }
 .mq-piece { display: none; white-space: nowrap; }
 .mq-row.is-set .mq-strut { visibility: hidden; }
 .mq-row.is-set .mq-piece {
