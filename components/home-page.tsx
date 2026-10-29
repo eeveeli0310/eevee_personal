@@ -7,6 +7,7 @@ import { LiquidReveal } from "@/components/motion/liquid-reveal";
 import { StatsBand } from "@/components/motion/stats-band";
 import { WallScroll } from "@/components/motion/wall-scroll";
 import { LogoEl26 } from "@/components/logo-el26";
+import { MottoMarquee } from "@/components/motto-marquee";
 import { SignatureSvg } from "@/components/signature-svg";
 import { SiteFooter } from "@/components/site-footer";
 import { homeCopy } from "@/lib/content";
@@ -87,18 +88,8 @@ export function HomePage({ locale }: { locale: Locale }) {
         <div className="hero-sig-pin">
           <div className="screen screen-hero-sig" data-hero-field data-surface="light">
             <ContourField tone="dark" anchor="page" seamWith="#about" />
-            <div className="mq mq1 sf" aria-hidden="true">
-              <div className="mq-track">
-                <span>{motto.repeat(8)}</span>
-                <span>{motto.repeat(8)}</span>
-              </div>
-            </div>
-            <div className="mq mq2 bd" aria-hidden="true">
-              <div className="mq-track">
-                <span>{mottoZh.repeat(8)}</span>
-                <span>{mottoZh.repeat(8)}</span>
-              </div>
-            </div>
+            <MottoMarquee text={motto} variant="en" />
+            <MottoMarquee text={mottoZh} variant="zh" />
             <div className="hero-plate" data-hero-plate data-surface="light">
               <ContourField tone="light" />
               <div className="hero-card" data-hero-card>

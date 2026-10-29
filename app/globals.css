@@ -613,10 +613,23 @@ html.reduce .hero-chrome { opacity: 0; }
 }
 .mq1 { top: 18%; font-size: 21svh; color: var(--lime); }
 .mq2 { top: 52%; font-size: 20svh; color: var(--off); }
-.mq-track { display: flex; width: max-content; animation: mq 92s linear infinite; }
-.mq2 .mq-track { animation-duration: 104s; animation-direction: reverse; }
-.mq-track span { padding-right: 0.4em; }
-@keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.mq-row { position: relative; }
+.mq-strut { display: block; white-space: nowrap; }
+.mq-piece { display: none; white-space: nowrap; }
+.mq-row.is-set .mq-strut { visibility: hidden; }
+.mq-row.is-set .mq-piece {
+  display: block;
+  position: absolute;
+  top: 0;
+  animation-name: mq-piece;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.mq2 .mq-piece { animation-direction: reverse; }
+@keyframes mq-piece {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-100%, 0, 0); }
+}
 .sig-draw {
   position: absolute;
   left: 50%;
@@ -1467,10 +1480,11 @@ html.reduce .loader.is-done { opacity: 0; }
 
 html.reduce .sig-stroke { opacity: 1; }
 html.reduce .sig-stroke path { stroke-dashoffset: 0 !important; }
+html.reduce .mq-piece { animation: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .mq-track, .logos-track { animation: none !important; }
+  .mq-piece, .logos-track { animation: none !important; }
   .menu-screen {
     transform: none;
     opacity: 0;
