@@ -39,16 +39,17 @@ export function getCases(locale: Locale): CaseStudy[] {
     year: "2026",
     role: project.role,
     background: project.challenge,
-    team: ui.teamUnknown,
+    team:
+      locale === "zh"
+        ? "协同产品、研发、摄制团队、3D 设计师与外部设计。"
+        : "Coordinated product, R&D, production crew, 3D designer, and external design.",
     strategy: project.approach,
     execution:
-      locale === "zh"
-        ? "公开的交付是这条约 30 分钟的发布会影片。更细的执行记录尚未写入。"
-        : "The published deliverable is the launch film, about 30 minutes. A fuller execution record is not written yet.",
+      locale === "zh" ? "更细的执行记录尚未写入。" : "A fuller execution record is not written yet.",
     results:
       locale === "zh"
-        ? `${project.outcome} YouTube 约 3.5 万次播放，一周内订阅 +938，预购超过 1,200。`
-        : `${project.outcome} About 35k YouTube plays, +938 subscribers in a week, and more than 1,200 pre-orders.`,
+        ? "约30分钟成片；YouTube 播放约3.5万；一周新增订阅938；预售超1,200台。"
+        : "~30-min film; ~35k YouTube views; +938 subs in one week; 1,200+ pre-orders.",
     stakeholders: ui.stakeholdersUnknown,
     poster: "/placeholders/pimax-poster.svg",
     video: publishedFilm(),
@@ -59,13 +60,13 @@ export function getCases(locale: Locale): CaseStudy[] {
     number: stub.number,
     title: stub.title,
     summary: stub.summary,
-    year: "[X]",
-    role: "[X]",
-    background: ui.stub,
+    year: "2025",
+    role: locale === "zh" ? "海外社媒内容策划与运营" : "Overseas social content planning & ops",
+    background: "[X]",
     team: ui.teamUnknown,
-    strategy: "[X]",
-    execution: "[X]",
-    results: "results" in stub ? stub.results : ui.resultsUnknown,
+    strategy: stub.strategy,
+    execution: stub.execution,
+    results: stub.results,
     stakeholders: ui.stakeholdersUnknown,
     poster: null,
     video: null,
