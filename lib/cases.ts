@@ -41,8 +41,14 @@ export function getCases(locale: Locale): CaseStudy[] {
     background: project.challenge,
     team: ui.teamUnknown,
     strategy: project.approach,
-    execution: locale === "zh" ? "公开的交付是这条发布会影片。更细的执行记录尚未写入。" : "The published deliverable is the launch film. A fuller execution record is not written yet.",
-    results: `${project.outcome} ${ui.resultsUnknown}`,
+    execution:
+      locale === "zh"
+        ? "公开的交付是这条约 30 分钟的发布会影片。更细的执行记录尚未写入。"
+        : "The published deliverable is the launch film, about 30 minutes. A fuller execution record is not written yet.",
+    results:
+      locale === "zh"
+        ? `${project.outcome} YouTube 约 3.5 万次播放，一周内订阅 +938，预购超过 1,200。`
+        : `${project.outcome} About 35k YouTube plays, +938 subscribers in a week, and more than 1,200 pre-orders.`,
     stakeholders: ui.stakeholdersUnknown,
     poster: "/placeholders/pimax-poster.svg",
     video: publishedFilm(),
@@ -59,7 +65,7 @@ export function getCases(locale: Locale): CaseStudy[] {
     team: ui.teamUnknown,
     strategy: "[X]",
     execution: "[X]",
-    results: ui.resultsUnknown,
+    results: "results" in stub ? stub.results : ui.resultsUnknown,
     stakeholders: ui.stakeholdersUnknown,
     poster: null,
     video: null,

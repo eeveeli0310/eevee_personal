@@ -186,6 +186,10 @@ export const dictionary: Record<Locale, Dictionary> = {
         "Eevee Li 的 Pimax Micro-OLED 发布会视频案例。以节奏、对比和发布会现场的气氛组织的产品揭晓。",
       metrics: [
         { label: "形式", value: "发布会视频" },
+        { label: "片长", value: "约 30 分钟" },
+        { label: "YouTube 播放", value: "约 3.5 万" },
+        { label: "一周订阅", value: "+938" },
+        { label: "预购", value: ">1,200" },
         { label: "焦点", value: "Micro-OLED" },
         { label: "角色", value: "内容 / 设计" },
       ],
@@ -315,6 +319,10 @@ export const dictionary: Record<Locale, Dictionary> = {
         "Case study of the Pimax Micro-OLED launch event video by Eevee Li. A staged product reveal built around pacing, contrast, and event-scale atmosphere.",
       metrics: [
         { label: "Format", value: "Event video" },
+        { label: "Runtime", value: "~30 min" },
+        { label: "YouTube plays", value: "~35k" },
+        { label: "Subscribers in a week", value: "+938" },
+        { label: "Pre-orders", value: ">1,200" },
         { label: "Focus", value: "Micro-OLED" },
         { label: "Role", value: "Content / design" },
       ],
