@@ -137,6 +137,7 @@ export function PimaxCase({ locale }: { locale: Locale }) {
       <section className="pimax-outcome">
         <h2 className="bd">{t.outcomeTitle}</h2>
         <p className="pimax-prose">{t.outcomeLead}</p>
+        <p className="pimax-prose">{locale === "zh" ? "相关方：[X]" : "Stakeholders: [X]"}</p>
         <div className="pimax-metrics">
           {t.metrics.map((item) => (
             <div key={item.label}>
