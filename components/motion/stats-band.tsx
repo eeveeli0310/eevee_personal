@@ -15,7 +15,9 @@ export function StatsBand({ items }: { items: Item[] }) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const render = (progress: number) => {
       setShown(
-        items.map((item) => (item.value == null ? item.text : String(Math.round(progress * item.value)))),
+        items.map((item) =>
+          item.value == null || progress >= 1 ? item.text : String(Math.round(progress * item.value)),
+        ),
       );
     };
     if (reduce) {
