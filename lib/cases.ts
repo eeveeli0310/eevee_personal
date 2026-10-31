@@ -76,5 +76,6 @@ export function getCases(locale: Locale): CaseStudy[] {
 }
 
 export function getCase(locale: Locale, slug: string) {
-  return getCases(locale).find((item) => item.slug === slug);
+  const key = slug === "pimax-launch" ? "launch-content" : slug;
+  return getCases(locale).find((item) => item.slug === key);
 }

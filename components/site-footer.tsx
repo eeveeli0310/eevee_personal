@@ -114,6 +114,13 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           </div>
         </div>
       </div>
+      <div className="partner-row" aria-label={locale === "zh" ? "合作品牌" : "Partners"}>
+        <span>Partner · Pimax</span>
+        <span>GQ China</span>
+        <span>UNSW</span>
+        <span>CS2 IEM</span>
+      </div>
+      {/* TODO: Eve must confirm a public address before replacing the [email] placeholder. */}
       <div className="foot-bar">
         <span>© 2026 EEVEE LI</span>
       </div>

@@ -1523,3 +1523,157 @@ html.reduce .mq-piece { animation: none !important; }
 }
 html.reduce .roll-face { transition: none !important; transform: none !important; }
 html.reduce .roll-face[aria-hidden="true"] { display: none !important; }
+
+.screen-stats { padding-top: 28px; }
+.featured-case {
+  display: grid;
+  gap: 8px;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 8px 40px 18px;
+  color: var(--off);
+}
+.featured-case small {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--lime);
+}
+.featured-case strong { font-size: clamp(1.4rem, 3vw, 2.2rem); line-height: 1.05; }
+.featured-case span { font-size: max(14px, 0.95rem); opacity: 0.85; }
+.home-extra {
+  margin: 0 auto 8px;
+  max-width: 920px;
+  padding: 0 40px 12px;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+.partner-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 10px;
+  padding: 16px 20px 4px;
+  background: var(--olive);
+  color: var(--off);
+}
+.partner-row span {
+  border: 1px solid rgba(243, 242, 236, 0.35);
+  border-radius: 99px;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pimax-page { background: #f4f1ea; color: var(--olive); }
+.pimax-hero {
+  position: relative;
+  min-height: 78svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 120px 20px 36px;
+  overflow: hidden;
+  color: var(--off);
+  background: var(--olive);
+}
+.pimax-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url("/phase2/yt-banner-sm.jpg") center/cover no-repeat;
+  filter: grayscale(1) contrast(1.15) brightness(0.55);
+  transform: scale(1.04);
+}
+.pimax-hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(40, 44, 32, 0.35), rgba(40, 44, 32, 0.92) 78%);
+}
+.pimax-hero-inner { position: relative; z-index: 1; max-width: 920px; }
+.pimax-kicker { font-weight: 650; font-size: 11px; letter-spacing: 0.22em; color: var(--lime); margin-bottom: 14px; }
+.pimax-hero h1 { font-size: clamp(2.1rem, 8vw, 4.5rem); line-height: 0.95; max-width: 16ch; }
+.pimax-hero h1 .sf { color: var(--lime); font-style: italic; text-transform: none; letter-spacing: 0; }
+.pimax-role { margin-top: 16px; max-width: 42ch; font-size: max(14px, 0.95rem); line-height: 1.45; opacity: 0.85; }
+.pimax-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.pimax-chips span {
+  border: 1px solid rgba(243, 242, 236, 0.35);
+  border-radius: 99px;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+.pimax-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 920px;
+  margin: -28px auto 0;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+.pimax-stat {
+  background: var(--off);
+  border: 1px solid rgba(40, 44, 32, 0.08);
+  border-radius: 14px;
+  padding: 18px 14px;
+  text-align: center;
+}
+.pimax-stat b { display: block; font-size: clamp(1.8rem, 6vw, 2.6rem); line-height: 1; color: var(--olive); }
+.pimax-stat span { display: block; margin-top: 8px; font-size: 11px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey); }
+.pimax-block { max-width: 920px; margin: 0 auto; padding: 64px 20px 10px; }
+.pimax-block h2 { font-size: clamp(1.6rem, 5vw, 2.5rem); margin-bottom: 18px; }
+.pimax-block h2 .sf { font-style: italic; text-transform: none; }
+.pimax-lead { font-size: clamp(1.15rem, 3.2vw, 1.5rem); line-height: 1.35; max-width: 38ch; margin-bottom: 18px; }
+.pimax-prose { font-size: max(14px, 0.95rem); line-height: 1.65; max-width: 62ch; }
+.pimax-list { margin-top: 18px; display: grid; gap: 10px; }
+.pimax-list li {
+  list-style: none;
+  padding: 14px 16px;
+  background: rgba(40, 44, 32, 0.04);
+  border-radius: 12px;
+  border-left: 3px solid var(--lime);
+  font-size: max(14px, 0.9rem);
+  line-height: 1.45;
+}
+.pimax-gallery { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; margin-top: 28px; }
+.pimax-gallery figure { position: relative; min-height: 180px; border-radius: 12px; overflow: hidden; background: #9a9e90; margin: 0; }
+.pimax-gallery img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1); min-height: 180px; }
+.pimax-gallery .tall { grid-row: span 2; min-height: 380px; }
+.pimax-gallery figcaption {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  color: var(--off);
+}
+.pimax-outcome { background: var(--olive); color: var(--off); margin-top: 56px; padding: 56px 20px 64px; border-radius: 24px 24px 0 0; }
+.pimax-outcome h2 { color: var(--lime); font-size: clamp(1.6rem, 5vw, 2.5rem); }
+.pimax-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; max-width: 920px; }
+.pimax-metrics div { padding: 20px 18px; border: 1px solid rgba(243, 242, 236, 0.18); border-radius: 14px; }
+.pimax-metrics b { display: block; font-size: 2.2rem; line-height: 1; color: var(--lime); }
+.pimax-metrics span { display: block; margin-top: 8px; font-size: max(14px, 0.85rem); line-height: 1.4; opacity: 0.85; }
+.pimax-back {
+  display: inline-block;
+  margin-top: 28px;
+  background: var(--lime);
+  color: var(--olive);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 14px 20px;
+  border-radius: 99px;
+}
+@media (max-width: 700px) {
+  .pimax-stats, .pimax-metrics, .pimax-gallery { grid-template-columns: 1fr; }
+  .pimax-gallery .tall { grid-row: auto; min-height: 240px; }
+  .featured-case, .home-extra { padding-left: 16px; padding-right: 16px; }
+}

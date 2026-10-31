@@ -157,7 +157,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           <span className="sf">my</span>
           <span className="bd">Work</span>
           <p>{copy.workBody}</p>
-          <Link className="arrow" href={localePath(locale, "/work")} aria-label={t.nav.work}>
+          <Link className="arrow" href={localePath(locale, "/work/launch-content")} aria-label={t.nav.work}>
             <RollText>←</RollText>
           </Link>
         </div>
@@ -172,6 +172,20 @@ export function HomePage({ locale }: { locale: Locale }) {
       </section>
 
       <section className="screen-stats" data-surface="dark" aria-label={locale === "zh" ? "数据" : "Stats"}>
+        <Link className="featured-case" href={localePath(locale, "/work/launch-content")}>
+          <small>{locale === "zh" ? "精选案例" : "Featured case"}</small>
+          <strong>
+            <RollText>{locale === "zh" ? "Pimax 新品全球发布会 — 荷兰拍摄 · YouTube" : "Pimax Global Launch — Netherlands shoot · YouTube"}</RollText>
+          </strong>
+          <span>
+            {locale === "zh"
+              ? "内容策划与呈现 · YouTube 约 3.5 万播 · 预售 1200+ 台"
+              : "Presentation & production · ~35k YT views · 1,200+ pre-orders"}
+          </span>
+        </Link>
+        <p className="home-extra">
+          {locale === "zh" ? "200+ 内容产出 · 30+ 达人 · 2 条破百万短视频" : "200+ pieces · 30+ creators · 2 organic 1M+ videos"}
+        </p>
         <StatsBand items={copy.stats.map((item) => ({ text: item.text, label: item.label, value: item.value }))} />
       </section>
 
