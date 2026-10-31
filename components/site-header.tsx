@@ -70,7 +70,7 @@ function inkAt(x: number, y: number): "light" | "dark" {
     if (!surface) continue;
     if (surface.hasAttribute("data-wall")) {
       const progress = Number(getComputedStyle(surface).getPropertyValue("--wall-p")) || 0;
-      return progress >= 0.4 ? "light" : "dark";
+      return progress >= 0.72 ? "light" : "dark";
     }
     return surface.dataset.surface === "dark" ? "dark" : "light";
   }

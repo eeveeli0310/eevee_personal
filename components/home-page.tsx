@@ -42,24 +42,32 @@ function Bits({ text, accents }: { text: string; accents: string[] }) {
   return nodes;
 }
 
-function WallCards({ cards, label, locale }: { cards: WallCard[]; label: string; locale: Locale }) {
+function showCaption(text: string) {
+  return Boolean(text) && !/\[X\]|\[Place\]|地点/.test(text);
+}
+
+function WallCards({ cards, locale }: { cards: WallCard[]; locale: Locale }) {
   return cards.map((card, index) => {
     if (card.type === "story") {
+      const body = card.body[locale];
+      if (!showCaption(body)) return null;
       return (
         <article className="story-card" key={`story-${index}`} style={{ left: card.x, top: card.y, width: card.w }}>
           <small>{card.title[locale]}</small>
-          <p>{card.body[locale]}</p>
+          <p>{body}</p>
         </article>
       );
     }
+    const caption = card.caption[locale];
     return (
       <div key={`photo-${index}`}>
-        <div className="cap" style={{ left: card.x, top: `calc(${card.y} - 18px)` }}>
-          {card.caption[locale]}
-        </div>
+        {showCaption(caption) ? (
+          <div className="cap" style={{ left: card.x, top: `calc(${card.y} - 18px)` }}>
+            {caption}
+          </div>
+        ) : null}
         <div
           className={card.src ? "ph has-photo" : "ph"}
-          data-label={label}
           style={{
             left: card.x,
             top: card.y,
@@ -105,7 +113,6 @@ export function HomePage({ locale }: { locale: Locale }) {
             </div>
             <SignatureSvg mode="scroll" className="sig-draw" strokeWidth={SIGNATURE_STROKE_HOME} />
             <div className="hero-chrome" data-hero-meta>
-              <div className="hero-meta left">{locale === "zh" ? "占位人像 · AI 生成" : "AI placeholder portrait"}</div>
               <div className="hero-meta right">Scroll ↓</div>
               <div className="scroll-line" aria-hidden="true" />
             </div>
@@ -142,7 +149,7 @@ export function HomePage({ locale }: { locale: Locale }) {
                     <SignatureSvg className="mini-sig" />
                   </div>
                 ) : null}
-                <WallCards cards={scene.cards} label={locale === "zh" ? "占位" : "Placeholder"} locale={locale} />
+                <WallCards cards={scene.cards} locale={locale} />
               </div>
             ))}
           </div>

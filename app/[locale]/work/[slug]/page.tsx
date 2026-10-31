@@ -36,7 +36,7 @@ export default async function CasePage({ params }: { params: Promise<{ locale: s
   if (item.slug === "launch-content") {
     return (
       <>
-        <main id="main-content" className="pimax-page" data-surface="light">
+        <main id="main-content" className="pimax-page">
           <PimaxCase locale={locale} />
         </main>
         <SiteFooter locale={locale} />

@@ -72,9 +72,9 @@ const copy = {
 } as const;
 
 const stills = [
-  { src: "/phase2/headset-hero-sm.jpg", tall: true },
-  { src: "/phase2/vr-sm.jpg", tall: false },
-  { src: "/phase2/headset-alt-sm.jpg", tall: false },
+  { src: "/phase2/headset_hero.jpg", tall: true },
+  { src: "/phase2/vr.jpg", tall: false },
+  { src: "/phase2/headset_alt.jpg", tall: false },
 ];
 
 export function PimaxCase({ locale }: { locale: Locale }) {
@@ -82,7 +82,7 @@ export function PimaxCase({ locale }: { locale: Locale }) {
   const home = localePath(locale);
   return (
     <article className="pimax">
-      <section className="pimax-hero">
+      <section className="pimax-hero" data-surface="dark">
         <div className="pimax-hero-bg" role="img" aria-label={t.title} />
         <div className="pimax-hero-fade" />
         <div className="pimax-hero-inner">
@@ -102,6 +102,7 @@ export function PimaxCase({ locale }: { locale: Locale }) {
           </div>
         </div>
       </section>
+      <div className="pimax-rest" data-surface="light">
       <div className="pimax-stats">
         {t.stats.map((item) => (
           <div className="pimax-stat" key={item.label}>
@@ -134,10 +135,10 @@ export function PimaxCase({ locale }: { locale: Locale }) {
           ))}
         </div>
       </section>
-      <section className="pimax-outcome">
+      </div>
+      <section className="pimax-outcome" data-surface="dark">
         <h2 className="bd">{t.outcomeTitle}</h2>
         <p className="pimax-prose">{t.outcomeLead}</p>
-        <p className="pimax-prose">{locale === "zh" ? "相关方：[X]" : "Stakeholders: [X]"}</p>
         <div className="pimax-metrics">
           {t.metrics.map((item) => (
             <div key={item.label}>

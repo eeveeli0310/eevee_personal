@@ -1584,7 +1584,7 @@ html.reduce .roll-face[aria-hidden="true"] { display: none !important; }
 .pimax-hero-bg {
   position: absolute;
   inset: 0;
-  background: url("/phase2/yt-banner-sm.jpg") center/cover no-repeat;
+  background: url("/phase2/vr.jpg") center 20%/cover no-repeat;
   filter: grayscale(1) contrast(1.15) brightness(0.55);
   transform: scale(1.04);
 }
