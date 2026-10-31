@@ -7,7 +7,7 @@ type LogoEl26Props = {
   height?: number;
 };
 
-/** Static EL26. Color follows currentColor. Groups are E, L, and 26. */
+/** Static EL26 from public/logo/el26.svg. Color follows currentColor. Groups are E, L, and 26. */
 export function LogoEl26({ className, width, height }: LogoEl26Props) {
   return (
     <svg

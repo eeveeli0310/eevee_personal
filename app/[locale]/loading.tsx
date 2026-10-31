@@ -1,3 +1,5 @@
+import { EL26LoaderPanel } from "@/components/el26-loader";
+
 export default function Loading() {
-  return <div className="route-wait" role="status" aria-label="Loading" />;
+  return <EL26LoaderPanel label="Loading" />;
 }

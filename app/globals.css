@@ -1210,6 +1210,19 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   display: grid;
   place-items: center;
 }
+.loader .counter {
+  position: absolute;
+  right: 4vw;
+  bottom: 3vh;
+  color: var(--lime);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(28px, 6vw, 72px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.el26-loader.is-suspense { z-index: 60; }
 .loader svg,
 .loader-mark {
   width: min(60vw, 560px);
