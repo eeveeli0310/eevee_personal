@@ -8,8 +8,8 @@ function motionTiming() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const mobile = window.matchMedia("(max-width: 640px)").matches;
   const loop = reduce ? 480 : mobile ? 1200 : 1600;
-  // Dismiss at 84% of a round: E, L, and 26 are in, the glint has crossed,
-  // and the 88–100% loop fade has not started. Matches loader/index.html.
+  // 84% is the last beat before the loop fade. Dismiss only after a full cycle
+  // has already played, and only on that visible beat.
   const play = reduce ? 480 : Math.round(loop * 0.84);
   return {
     reduce,
@@ -23,15 +23,16 @@ function waitForMark(startedAt: number) {
   const { reduce, loop, play } = motionTiming();
   const elapsed = performance.now() - startedAt;
   if (reduce) return Math.max(0, play - elapsed);
-  const into = ((elapsed % loop) + loop) % loop;
-  if (into <= play) return play - into;
-  return loop - into + play;
+  let beat = play;
+  while (beat < Math.max(elapsed, loop)) beat += loop;
+  return Math.max(0, beat - elapsed);
 }
 
 export function IntroLoader({ label }: { label: string }) {
   const pathname = usePathname();
   const [phase, setPhase] = useState<"run" | "leave" | "off">("run");
   const [fromRoute, setFromRoute] = useState(false);
+  const [count, setCount] = useState(0);
   const pathnameRef = useRef(pathname);
   const phaseRef = useRef(phase);
   const started = useRef(0);
@@ -49,9 +50,30 @@ export function IntroLoader({ label }: { label: string }) {
   };
 
   useEffect(() => {
+    if (phase !== "run") return;
+    const { reduce, loop } = motionTiming();
+    if (reduce) {
+      setCount(100);
+      return;
+    }
+    let frame = 0;
+    const tick = (now: number) => {
+      const start = started.current || now;
+      const next = Math.min(100, ((now - start) / loop) * 100);
+      setCount(Math.round(next));
+      if (next < 100) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [phase, pathname]);
+
+  useEffect(() => {
     started.current = performance.now();
     document.documentElement.classList.add("is-loading");
-    const id = window.setTimeout(() => setPhase("leave"), motionTiming().play);
+    const id = window.setTimeout(() => {
+      if (phaseRef.current === "run") setPhase("leave");
+    }, waitForMark(started.current));
+    timers.current.push(id);
     return () => window.clearTimeout(id);
   }, []);
 
@@ -133,10 +155,26 @@ export function IntroLoader({ label }: { label: string }) {
 
   if (phase === "off") return null;
 
-  const className = phase === "leave" ? "loader is-done" : fromRoute ? "loader is-route" : "loader";
+  const className = phase === "leave" ? "el26-loader loader is-done" : fromRoute ? "el26-loader loader is-route" : "el26-loader loader";
 
   return (
     <div id="intro-loader" className={className} role="status" aria-label={label}>
+      <LogoEl26Draw />
+      <div className="counter" aria-hidden="true">
+        {String(count).padStart(3, "0")}
+      </div>
+    </div>
+  );
+}
+
+export function EL26Loader(props: { label: string }) {
+  return <IntroLoader {...props} />;
+}
+
+/** Suspense fallback. The layout loader owns the full-cycle exit. */
+export function EL26LoaderPanel({ label }: { label: string }) {
+  return (
+    <div className="el26-loader loader is-suspense" role="status" aria-label={label}>
       <LogoEl26Draw />
     </div>
   );

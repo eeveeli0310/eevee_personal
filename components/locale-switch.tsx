@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { RollText } from "@/components/roll-text";
 import type { Locale } from "@/lib/i18n";
 
 function hrefFor(pathname: string, next: Locale) {
@@ -24,11 +25,11 @@ export function LocaleSwitch({
   return (
     <div className="lang" role="group" aria-label={label}>
       <Link href={hrefFor(pathname, "zh")} hrefLang="zh-CN" lang="zh-CN" aria-current={locale === "zh" ? "true" : undefined}>
-        {zhLabel}
+        <RollText>{zhLabel}</RollText>
       </Link>
       <span aria-hidden="true">/</span>
       <Link href={hrefFor(pathname, "en")} hrefLang="en" lang="en" aria-current={locale === "en" ? "true" : undefined}>
-        {enLabel}
+        <RollText>{enLabel}</RollText>
       </Link>
     </div>
   );

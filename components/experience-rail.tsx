@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { RollText } from "@/components/roll-text";
 
 type Item = {
   year: string;
@@ -70,7 +71,13 @@ export function ExperienceRail({ items, label }: { items: Item[]; label: string 
       </div>
       {items.map((item) => {
         const year = item.animateYear ? item.year.split("") : [item.year];
-        const title = item.href ? <Link href={item.href}>{item.title}</Link> : item.title;
+        const title = item.href ? (
+          <Link href={item.href}>
+            <RollText>{item.title}</RollText>
+          </Link>
+        ) : (
+          item.title
+        );
         return (
           <article className="rail-item" key={item.title}>
             <div className="rail-year" data-year={item.animateYear ? "1" : "0"}>

@@ -2,11 +2,11 @@
   "name": "Eevee Li",
   "short_name": "EL26",
   "icons": [
-    { "src": "/favicon.svg?v=el26", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
-    { "src": "/favicon-32.png?v=el26", "sizes": "32x32", "type": "image/png", "purpose": "any" },
-    { "src": "/apple-touch-icon.png?v=el26", "sizes": "180x180", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-192.png?v=el26", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-512.png?v=el26", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    { "src": "/favicon.svg?v=el26b", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/favicon-32.png?v=el26b", "sizes": "32x32", "type": "image/png", "purpose": "any" },
+    { "src": "/apple-touch-icon.png?v=el26b", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-192.png?v=el26b", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png?v=el26b", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ],
   "theme_color": "#282C20",
   "background_color": "#282C20",

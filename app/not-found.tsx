@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
+import { RollText } from "@/components/roll-text";
 import { defaultLocale, dictionary, isLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default async function NotFound() {
           {t.notFound.body}
         </p>
         <Link className="back" href={`/${locale}`}>
-          {t.actions.backHome}
+          <RollText>{t.actions.backHome}</RollText>
         </Link>
       </div>
     </main>

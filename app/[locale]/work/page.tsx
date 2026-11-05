@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ExperienceRail } from "@/components/experience-rail";
+import { RollText } from "@/components/roll-text";
 import { SiteFooter } from "@/components/site-footer";
 import { getCases } from "@/lib/cases";
 import { workCopy } from "@/lib/content";
@@ -43,7 +44,7 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
               <span className="case-num">{item.number}</span>
               <span>
                 <span className="bd" style={{ fontSize: "clamp(1.6rem, 3vw, 2.6rem)" }}>
-                  {item.title}
+                  <RollText>{item.title}</RollText>
                 </span>
                 <p>
                   {item.year} · {item.role}
@@ -51,7 +52,7 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
                 <p>{item.summary}</p>
               </span>
               <span className="bd case-go" aria-hidden="true">
-                →
+                <RollText>→</RollText>
               </span>
             </Link>
           ))}

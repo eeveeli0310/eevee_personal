@@ -1,10 +1,13 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { RollText } from "@/components/roll-text";
 import { ContourField } from "@/components/motion/contour-field";
 import { HeroSigMotion } from "@/components/motion/hero-sig-motion";
+import { LiquidReveal } from "@/components/motion/liquid-reveal";
 import { StatsBand } from "@/components/motion/stats-band";
 import { WallScroll } from "@/components/motion/wall-scroll";
 import { LogoEl26 } from "@/components/logo-el26";
+import { MottoMarquee } from "@/components/motto-marquee";
 import { SignatureSvg } from "@/components/signature-svg";
 import { SiteFooter } from "@/components/site-footer";
 import { homeCopy } from "@/lib/content";
@@ -39,24 +42,32 @@ function Bits({ text, accents }: { text: string; accents: string[] }) {
   return nodes;
 }
 
-function WallCards({ cards, label, locale }: { cards: WallCard[]; label: string; locale: Locale }) {
+function showCaption(text: string) {
+  return Boolean(text) && !/\[X\]|\[Place\]|地点/.test(text);
+}
+
+function WallCards({ cards, locale }: { cards: WallCard[]; locale: Locale }) {
   return cards.map((card, index) => {
     if (card.type === "story") {
+      const body = card.body[locale];
+      if (!showCaption(body)) return null;
       return (
         <article className="story-card" key={`story-${index}`} style={{ left: card.x, top: card.y, width: card.w }}>
           <small>{card.title[locale]}</small>
-          <p>{card.body[locale]}</p>
+          <p>{body}</p>
         </article>
       );
     }
+    const caption = card.caption[locale];
     return (
       <div key={`photo-${index}`}>
-        <div className="cap" style={{ left: card.x, top: `calc(${card.y} - 18px)` }}>
-          {card.caption[locale]}
-        </div>
+        {showCaption(caption) ? (
+          <div className="cap" style={{ left: card.x, top: `calc(${card.y} - 18px)` }}>
+            {caption}
+          </div>
+        ) : null}
         <div
           className={card.src ? "ph has-photo" : "ph"}
-          data-label={label}
           style={{
             left: card.x,
             top: card.y,
@@ -73,7 +84,7 @@ function WallCards({ cards, label, locale }: { cards: WallCard[]; label: string;
 export function HomePage({ locale }: { locale: Locale }) {
   const t = dictionary[locale];
   const copy = homeCopy[locale];
-  const accents = locale === "zh" ? ["创作者", "内容", "品牌"] : ["creator", "content", "brand"];
+  const accents = locale === "zh" ? ["创作者", "内容", "品牌", "运营"] : ["creator", "content", "brand", "operator"];
   const motto = `${t.mottoLead.toUpperCase()} · `;
   const mottoZh = `${t.mottoSub} · `;
 
@@ -83,23 +94,18 @@ export function HomePage({ locale }: { locale: Locale }) {
       <div className="olive-flow">
       <div className="hero-pin-track" data-pin-track data-hero-sig data-signature-scroll>
         <div className="hero-sig-pin">
-          <div className="screen screen-hero-sig" data-surface="dark">
+          <div className="screen screen-hero-sig" data-hero-field data-surface="light">
             <ContourField tone="dark" anchor="page" seamWith="#about" />
-            <div className="mq mq1 sf" aria-hidden="true">
-              <div className="mq-track">
-                <span>{motto.repeat(8)}</span>
-                <span>{motto.repeat(8)}</span>
+            <MottoMarquee text={motto} variant="en" />
+            <MottoMarquee text={mottoZh} variant="zh" />
+            <div className="hero-plate" data-hero-plate data-surface="light">
+              <ContourField tone="light" />
+              <div className="hero-card" data-hero-card>
+                <img className="hero-card-gray" src="/img/face.png" alt="" />
+                <div className="hero-card-color" data-hero-color>
+                  <LiquidReveal baseSrc="/img/face.png" revealSrc="/img/vr.png" alt={copy.portraitAltClear} />
+                </div>
               </div>
-            </div>
-            <div className="mq mq2 bd" aria-hidden="true">
-              <div className="mq-track">
-                <span>{mottoZh.repeat(8)}</span>
-                <span>{mottoZh.repeat(8)}</span>
-              </div>
-            </div>
-            <div className="hero-card" data-hero-card data-surface="light">
-              <img className="hero-card-gray" src="/img/face.jpg" alt="" />
-              <img className="hero-card-color" data-hero-color src="/img/face.jpg" alt={copy.portraitAltClear} />
             </div>
             <div className="sig-kicker" data-sig-kicker>
               <LogoEl26 className="sig-kicker-mark" />
@@ -107,7 +113,6 @@ export function HomePage({ locale }: { locale: Locale }) {
             </div>
             <SignatureSvg mode="scroll" className="sig-draw" strokeWidth={SIGNATURE_STROKE_HOME} />
             <div className="hero-chrome" data-hero-meta>
-              <div className="hero-meta left">{locale === "zh" ? "占位人像 · AI 生成" : "AI placeholder portrait"}</div>
               <div className="hero-meta right">Scroll ↓</div>
               <div className="scroll-line" aria-hidden="true" />
             </div>
@@ -144,7 +149,7 @@ export function HomePage({ locale }: { locale: Locale }) {
                     <SignatureSvg className="mini-sig" />
                   </div>
                 ) : null}
-                <WallCards cards={scene.cards} label={locale === "zh" ? "占位" : "Placeholder"} locale={locale} />
+                <WallCards cards={scene.cards} locale={locale} />
               </div>
             ))}
           </div>
@@ -155,13 +160,12 @@ export function HomePage({ locale }: { locale: Locale }) {
         <ContourField tone="pale" />
         <img className="side left" src="/img/vr.png" alt="" />
         <img className="side right" src="/img/face.png" alt="" />
-        <div className="mark" aria-hidden="true">ON</div>
         <div className="tt" style={{ left: "25vw" }}>
           <span className="sf">my</span>
           <span className="bd">Work</span>
           <p>{copy.workBody}</p>
-          <Link className="arrow" href={localePath(locale, "/work")} aria-label={t.nav.work}>
-            ←
+          <Link className="arrow" href={localePath(locale, "/work/launch-content")} aria-label={t.nav.work}>
+            <RollText>←</RollText>
           </Link>
         </div>
         <div className="tt" style={{ right: "25vw" }}>
@@ -169,12 +173,26 @@ export function HomePage({ locale }: { locale: Locale }) {
           <span className="bd">Life</span>
           <p>{copy.lifeBody}</p>
           <Link className="arrow" href={localePath(locale, "/life")} aria-label={copy.life}>
-            →
+            <RollText>→</RollText>
           </Link>
         </div>
       </section>
 
       <section className="screen-stats" data-surface="dark" aria-label={locale === "zh" ? "数据" : "Stats"}>
+        <Link className="featured-case" href={localePath(locale, "/work/launch-content")}>
+          <small>{locale === "zh" ? "精选案例" : "Featured case"}</small>
+          <strong>
+            <RollText>{locale === "zh" ? "Pimax 新品全球发布会 — 荷兰拍摄 · YouTube" : "Pimax Global Launch — Netherlands shoot · YouTube"}</RollText>
+          </strong>
+          <span>
+            {locale === "zh"
+              ? "内容策划与呈现 · YouTube 约 3.5 万播 · 预售 1200+ 台"
+              : "Presentation & production · ~35k YT views · 1,200+ pre-orders"}
+          </span>
+        </Link>
+        <p className="home-extra">
+          {locale === "zh" ? "200+ 内容产出 · 30+ 达人 · 2 条破百万短视频" : "200+ pieces · 30+ creators · 2 organic 1M+ videos"}
+        </p>
         <StatsBand items={copy.stats.map((item) => ({ text: item.text, label: item.label, value: item.value }))} />
       </section>
 

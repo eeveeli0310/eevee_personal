@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { RollText } from "@/components/roll-text";
 import { SiteFooter } from "@/components/site-footer";
+import { PimaxCase } from "@/components/pimax-case";
 import { caseSlugs, getCase } from "@/lib/cases";
 import { caseUi } from "@/lib/content";
 import { dictionary, isLocale, localePath, locales } from "@/lib/i18n";
@@ -8,7 +10,8 @@ import { readLocale } from "@/lib/locale";
 import { pageMeta } from "@/lib/site";
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => caseSlugs.map((slug) => ({ locale, slug })));
+  const slugs = [...caseSlugs, "pimax-launch"];
+  return locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -30,6 +33,16 @@ export default async function CasePage({ params }: { params: Promise<{ locale: s
   const locale = await readLocale(Promise.resolve({ locale: resolved.locale }));
   const item = getCase(locale, resolved.slug);
   if (!item) notFound();
+  if (item.slug === "launch-content") {
+    return (
+      <>
+        <main id="main-content" className="pimax-page">
+          <PimaxCase locale={locale} />
+        </main>
+        <SiteFooter locale={locale} />
+      </>
+    );
+  }
   const ui = caseUi[locale];
   const blocks = [
     { title: ui.background, body: item.background },
@@ -48,7 +61,7 @@ export default async function CasePage({ params }: { params: Promise<{ locale: s
         <h1 className="bd">{item.title}</h1>
         <p className="lede">{item.summary}</p>
         <Link className="back" href={localePath(locale, "/work")}>
-          ← {ui.back}
+          <RollText>← {ui.back}</RollText>
         </Link>
         {item.video ? (
           <figure className="poster">
