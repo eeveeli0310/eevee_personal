@@ -145,7 +145,14 @@ export const homeCopy = {
 export type HomeCopy = (typeof homeCopy)[Locale];
 
 type WorkFigure = { value: string; label: string };
-type WorkStream = { id: string; index: string; title: string; figures: WorkFigure[]; note: string | null };
+type WorkStream = {
+  id: string;
+  index: string;
+  title: string;
+  figures: WorkFigure[];
+  note: string | null;
+  columns: 2 | 3 | 4;
+};
 type WorkStint = { title: string; org: string; body: string };
 
 type WorkPageCopy = {
@@ -203,7 +210,7 @@ export const workCopy: Record<Locale, WorkPageCopy> = {
       streams: [
         {
           id: "creators",
-          index: "01",
+          index: "01 / 03",
           title: "创作者拓展与合作管理",
           figures: [
             { value: "50+", label: "10 万粉以上创作者" },
@@ -212,10 +219,11 @@ export const workCopy: Record<Locale, WorkPageCopy> = {
             { value: "100+", label: "创作者内容" },
           ],
           note: "Tie Dou（粉丝 1000 万+）— 访谈与产品评测，跨平台播放 100 万+。",
+          columns: 4,
         },
         {
           id: "content",
-          index: "02",
+          index: "02 / 03",
           title: "内容运营与增长",
           figures: [
             { value: "20+", label: "社媒账号" },
@@ -226,16 +234,18 @@ export const workCopy: Record<Locale, WorkPageCopy> = {
             { value: "80%", label: "制作效率提升" },
           ],
           note: null,
+          columns: 3,
         },
         {
           id: "ugc",
-          index: "03",
+          index: "03 / 03",
           title: "UGC 活动与线下活动运营",
           figures: [
             { value: "5", label: "路演，覆盖上海、深圳等城市" },
             { value: "10+", label: "路演后落地的创作者合作" },
           ],
           note: null,
+          columns: 2,
         },
       ],
     },
@@ -286,7 +296,7 @@ export const workCopy: Record<Locale, WorkPageCopy> = {
       streams: [
         {
           id: "creators",
-          index: "01",
+          index: "01 / 03",
           title: "Creator acquisition & partnership management",
           figures: [
             { value: "50+", label: "Creators, 100K+ followers" },
@@ -295,10 +305,11 @@ export const workCopy: Record<Locale, WorkPageCopy> = {
             { value: "100+", label: "Pieces of creator content" },
           ],
           note: "Tie Dou (10M+ followers) — interview and product review, 1M+ cross-platform views.",
+          columns: 4,
         },
         {
           id: "content",
-          index: "02",
+          index: "02 / 03",
           title: "Content operations & growth",
           figures: [
             { value: "20+", label: "Social accounts" },
@@ -309,16 +320,18 @@ export const workCopy: Record<Locale, WorkPageCopy> = {
             { value: "80%", label: "Higher production efficiency" },
           ],
           note: null,
+          columns: 3,
         },
         {
           id: "ugc",
-          index: "03",
+          index: "03 / 03",
           title: "UGC campaigns & offline event operations",
           figures: [
             { value: "5", label: "Roadshows in Shanghai, Shenzhen, and other cities" },
             { value: "10+", label: "Creator partnerships that followed" },
           ],
           note: null,
+          columns: 2,
         },
       ],
     },

@@ -1,12 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "lenis/dist/lenis.css";
 
+function isWorkIndex(pathname: string) {
+  return /^\/(en|zh)\/work\/?$/.test(pathname);
+}
+
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname() || "/";
+  const nativeSnap = isWorkIndex(pathname);
+
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     const desktop = window.matchMedia("(min-width: 900px)");
@@ -29,6 +37,12 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     };
 
     const setup = () => {
+      // The Work index uses native scroll-snap. Lenis swallows the wheel and snap never locks.
+      if (nativeSnap) {
+        gsap.registerPlugin(ScrollTrigger);
+        if (ScrollTrigger.normalizeScroll()) ScrollTrigger.normalizeScroll(false);
+        return;
+      }
       armScroll();
       if (lenis || reduce.matches || !desktop.matches) return;
       lenis = new Lenis({ autoRaf: false, anchors: true, lerp: 0.09 });
@@ -61,7 +75,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       reduce.removeEventListener("change", onChange);
       teardown();
     };
-  }, []);
+  }, [nativeSnap]);
 
   return children;
 }
