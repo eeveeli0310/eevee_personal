@@ -144,57 +144,201 @@ export const homeCopy = {
 
 export type HomeCopy = (typeof homeCopy)[Locale];
 
-export const workCopy = {
+type WorkFigure = { value: string; label: string };
+type WorkStream = { id: string; index: string; title: string; figures: WorkFigure[]; note: string | null };
+type WorkStint = { title: string; org: string; body: string };
+
+type WorkPageCopy = {
+  metaTitle: string;
+  metaDescription: string;
+  kicker: string;
+  headline: { before: string; accent: string; after: string };
+  proofLabel: string;
+  proof: WorkFigure[];
+  featured: {
+    kicker: string;
+    title: { before: string; accent: string; after: string };
+    role: string;
+    outcomesLabel: string;
+    outcomes: WorkFigure[];
+  };
+  role: {
+    kicker: string;
+    title: { before: string; accent: string };
+    dates: string;
+    streams: WorkStream[];
+  };
+  related: { title: string; stints: WorkStint[] };
+};
+
+export const workCopy: Record<Locale, WorkPageCopy> = {
   zh: {
     metaTitle: "作品",
-    metaDescription: "Eevee Li 的作品索引。目前公开的发布内容是 Pimax Micro-OLED 发布会视频。其余案例仍是结构占位。",
-    eyebrow: "作品",
-    title: "案例、数据，以及我带来的增长。",
-    body: "四条线：发布内容、账号与社群、KOL 与付费、AIGC 提效。已写下的数字是目前可以公开的部分，其余仍是 [X]。",
-    timelineLabel: "经历",
-    timeline: [
-      {
-        year: "2025",
-        animateYear: false,
-        title: "UNSW Simulation & Immersive Technology 硕士",
-        body: "2024.01 – 2025.06。",
-        href: null as string | null,
-      },
-      {
-        year: "2026",
-        animateYear: true,
-        title: "Pimax Micro-OLED 发布会视频",
-        body: "内容与设计。",
-        href: "/work/launch-content",
-      },
+    metaDescription: "案例、数据，以及我带来的增长。Pimax 高级内容运营。",
+    kicker: "作品",
+    headline: { before: "案例、数据，以及我带来的", accent: "增长", after: "。" },
+    proofLabel: "当前角色已确认的数字",
+    proof: [
+      { value: "50+", label: "10 万粉以上创作者" },
+      { value: "300+", label: "视频与视觉内容" },
+      { value: "20+", label: "社媒账号矩阵" },
+      { value: "80%", label: "视频制作效率提升" },
     ],
+    featured: {
+      kicker: "重点项目 · 2026 年 10 月",
+      title: { before: "Pimax ", accent: "全球", after: "新品发布会" },
+      role: "核心项目负责人 · 30 分钟发布会成片",
+      outcomesLabel: "首周结果",
+      outcomes: [
+        { value: "35K", label: "首周 YouTube 播放" },
+        { value: "1,000+", label: "首周新增订阅" },
+        { value: "1,200+", label: "首周产品预购" },
+        { value: "200万+", label: "首周发布会归因收入（人民币）" },
+      ],
+    },
+    role: {
+      kicker: "Pimax",
+      title: { before: "高级内容运营 — ", accent: "三条主线" },
+      dates: "2025 年 7 月至今",
+      streams: [
+        {
+          id: "creators",
+          index: "01",
+          title: "创作者拓展与合作管理",
+          figures: [
+            { value: "50+", label: "10 万粉以上创作者" },
+            { value: "100+", label: "促成视频" },
+            { value: "50+", label: "与官方账号共创" },
+            { value: "100+", label: "创作者内容" },
+          ],
+          note: "Tie Dou（粉丝 1000 万+）— 访谈与产品评测，跨平台播放 100 万+。",
+        },
+        {
+          id: "content",
+          index: "02",
+          title: "内容运营与增长",
+          figures: [
+            { value: "20+", label: "社媒账号" },
+            { value: "300+", label: "视频与视觉内容" },
+            { value: "~25%", label: "YouTube 年订阅增长" },
+            { value: "+15%", label: "视频平均播放提升" },
+            { value: "5%→20%", label: "爆款内容占比" },
+            { value: "80%", label: "制作效率提升" },
+          ],
+          note: null,
+        },
+        {
+          id: "ugc",
+          index: "03",
+          title: "UGC 活动与线下活动运营",
+          figures: [
+            { value: "5", label: "路演，覆盖上海、深圳等城市" },
+            { value: "10+", label: "路演后落地的创作者合作" },
+          ],
+          note: null,
+        },
+      ],
+    },
+    related: {
+      title: "相关经历",
+      stints: [
+        {
+          title: "生活方式内容策划实习",
+          org: "GQ China",
+          body: "支持小红书内容运营。",
+        },
+        {
+          title: "云平台运营实习",
+          org: "China Telecom",
+          body: "校园管理项目；宣传海报与折页。",
+        },
+      ],
+    },
   },
   en: {
     metaTitle: "Work",
-    metaDescription:
-      "Selected work by Eevee Li. The published launch film is the Pimax Micro-OLED video. The other cases are still stubs.",
-    eyebrow: "Work",
-    title: "Cases, data, and the growth behind them.",
-    body: "Four lines: launch content, account and community, KOL and paid, AIGC efficiency. The figures written here are the ones cleared to share. The rest is still [X].",
-    timelineLabel: "Experience",
-    timeline: [
-      {
-        year: "2025",
-        animateYear: false,
-        title: "UNSW master's, Simulation & Immersive Technology",
-        body: "Jan 2024 – Jun 2025.",
-        href: null as string | null,
-      },
-      {
-        year: "2026",
-        animateYear: true,
-        title: "Pimax Micro-OLED launch film",
-        body: "Content and design.",
-        href: "/work/launch-content",
-      },
+    metaDescription: "Work by Eevee Li — Senior Content Operator at Pimax.",
+    kicker: "Work",
+    headline: { before: "Cases, data, and the ", accent: "growth", after: " behind them." },
+    proofLabel: "Cleared figures from the current role",
+    proof: [
+      { value: "50+", label: "Creators with 100K+ followers" },
+      { value: "300+", label: "Video and visual pieces" },
+      { value: "20+", label: "Social accounts in the matrix" },
+      { value: "80%", label: "Higher video production efficiency" },
     ],
+    featured: {
+      kicker: "Featured case · October 2026",
+      title: { before: "Pimax ", accent: "Global", after: " New Product Launch" },
+      role: "Core project lead · 30′ launch film",
+      outcomesLabel: "Week-one outcomes",
+      outcomes: [
+        { value: "35K", label: "YouTube views in the first week" },
+        { value: "1,000+", label: "New subscribers in the first week" },
+        { value: "1,200+", label: "Product pre-orders in the first week" },
+        { value: "RMB 2M+", label: "Launch-attributed revenue in the first week" },
+      ],
+    },
+    role: {
+      kicker: "Pimax",
+      title: { before: "Senior Content Operator — ", accent: "three workstreams" },
+      dates: "July 2025 – Present",
+      streams: [
+        {
+          id: "creators",
+          index: "01",
+          title: "Creator acquisition & partnership management",
+          figures: [
+            { value: "50+", label: "Creators, 100K+ followers" },
+            { value: "100+", label: "Videos facilitated" },
+            { value: "50+", label: "Official co-creations" },
+            { value: "100+", label: "Pieces of creator content" },
+          ],
+          note: "Tie Dou (10M+ followers) — interview and product review, 1M+ cross-platform views.",
+        },
+        {
+          id: "content",
+          index: "02",
+          title: "Content operations & growth",
+          figures: [
+            { value: "20+", label: "Social accounts" },
+            { value: "300+", label: "Video and visual pieces" },
+            { value: "~25%", label: "Annual YouTube subscriber growth" },
+            { value: "+15%", label: "Average video views" },
+            { value: "5%→20%", label: "Viral content rate" },
+            { value: "80%", label: "Higher production efficiency" },
+          ],
+          note: null,
+        },
+        {
+          id: "ugc",
+          index: "03",
+          title: "UGC campaigns & offline event operations",
+          figures: [
+            { value: "5", label: "Roadshows in Shanghai, Shenzhen, and other cities" },
+            { value: "10+", label: "Creator partnerships that followed" },
+          ],
+          note: null,
+        },
+      ],
+    },
+    related: {
+      title: "Related experience",
+      stints: [
+        {
+          title: "Lifestyle Content Planning Intern",
+          org: "GQ China",
+          body: "Supported Rednote content operations.",
+        },
+        {
+          title: "Cloud Platform Operations Intern",
+          org: "China Telecom",
+          body: "Campus management project; promotional posters and leaflets.",
+        },
+      ],
+    },
   },
-} as const;
+};
 
 export const caseUi = {
   zh: {
