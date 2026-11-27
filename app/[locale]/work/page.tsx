@@ -37,6 +37,7 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
       <main id="main-content" className="sub" data-surface="light">
         <p className="sub-kicker">{copy.eyebrow}</p>
         <h1 className="bd">{copy.title}</h1>
+        <p className="role-line">{copy.roleLine}</p>
         <p className="lede">{copy.body}</p>
         <div className="case-list">
           {cases.map((item) => (
@@ -58,6 +59,14 @@ export default async function WorkPage({ params }: { params: Promise<{ locale: s
           ))}
         </div>
         <ExperienceRail items={rail} label={copy.timelineLabel} />
+        <aside className="intern-line">
+          <p className="sub-kicker">{copy.internshipsLabel}</p>
+          <ul>
+            {copy.internships.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        </aside>
       </main>
       <SiteFooter locale={locale} />
     </>

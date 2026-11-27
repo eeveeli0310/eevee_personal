@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
       { source: "/:locale/project-experience", destination: "/:locale/work", permanent: false },
       { source: "/:locale/learning-experience", destination: "/:locale/life", permanent: false },
       { source: "/:locale/projects/:slug", destination: "/:locale/work/launch-content", permanent: false },
+      { source: "/:locale/work/kol-paid", destination: "/:locale/work/creator-partnerships", permanent: false },
+      { source: "/:locale/work/account-community", destination: "/:locale/work/content-operations", permanent: false },
+      { source: "/:locale/work/aigc-efficiency", destination: "/:locale/work/content-operations", permanent: false },
     ];
   },
   // Image optimization stays on. Do not set images.unoptimized or output: "export",

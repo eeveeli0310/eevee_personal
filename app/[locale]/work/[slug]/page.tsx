@@ -46,7 +46,7 @@ export default async function CasePage({ params }: { params: Promise<{ locale: s
   const ui = caseUi[locale];
   const blocks = [
     { title: ui.background, body: item.background },
-    { title: ui.role, body: `${item.role}. ${item.team}` },
+    { title: ui.role, body: locale === "zh" ? `${item.role}。${item.team}` : `${item.role}. ${item.team}` },
     { title: ui.strategy, body: item.strategy },
     { title: ui.execution, body: item.execution },
     { title: ui.results, body: item.results },
@@ -79,13 +79,6 @@ export default async function CasePage({ params }: { params: Promise<{ locale: s
             <section className="block" key={block.title}>
               <h2 className="bd">{block.title}</h2>
               <p>{block.body}</p>
-              {block.title === ui.results ? (
-                <div className="slots" aria-hidden="true">
-                  <div className="slot">{ui.dataSlot}</div>
-                  <div className="slot">{ui.dataSlot}</div>
-                  <div className="slot">{ui.dataSlot}</div>
-                </div>
-              ) : null}
             </section>
           ))}
           <section className="stake">

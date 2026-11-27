@@ -182,16 +182,16 @@ export function HomePage({ locale }: { locale: Locale }) {
         <Link className="featured-case" href={localePath(locale, "/work/launch-content")}>
           <small>{locale === "zh" ? "精选案例" : "Featured case"}</small>
           <strong>
-            <RollText>{locale === "zh" ? "Pimax 新品全球发布会 — 荷兰拍摄 · YouTube" : "Pimax Global Launch — Netherlands shoot · YouTube"}</RollText>
+            <RollText>{locale === "zh" ? "Pimax 全球新品发布 · YouTube" : "Pimax global product launch · YouTube"}</RollText>
           </strong>
           <span>
             {locale === "zh"
-              ? "内容策划与呈现 · YouTube 约 3.5 万播 · 预售 1200+ 台"
-              : "Presentation & production · ~35k YT views · 1,200+ pre-orders"}
+              ? "核心项目负责人 · 首周播放 3.5 万 · 预售 1,200+ · 新增订阅 1,000+"
+              : "Core project lead · week 1: 35K views · 1,200+ pre-orders · 1,000+ subs"}
           </span>
         </Link>
         <p className="home-extra">
-          {locale === "zh" ? "200+ 内容产出 · 30+ 达人 · 2 条破百万短视频" : "200+ pieces · 30+ creators · 2 organic 1M+ videos"}
+          {locale === "zh" ? "300+ 条内容 · 50+ 位创作者" : "300+ pieces · 50+ creators"}
         </p>
         <StatsBand items={copy.stats.map((item) => ({ text: item.text, label: item.label, value: item.value }))} />
       </section>
