@@ -1210,18 +1210,6 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   display: grid;
   place-items: center;
 }
-.loader .counter {
-  position: absolute;
-  right: 4vw;
-  bottom: 3vh;
-  color: var(--lime);
-  font-family: var(--sans);
-  font-weight: 600;
-  font-size: clamp(28px, 6vw, 72px);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
 .el26-loader.is-suspense { z-index: 60; }
 .loader svg,
 .loader-mark {
@@ -1550,24 +1538,6 @@ html.reduce .roll-face[aria-hidden="true"] { display: none !important; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--lime);
-}
-.partner-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 10px;
-  padding: 16px 20px 4px;
-  background: var(--olive);
-  color: var(--off);
-}
-.partner-row span {
-  border: 1px solid rgba(243, 242, 236, 0.35);
-  border-radius: 99px;
-  padding: 8px 14px;
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 .pimax-page { background: #f4f1ea; color: var(--olive); }
 .pimax-hero {

@@ -32,7 +32,6 @@ export function IntroLoader({ label }: { label: string }) {
   const pathname = usePathname();
   const [phase, setPhase] = useState<"run" | "leave" | "off">("run");
   const [fromRoute, setFromRoute] = useState(false);
-  const [count, setCount] = useState(0);
   const pathnameRef = useRef(pathname);
   const phaseRef = useRef(phase);
   const started = useRef(0);
@@ -48,24 +47,6 @@ export function IntroLoader({ label }: { label: string }) {
     const id = window.setTimeout(fn, ms);
     timers.current.push(id);
   };
-
-  useEffect(() => {
-    if (phase !== "run") return;
-    const { reduce, loop } = motionTiming();
-    if (reduce) {
-      setCount(100);
-      return;
-    }
-    let frame = 0;
-    const tick = (now: number) => {
-      const start = started.current || now;
-      const next = Math.min(100, ((now - start) / loop) * 100);
-      setCount(Math.round(next));
-      if (next < 100) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [phase, pathname]);
 
   useEffect(() => {
     started.current = performance.now();
@@ -160,9 +141,6 @@ export function IntroLoader({ label }: { label: string }) {
   return (
     <div id="intro-loader" className={className} role="status" aria-label={label}>
       <LogoEl26Draw />
-      <div className="counter" aria-hidden="true">
-        {String(count).padStart(3, "0")}
-      </div>
     </div>
   );
 }
