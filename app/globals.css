@@ -1122,6 +1122,21 @@ html.js:not(.reduce) [data-reveal] [data-line-inner] { display: inline-block; tr
   margin-top: 0.6rem;
 }
 .lede { max-width: 40rem; margin-top: 1.25rem; font-size: max(14px, 1.05rem); line-height: 1.45; }
+.role-line {
+  margin-top: 1.15rem;
+  max-width: 40rem;
+  font-weight: 650;
+  font-size: max(14px, 1.02rem);
+  letter-spacing: 0.01em;
+}
+.intern-line {
+  margin-top: 1.2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(40, 44, 32, 0.18);
+  max-width: 46rem;
+}
+.intern-line ul { margin-top: 0.7rem; display: grid; gap: 0.45rem; }
+.intern-line li { font-size: max(14px, 0.95rem); line-height: 1.5; }
 .case-list { margin-top: 3rem; display: grid; gap: 0; }
 .case-row {
   display: grid;
